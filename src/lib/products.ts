@@ -5,6 +5,17 @@ export type Product = {
   price: string;
   unit: string;
   image: string;
+  /**
+   * Illustrative "as installed" reference photo — a generic environment
+   * shot in a similar tone, not a photo of this exact batch/lot. Grouped
+   * by light/dark tone until real per-product installation photos exist.
+   */
+  applicationImage: string;
+};
+
+const APPLICATION_IMAGE = {
+  claro: "/images/ambiente/claro.jpg",
+  escuro: "/images/ambiente/escuro.jpg",
 };
 
 /**
@@ -22,6 +33,7 @@ const staticProducts: Product[] = [
     price: "49,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-1.jpg",
+    applicationImage: APPLICATION_IMAGE.claro,
   },
   {
     id: "piso-9",
@@ -30,6 +42,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-9.jpg",
+    applicationImage: APPLICATION_IMAGE.claro,
   },
   {
     id: "piso-4",
@@ -38,6 +51,7 @@ const staticProducts: Product[] = [
     price: "52,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-4.jpg",
+    applicationImage: APPLICATION_IMAGE.escuro,
   },
   {
     id: "piso-2",
@@ -46,6 +60,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-2.jpg",
+    applicationImage: APPLICATION_IMAGE.claro,
   },
   {
     id: "piso-5",
@@ -54,6 +69,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-5.jpg",
+    applicationImage: APPLICATION_IMAGE.claro,
   },
   {
     id: "piso-7",
@@ -62,6 +78,7 @@ const staticProducts: Product[] = [
     price: "47,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-7.jpg",
+    applicationImage: APPLICATION_IMAGE.escuro,
   },
   {
     id: "piso-6",
@@ -70,6 +87,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-6.jpg",
+    applicationImage: APPLICATION_IMAGE.escuro,
   },
   {
     id: "piso-3",
@@ -78,6 +96,7 @@ const staticProducts: Product[] = [
     price: "39,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-3.jpg",
+    applicationImage: APPLICATION_IMAGE.escuro,
   },
 ];
 

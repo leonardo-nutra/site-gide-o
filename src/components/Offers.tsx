@@ -5,10 +5,11 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
+import { ProductModal } from "./ProductModal";
 import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
 
-function OfferCard({ offer }: { offer: Product }) {
+function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
   const cart = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -36,29 +37,38 @@ function OfferCard({ offer }: { offer: Product }) {
       transition={{ duration: 0.25, ease: "easeOut" }}
       className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-paper shadow-soft transition-shadow duration-300 hover:shadow-lift"
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-paper-strong">
-        <Image
-          src={offer.image}
-          alt={offer.name}
-          fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-        />
-        <span className="absolute left-3 top-3 rounded-full bg-red px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft">
-          Oferta
-        </span>
-      </div>
-
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-sm font-semibold leading-snug text-ink">{offer.name}</h3>
-        <p className="mt-1 text-xs text-ink-faint">{offer.detail}</p>
-
-        <div className="mt-4 flex items-baseline gap-1">
-          <span className="text-xs font-medium text-ink-faint">R$</span>
-          <span className="text-2xl font-bold text-ink">{offer.price}</span>
-          <span className="text-xs font-medium text-ink-faint">/{offer.unit}</span>
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={`Ver detalhes de ${offer.name}`}
+        className="block text-left"
+      >
+        <div className="relative aspect-square w-full overflow-hidden bg-paper-strong">
+          <Image
+            src={offer.image}
+            alt={offer.name}
+            fill
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+          />
+          <span className="absolute left-3 top-3 rounded-full bg-red px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft">
+            Oferta
+          </span>
         </div>
 
+        <div className="px-5 pt-5">
+          <h3 className="text-sm font-semibold leading-snug text-ink">{offer.name}</h3>
+          <p className="mt-1 text-xs text-ink-faint">{offer.detail}</p>
+
+          <div className="mt-4 flex items-baseline gap-1">
+            <span className="text-xs font-medium text-ink-faint">R$</span>
+            <span className="text-2xl font-bold text-ink">{offer.price}</span>
+            <span className="text-xs font-medium text-ink-faint">/{offer.unit}</span>
+          </div>
+        </div>
+      </button>
+
+      <div className="flex flex-1 flex-col px-5 pb-5">
         <div className="mt-4 flex items-center justify-center gap-3">
           <button
             type="button"
@@ -124,6 +134,8 @@ function OfferCard({ offer }: { offer: Product }) {
 }
 
 export function Offers({ offers }: { offers: Product[] }) {
+  const [selected, setSelected] = useState<Product | null>(null);
+
   return (
     <section id="ofertas" className="bg-paper-soft py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
@@ -149,11 +161,17 @@ export function Offers({ offers }: { offers: Product[] }) {
         ) : (
           <StaggerGroup className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {offers.map((offer) => (
-              <OfferCard key={offer.id} offer={offer} />
+              <OfferCard
+                key={offer.id}
+                offer={offer}
+                onOpen={() => setSelected(offer)}
+              />
             ))}
           </StaggerGroup>
         )}
       </div>
+
+      <ProductModal product={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }
