@@ -6,6 +6,7 @@ import {
   Banknote,
   CreditCard,
   Handshake,
+  Info,
   MessageCircle,
   Minus,
   Plus,
@@ -79,6 +80,7 @@ function buildMessage(params: {
   if (hasUnpricedItems) msg += `\n(itens sob consulta serão calculados à parte)`;
   msg += `\n\n*Forma de pagamento:* ${payment}`;
   msg += `\n*Entrega:* ${delivery}`;
+  if (delivery === "Entrega") msg += ` (frete não incluso, a combinar)`;
   const addressLine = formatAddress(address);
   if (delivery === "Entrega" && addressLine) msg += `\n*Endereço:* ${addressLine}`;
   if (name.trim()) msg += `\n*Nome:* ${name.trim()}`;
@@ -305,6 +307,15 @@ export function CartDrawer() {
                           className="overflow-hidden"
                         >
                           <div className="mt-3 flex flex-col gap-2.5">
+                            <div className="flex items-start gap-2 rounded-xl bg-gold-soft px-3.5 py-2.5 text-xs leading-relaxed text-ink">
+                              <Info className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong" strokeWidth={2.25} />
+                              <span>
+                                A entrega tem uma taxa adicional de frete,
+                                calculada pela Gideão conforme a distância e
+                                confirmada com você pelo WhatsApp.
+                              </span>
+                            </div>
+
                             <div>
                               <label
                                 className="text-xs font-medium text-ink-faint"
