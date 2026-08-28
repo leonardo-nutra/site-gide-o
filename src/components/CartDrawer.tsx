@@ -3,14 +3,19 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
+  Banknote,
+  CreditCard,
+  Handshake,
   MessageCircle,
   Minus,
   Plus,
+  QrCode,
   ShoppingCart,
   Store,
   Trash2,
   Truck,
   X,
+  type LucideIcon,
 } from "lucide-react";
 import { formatPrice, useCart } from "@/lib/cart-context";
 import { site, waLink } from "@/lib/site";
@@ -25,7 +30,12 @@ type AddressForm = {
   reference: string;
 };
 
-const paymentOptions: Payment[] = ["Pix", "Dinheiro", "Cartão", "A combinar"];
+const paymentOptions: { label: Payment; icon: LucideIcon }[] = [
+  { label: "Pix", icon: QrCode },
+  { label: "Dinheiro", icon: Banknote },
+  { label: "Cartão", icon: CreditCard },
+  { label: "A combinar", icon: Handshake },
+];
 
 function formatCep(value: string) {
   const digits = value.replace(/\D/g, "").slice(0, 8);
@@ -240,18 +250,19 @@ export function CartDrawer() {
                   <div>
                     <p className="text-sm font-semibold text-ink">Forma de pagamento</p>
                     <div className="mt-2 grid grid-cols-2 gap-2">
-                      {paymentOptions.map((opt) => (
+                      {paymentOptions.map(({ label, icon: Icon }) => (
                         <button
-                          key={opt}
+                          key={label}
                           type="button"
-                          onClick={() => setPayment(opt)}
-                          className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
-                            payment === opt
+                          onClick={() => setPayment(label)}
+                          className={`flex items-center justify-center gap-1.5 rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+                            payment === label
                               ? "border-gold-strong bg-gold-soft text-ink"
                               : "border-line bg-paper text-ink-soft hover:bg-paper-strong"
                           }`}
                         >
-                          {opt}
+                          <Icon className="h-4 w-4" strokeWidth={2.25} />
+                          {label}
                         </button>
                       ))}
                     </div>
