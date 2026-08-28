@@ -14,8 +14,12 @@ export type Product = {
 };
 
 const APPLICATION_IMAGE = {
-  claro: "/images/ambiente/claro.jpg",
-  escuro: "/images/ambiente/escuro.jpg",
+  brancoGlossy: "/images/ambiente/branco-glossy.jpg",
+  begeDourado: "/images/ambiente/bege-dourado.jpg",
+  pretoDourado: "/images/ambiente/preto-dourado.jpg",
+  marmoreBranco: "/images/ambiente/marmore-branco.jpg",
+  brancoColunas: "/images/ambiente/branco-colunas.jpg",
+  cinza: "/images/ambiente/cinza.jpg",
 };
 
 /**
@@ -33,7 +37,7 @@ const staticProducts: Product[] = [
     price: "49,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-1.jpg",
-    applicationImage: APPLICATION_IMAGE.claro,
+    applicationImage: APPLICATION_IMAGE.brancoGlossy,
   },
   {
     id: "piso-9",
@@ -42,7 +46,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-9.jpg",
-    applicationImage: APPLICATION_IMAGE.claro,
+    applicationImage: APPLICATION_IMAGE.begeDourado,
   },
   {
     id: "piso-4",
@@ -51,7 +55,7 @@ const staticProducts: Product[] = [
     price: "52,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-4.jpg",
-    applicationImage: APPLICATION_IMAGE.escuro,
+    applicationImage: APPLICATION_IMAGE.pretoDourado,
   },
   {
     id: "piso-2",
@@ -60,7 +64,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-2.jpg",
-    applicationImage: APPLICATION_IMAGE.claro,
+    applicationImage: APPLICATION_IMAGE.marmoreBranco,
   },
   {
     id: "piso-5",
@@ -69,7 +73,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-5.jpg",
-    applicationImage: APPLICATION_IMAGE.claro,
+    applicationImage: APPLICATION_IMAGE.brancoColunas,
   },
   {
     id: "piso-7",
@@ -78,7 +82,7 @@ const staticProducts: Product[] = [
     price: "47,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-7.jpg",
-    applicationImage: APPLICATION_IMAGE.escuro,
+    applicationImage: APPLICATION_IMAGE.pretoDourado,
   },
   {
     id: "piso-6",
@@ -87,7 +91,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-6.jpg",
-    applicationImage: APPLICATION_IMAGE.escuro,
+    applicationImage: APPLICATION_IMAGE.cinza,
   },
   {
     id: "piso-3",
@@ -96,7 +100,7 @@ const staticProducts: Product[] = [
     price: "39,90",
     unit: "m²",
     image: "/images/ofertas/crop/piso-3.jpg",
-    applicationImage: APPLICATION_IMAGE.escuro,
+    applicationImage: APPLICATION_IMAGE.cinza,
   },
 ];
 
