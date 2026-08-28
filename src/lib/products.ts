@@ -84,3 +84,33 @@ const staticProducts: Product[] = [
 export async function getProducts(): Promise<Product[]> {
   return staticProducts;
 }
+
+function localDateKey(date: Date, timeZone = "America/Sao_Paulo") {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
+function daysSinceEpoch(date: Date, timeZone = "America/Sao_Paulo") {
+  const [year, month, day] = localDateKey(date, timeZone).split("-").map(Number);
+  return Math.floor(Date.UTC(year, month - 1, day) / 86_400_000);
+}
+
+/**
+ * Picks a rotating "deal of the day" index, deterministic for the current
+ * calendar day in São Paulo time — same product for every visitor on a
+ * given day, cycling through the whole catalog in order (one full lap
+ * before any product repeats) rather than jumping around randomly.
+ */
+export function getDailyIndex(length: number, date = new Date()) {
+  if (length === 0) return 0;
+  return ((daysSinceEpoch(date) % length) + length) % length;
+}
+
+export async function getFeaturedProduct(): Promise<Product> {
+  const products = await getProducts();
+  return products[getDailyIndex(products.length)];
+}

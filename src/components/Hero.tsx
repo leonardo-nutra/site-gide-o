@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MessageCircle, ShoppingBag, Star } from "lucide-react";
 import { WhatsAppLink } from "./WhatsAppLink";
 import { site } from "@/lib/site";
+import type { Product } from "@/lib/products";
 
 const container = {
   hidden: {},
@@ -20,7 +21,7 @@ const item = {
   },
 };
 
-export function Hero() {
+export function Hero({ featured }: { featured: Product }) {
   return (
     <section id="topo" className="relative overflow-hidden bg-paper">
       <div
@@ -99,8 +100,8 @@ export function Hero() {
             className="relative overflow-hidden rounded-[28px] border border-line shadow-lift"
           >
             <Image
-              src="/images/ofertas/crop/piso-4.jpg"
-              alt="Piso Karina Polido em oferta na Gideão"
+              src={featured.image}
+              alt={`${featured.name} em oferta na Gideão`}
               width={900}
               height={900}
               priority
@@ -115,11 +116,12 @@ export function Hero() {
             className="absolute -left-4 bottom-6 rounded-2xl border border-line bg-paper/95 px-4 py-3 shadow-lift backdrop-blur sm:-left-8"
           >
             <p className="text-[0.65rem] font-bold uppercase tracking-wide text-red">
-              Oferta especial
+              Oferta do dia
             </p>
-            <p className="text-sm font-semibold text-ink">Piso Karina Polido</p>
+            <p className="text-sm font-semibold text-ink">{featured.name}</p>
             <p className="text-lg font-bold text-ink">
-              R$ 52,90<span className="text-xs font-medium text-ink-faint">/m²</span>
+              R$ {featured.price}
+              <span className="text-xs font-medium text-ink-faint">/{featured.unit}</span>
             </p>
           </motion.div>
         </motion.div>
