@@ -1,7 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Categories } from "@/components/Categories";
-import { FeaturedDeal } from "@/components/FeaturedDeal";
 import { Offers } from "@/components/Offers";
 import { HowItWorks } from "@/components/HowItWorks";
 import { About } from "@/components/About";
@@ -17,17 +16,14 @@ export const revalidate = 3600;
 
 export default async function Home() {
   const products = await getProducts();
-  const featuredIndex = getDailyIndex(products.length);
-  const featured = products[featuredIndex];
-  const otherOffers = products.filter((_, i) => i !== featuredIndex);
+  const featured = products[getDailyIndex(products.length)];
 
   return (
     <>
       <Header />
       <main className="flex-1">
         <Hero featured={featured} />
-        <FeaturedDeal product={featured} />
-        <Offers offers={otherOffers} />
+        <Offers offers={products} />
         <HowItWorks />
         <About products={products} />
         <Categories />
