@@ -35,7 +35,7 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
       variants={itemVariants}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-paper shadow-soft transition-shadow duration-300 hover:shadow-lift"
+      className="group flex flex-col overflow-hidden rounded-xl border border-line bg-paper shadow-soft transition-shadow duration-300 hover:shadow-lift sm:rounded-2xl"
     >
       <button
         type="button"
@@ -49,64 +49,66 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
               src={offer.image}
               alt={offer.name}
               fill
-              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+              sizes="(min-width: 1024px) 25vw, 50vw"
               className="object-cover opacity-100 transition-opacity duration-500 ease-out group-hover:opacity-0"
             />
             <Image
               src={offer.applicationImage}
               alt={`Exemplo de ambiente com piso no tom de ${offer.name}`}
               fill
-              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+              sizes="(min-width: 1024px) 25vw, 50vw"
               className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
             />
           </div>
-          <span className="absolute left-3 top-3 rounded-full bg-red px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-opacity duration-300 group-hover:opacity-0">
-            Oferta
-          </span>
-          <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-ink-soft opacity-0 shadow-soft backdrop-blur transition-opacity duration-300 group-hover:opacity-100">
-            Exemplo montado
-          </span>
+          <div className="absolute inset-x-0 bottom-0 bg-red py-1.5 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-colors duration-300 group-hover:bg-ink sm:py-2 sm:text-xs">
+            <span className="block group-hover:hidden">Oferta</span>
+            <span className="hidden group-hover:block">Exemplo montado</span>
+          </div>
         </div>
 
-        <div className="px-5 pt-5">
-          <h3 className="text-sm font-semibold leading-snug text-ink">{offer.name}</h3>
-          <p className="mt-1 text-xs text-ink-faint">{offer.detail}</p>
+        <div className="px-3 pt-3 sm:px-5 sm:pt-5">
+          <h3 className="line-clamp-2 text-xs font-semibold leading-snug text-ink sm:text-sm">
+            {offer.name}
+          </h3>
+          <p className="mt-1 hidden text-xs text-ink-faint sm:block">{offer.detail}</p>
 
-          <div className="mt-4 flex items-baseline gap-1">
-            <span className="text-xs font-medium text-ink-faint">R$</span>
-            <span className="text-2xl font-bold text-ink">{offer.price}</span>
-            <span className="text-xs font-medium text-ink-faint">/{offer.unit}</span>
+          <div className="mt-2 flex items-baseline gap-1 sm:mt-4">
+            <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">R$</span>
+            <span className="text-lg font-bold text-red sm:text-2xl">{offer.price}</span>
+            <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">
+              /{offer.unit}
+            </span>
           </div>
         </div>
       </button>
 
-      <div className="flex flex-1 flex-col px-5 pb-5">
-        <div className="mt-4 flex items-center justify-center gap-3">
+      <div className="flex flex-1 flex-col px-3 pb-3 sm:px-5 sm:pb-5">
+        <div className="mt-2 flex items-center justify-center gap-2 sm:mt-4 sm:gap-3">
           <button
             type="button"
             aria-label="Diminuir quantidade"
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="grid h-8 w-8 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90"
+            className="grid h-7 w-7 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90 sm:h-8 sm:w-8"
           >
-            <Minus className="h-3.5 w-3.5" />
+            <Minus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </button>
-          <span className="w-10 text-center text-sm font-semibold text-ink">
-            {qty} <span className="text-xs font-normal text-ink-faint">{offer.unit}</span>
+          <span className="w-9 text-center text-xs font-semibold text-ink sm:w-10 sm:text-sm">
+            {qty} <span className="text-[0.65rem] font-normal text-ink-faint sm:text-xs">{offer.unit}</span>
           </span>
           <button
             type="button"
             aria-label="Aumentar quantidade"
             onClick={() => setQty((q) => q + 1)}
-            className="grid h-8 w-8 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90"
+            className="grid h-7 w-7 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90 sm:h-8 sm:w-8"
           >
-            <Plus className="h-3.5 w-3.5" />
+            <Plus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </button>
         </div>
 
         <button
           type="button"
           onClick={handleAdd}
-          className={`mt-4 flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-semibold transition-colors duration-200 active:scale-95 ${
+          className={`mt-2 flex items-center justify-center gap-1 rounded-full px-2 py-2 text-[0.65rem] font-semibold transition-colors duration-200 active:scale-95 sm:mt-4 sm:gap-1.5 sm:px-4 sm:py-2.5 sm:text-xs ${
             added
               ? "bg-whatsapp-strong text-white"
               : "bg-ink text-paper hover:bg-gold-strong hover:text-white"
@@ -120,9 +122,9 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
                 transition={{ duration: 0.18 }}
-                className="flex items-center gap-1.5"
+                className="flex items-center gap-1 sm:gap-1.5"
               >
-                <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+                <Check className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.5} />
                 Adicionado
               </motion.span>
             ) : (
@@ -132,10 +134,11 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
                 transition={{ duration: 0.18 }}
-                className="flex items-center gap-1.5"
+                className="flex items-center gap-1 sm:gap-1.5"
               >
-                <ShoppingCart className="h-3.5 w-3.5" strokeWidth={2.25} />
-                Adicionar ao orçamento
+                <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.25} />
+                <span className="sm:hidden">Adicionar</span>
+                <span className="hidden sm:inline">Adicionar ao orçamento</span>
               </motion.span>
             )}
           </AnimatePresence>
@@ -171,7 +174,7 @@ export function Offers({ offers }: { offers: Product[] }) {
             WhatsApp para consultar preços.
           </p>
         ) : (
-          <StaggerGroup className="mt-8 sm:mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerGroup className="mt-6 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
             {offers.map((offer) => (
               <OfferCard
                 key={offer.id}
