@@ -22,7 +22,7 @@ export function CartBar() {
           <button
             type="button"
             onClick={cart.openCart}
-            className="mx-auto flex w-full max-w-xl items-center justify-between gap-3 rounded-2xl bg-ink px-5 py-4 text-paper shadow-lift transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99]"
+            className="mx-auto flex w-full max-w-xl items-center justify-between gap-2.5 rounded-2xl bg-ink px-4 py-3 text-paper shadow-lift transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] sm:gap-3 sm:px-5 sm:py-4"
           >
             <span className="flex items-center gap-3">
               <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold text-ink">
@@ -39,7 +39,7 @@ export function CartBar() {
                 )}
               </span>
             </span>
-            <span className="shrink-0 rounded-full bg-gold px-4 py-2 text-sm font-semibold text-ink">
+            <span className="shrink-0 rounded-full bg-gold px-3 py-1.5 text-xs font-semibold text-ink sm:px-4 sm:py-2 sm:text-sm">
               Ver orçamento
             </span>
           </button>

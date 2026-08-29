@@ -140,7 +140,7 @@ export function CartDrawer() {
             <div className="flex items-center justify-between border-b border-line px-5 py-4">
               <div className="flex items-center gap-2.5">
                 <ShoppingCart className="h-5 w-5 text-gold-strong" strokeWidth={2.25} />
-                <h2 className="text-lg font-semibold text-ink">Seu orçamento</h2>
+                <h2 className="text-base font-semibold text-ink sm:text-lg">Seu orçamento</h2>
               </div>
               <button
                 type="button"
@@ -411,7 +411,7 @@ export function CartDrawer() {
               <div className="border-t border-line bg-paper-soft px-5 py-4">
                 <div className="flex items-baseline justify-between">
                   <span className="text-sm font-medium text-ink-soft">Subtotal estimado</span>
-                  <span className="text-xl font-bold text-ink">
+                  <span className="text-lg font-bold text-ink sm:text-xl">
                     R$ {formatPrice(cart.subtotal)}
                   </span>
                 </div>
@@ -434,7 +434,7 @@ export function CartDrawer() {
                     const tracked = trackWhatsAppClick(message);
                     if (tracked) e.currentTarget.href = tracked;
                   }}
-                  className={`mt-4 flex items-center justify-center gap-2 rounded-full px-6 py-4 text-base font-semibold text-white shadow-lift transition-transform duration-200 active:scale-95 ${
+                  className={`mt-4 flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold text-white shadow-lift sm:px-6 sm:py-4 sm:text-base transition-transform duration-200 active:scale-95 ${
                     addressMissing
                       ? "cursor-not-allowed bg-ink-faint"
                       : "bg-whatsapp hover:scale-[1.02] hover:bg-whatsapp-strong"

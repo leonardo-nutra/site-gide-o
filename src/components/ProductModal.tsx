@@ -76,7 +76,7 @@ export function ProductModal({
 
               <div className="overflow-y-auto">
                 <div className="grid gap-0 sm:grid-cols-2">
-                  <div className="relative aspect-square w-full bg-paper-strong">
+                  <div className="relative aspect-[4/3] w-full bg-paper-strong sm:aspect-square">
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -88,7 +88,7 @@ export function ProductModal({
                       Produto
                     </span>
                   </div>
-                  <div className="relative aspect-square w-full bg-paper-strong">
+                  <div className="relative aspect-[4/3] w-full bg-paper-strong sm:aspect-square">
                     <Image
                       src={product.applicationImage}
                       alt={`Exemplo de ambiente com piso no tom de ${product.name}`}
@@ -102,7 +102,7 @@ export function ProductModal({
                   </div>
                 </div>
 
-                <div className="p-5 sm:p-6">
+                <div className="p-4 sm:p-6">
                   <div className="flex items-start gap-2 rounded-xl bg-gold-soft px-3.5 py-2.5 text-xs leading-relaxed text-ink">
                     <Info className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong" strokeWidth={2.25} />
                     <span>
@@ -111,12 +111,12 @@ export function ProductModal({
                     </span>
                   </div>
 
-                  <h3 className="mt-4 text-xl font-bold text-ink">{product.name}</h3>
+                  <h3 className="mt-4 text-lg font-bold text-ink sm:text-xl">{product.name}</h3>
                   <p className="mt-1 text-sm text-ink-soft">{product.detail}</p>
 
                   <div className="mt-4 flex items-baseline gap-1.5">
                     <span className="text-sm font-medium text-ink-faint">R$</span>
-                    <span className="text-3xl font-bold text-ink">{product.price}</span>
+                    <span className="text-2xl font-bold text-ink sm:text-3xl">{product.price}</span>
                     <span className="text-sm font-medium text-ink-faint">
                       /{product.unit}
                     </span>
@@ -127,7 +127,7 @@ export function ProductModal({
                       type="button"
                       aria-label="Diminuir quantidade"
                       onClick={() => setQty((q) => Math.max(1, q - 1))}
-                      className="grid h-10 w-10 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90 sm:h-10 sm:w-10"
                     >
                       <Minus className="h-4 w-4" />
                     </button>
@@ -141,7 +141,7 @@ export function ProductModal({
                       type="button"
                       aria-label="Aumentar quantidade"
                       onClick={() => setQty((q) => q + 1)}
-                      className="grid h-10 w-10 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-paper-strong active:scale-90 sm:h-10 sm:w-10"
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -150,7 +150,7 @@ export function ProductModal({
                   <button
                     type="button"
                     onClick={handleAdd}
-                    className={`mt-5 flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-base font-semibold shadow-lift transition-all duration-200 active:scale-95 ${
+                    className={`mt-5 flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold sm:px-6 sm:py-4 sm:text-base shadow-lift transition-all duration-200 active:scale-95 ${
                       added
                         ? "bg-whatsapp-strong text-white"
                         : "bg-ink text-paper hover:scale-[1.01] hover:bg-gold-strong hover:text-white"

@@ -105,22 +105,22 @@ function CategoryCard({ cat }: { cat: (typeof categories)[number] }) {
 
 export function Categories() {
   return (
-    <section id="produtos" className="bg-paper py-20 sm:py-28">
+    <section id="produtos" className="bg-paper py-14 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-wide text-gold-strong">
             O que você encontra na Gideão
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
             Tudo para sua obra, em um só lugar
           </h2>
-          <p className="mt-4 text-lg text-ink-soft">
+          <p className="mt-4 text-base text-ink-soft sm:text-lg">
             Adicione as categorias que precisa ao seu orçamento, ou fale
             direto com a gente pelo WhatsApp.
           </p>
         </Reveal>
 
-        <StaggerGroup className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-8 sm:mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat) => (
             <CategoryCard key={cat.id} cat={cat} />
           ))}

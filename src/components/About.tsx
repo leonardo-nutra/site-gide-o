@@ -38,7 +38,7 @@ function Carousel({ products }: { products: Product[] }) {
             key={`${item.id}-${i}`}
             whileHover={{ y: -6 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="group relative h-64 w-48 shrink-0 overflow-hidden rounded-2xl border border-line bg-ink shadow-soft transition-shadow duration-300 hover:shadow-lift sm:h-80 sm:w-60"
+            className="group relative h-48 w-36 shrink-0 overflow-hidden rounded-2xl border border-line bg-ink shadow-soft transition-shadow duration-300 hover:shadow-lift sm:h-80 sm:w-60"
           >
             <Image
               src={item.image}
@@ -69,7 +69,7 @@ function Carousel({ products }: { products: Product[] }) {
 
 export function About({ products }: { products: Product[] }) {
   return (
-    <section className="overflow-hidden bg-paper-soft pb-20 pt-16 sm:pb-28 sm:pt-20">
+    <section className="overflow-hidden bg-paper-soft pb-14 pt-10 sm:pb-28 sm:pt-20">
       {products.length > 0 && (
         <Reveal y={16} className="pb-14">
           <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wide text-gold-strong">
@@ -84,10 +84,10 @@ export function About({ products }: { products: Product[] }) {
           <p className="text-sm font-semibold uppercase tracking-wide text-gold-strong">
             Por que comprar na Gideão
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
             Confiança e preço baixo, todos os dias
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+          <p className="mt-4 text-base leading-relaxed text-ink-soft sm:text-lg">
             Somos um atacadão da construção em Mesquita, na Baixada
             Fluminense. Trabalhamos para que você encontre tudo o que precisa
             para sua obra ou reforma, com atendimento próximo e preço justo.
@@ -95,7 +95,7 @@ export function About({ products }: { products: Product[] }) {
         </Reveal>
       </div>
 
-      <StaggerGroup className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-8 px-5 sm:grid-cols-3 sm:px-8">
+      <StaggerGroup className="mx-auto mt-8 sm:mt-12 grid max-w-5xl grid-cols-1 gap-8 px-5 sm:grid-cols-3 sm:px-8">
         {differentiators.map((d) => {
           const Icon = icons[d.icon];
           return (

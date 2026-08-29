@@ -149,14 +149,14 @@ export function Offers({ offers }: { offers: Product[] }) {
   const [selected, setSelected] = useState<Product | null>(null);
 
   return (
-    <section id="ofertas" className="bg-paper-soft py-20 sm:py-28">
+    <section id="ofertas" className="bg-paper-soft py-14 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div className="max-w-xl">
             <p className="text-sm font-semibold uppercase tracking-wide text-red">
               Ofertas da semana
             </p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
               Preços especiais em pisos e porcelanatos
             </h2>
           </div>
@@ -171,7 +171,7 @@ export function Offers({ offers }: { offers: Product[] }) {
             WhatsApp para consultar preços.
           </p>
         ) : (
-          <StaggerGroup className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerGroup className="mt-8 sm:mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {offers.map((offer) => (
               <OfferCard
                 key={offer.id}

@@ -14,18 +14,18 @@ export function Contact() {
   )}`;
 
   return (
-    <section id="contato" className="bg-paper py-20 sm:py-28">
+    <section id="contato" className="bg-paper py-14 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-wide text-gold-strong">
             Venha nos visitar
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
             Fale com a gente ou passe na loja
           </h2>
         </Reveal>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="mt-8 sm:mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal className="flex flex-col gap-4">
             <div className="flex items-start gap-4 rounded-2xl border border-line bg-paper-soft p-5">
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-paper text-gold-strong shadow-soft">

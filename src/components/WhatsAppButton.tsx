@@ -56,7 +56,7 @@ export function WhatsAppButton() {
       <WhatsAppLink
         message="Olá! Vim pelo site e quero falar com a Gideão."
         aria-label={`Falar com a ${site.name} no WhatsApp`}
-        className="group relative grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-white shadow-lift transition-transform duration-200 hover:scale-105 active:scale-95 sm:h-16 sm:w-16"
+        className="group relative grid h-12 w-12 place-items-center rounded-full bg-whatsapp text-white shadow-lift transition-transform duration-200 hover:scale-105 active:scale-95 sm:h-16 sm:w-16"
       >
         <motion.span
           aria-hidden
@@ -64,7 +64,7 @@ export function WhatsAppButton() {
           animate={{ scale: [1, 1.6], opacity: [0.55, 0] }}
           transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 2.4, ease: "easeOut" }}
         />
-        <MessageCircle className="relative h-7 w-7" strokeWidth={2.25} />
+        <MessageCircle className="relative h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.25} />
       </WhatsAppLink>
     </motion.div>
   );
