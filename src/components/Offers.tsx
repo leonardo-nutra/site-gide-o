@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, Clock, Minus, Plus, ShoppingCart } from "lucide-react";
+import { Check, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
 import { ProductModal } from "./ProductModal";
 import type { Product } from "@/lib/products";
@@ -59,10 +59,6 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
               sizes="(min-width: 1024px) 25vw, 50vw"
               className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
             />
-          </div>
-          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-ink/90 px-2 py-1 text-[0.55rem] font-bold uppercase tracking-wide text-white shadow-soft backdrop-blur transition-opacity duration-300 group-hover:opacity-0 sm:left-3 sm:top-3 sm:px-2.5 sm:py-1 sm:text-[0.6rem]">
-            <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" strokeWidth={2.5} />
-            Tempo limitado
           </div>
           <div className="absolute inset-x-0 bottom-0 bg-whatsapp py-1.5 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-colors duration-300 group-hover:bg-ink sm:py-2 sm:text-xs">
             <span className="block group-hover:hidden">Oferta</span>
