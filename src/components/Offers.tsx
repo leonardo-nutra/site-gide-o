@@ -60,7 +60,7 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
               className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
             />
           </div>
-          <div className="absolute inset-x-0 bottom-0 bg-red py-1.5 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-colors duration-300 group-hover:bg-ink sm:py-2 sm:text-xs">
+          <div className="absolute inset-x-0 bottom-0 bg-whatsapp py-1.5 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-colors duration-300 group-hover:bg-ink sm:py-2 sm:text-xs">
             <span className="block group-hover:hidden">Oferta</span>
             <span className="hidden group-hover:block">Exemplo montado</span>
           </div>
