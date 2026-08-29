@@ -69,7 +69,7 @@ function Carousel({ products }: { products: Product[] }) {
 
 export function About({ products }: { products: Product[] }) {
   return (
-    <section className="overflow-hidden bg-paper-soft pb-14 pt-10 sm:pb-28 sm:pt-20">
+    <section className="overflow-hidden bg-paper-soft pb-10 pt-8 sm:pb-20 sm:pt-14">
       {products.length > 0 && (
         <Reveal y={16} className="pb-14">
           <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wide text-gold-strong">
@@ -84,7 +84,7 @@ export function About({ products }: { products: Product[] }) {
           <p className="text-sm font-semibold uppercase tracking-wide text-gold-strong">
             Por que comprar na Gideão
           </p>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
             Confiança e preço baixo, todos os dias
           </h2>
           <p className="mt-4 text-base leading-relaxed text-ink-soft sm:text-lg">

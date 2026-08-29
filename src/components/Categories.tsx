@@ -105,13 +105,13 @@ function CategoryCard({ cat }: { cat: (typeof categories)[number] }) {
 
 export function Categories() {
   return (
-    <section id="produtos" className="bg-paper py-14 sm:py-28">
+    <section id="produtos" className="bg-paper py-10 sm:py-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-wide text-gold-strong">
             O que você encontra na Gideão
           </p>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
             Tudo para sua obra, em um só lugar
           </h2>
           <p className="mt-4 text-base text-ink-soft sm:text-lg">

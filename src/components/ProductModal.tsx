@@ -116,7 +116,7 @@ export function ProductModal({
 
                   <div className="mt-4 flex items-baseline gap-1.5">
                     <span className="text-sm font-medium text-ink-faint">R$</span>
-                    <span className="text-2xl font-bold text-ink sm:text-3xl">{product.price}</span>
+                    <span className="text-2xl font-display font-black text-ink sm:text-3xl">{product.price}</span>
                     <span className="text-sm font-medium text-ink-faint">
                       /{product.unit}
                     </span>

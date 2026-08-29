@@ -74,7 +74,7 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
 
           <div className="mt-2 flex items-baseline gap-1 sm:mt-4">
             <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">R$</span>
-            <span className="text-lg font-bold text-ink sm:text-2xl">{offer.price}</span>
+            <span className="text-lg font-display font-black text-ink sm:text-2xl">{offer.price}</span>
             <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">
               /{offer.unit}
             </span>
@@ -152,14 +152,14 @@ export function Offers({ offers }: { offers: Product[] }) {
   const [selected, setSelected] = useState<Product | null>(null);
 
   return (
-    <section id="ofertas" className="bg-paper-soft py-14 sm:py-28">
+    <section id="ofertas" className="bg-paper-soft py-10 sm:py-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div className="max-w-xl">
             <p className="text-sm font-semibold uppercase tracking-wide text-red">
               Ofertas da semana
             </p>
-            <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
               Preços especiais em pisos e porcelanatos
             </h2>
           </div>

@@ -213,7 +213,7 @@ export function CartDrawer() {
 
                         <div className="flex flex-col items-end gap-2">
                           {item.unitPrice !== undefined && (
-                            <span className="text-sm font-bold text-ink">
+                            <span className="text-sm font-display font-black text-ink">
                               R$ {formatPrice(item.unitPrice * item.qty)}
                             </span>
                           )}
@@ -411,7 +411,7 @@ export function CartDrawer() {
               <div className="border-t border-line bg-paper-soft px-5 py-4">
                 <div className="flex items-baseline justify-between">
                   <span className="text-sm font-medium text-ink-soft">Subtotal estimado</span>
-                  <span className="text-lg font-bold text-ink sm:text-xl">
+                  <span className="text-lg font-display font-black text-ink sm:text-xl">
                     R$ {formatPrice(cart.subtotal)}
                   </span>
                 </div>

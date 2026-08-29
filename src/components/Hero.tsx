@@ -33,7 +33,7 @@ export function Hero({ featured }: { featured: Product }) {
         className="pointer-events-none absolute -bottom-40 left-[-15%] h-[360px] w-[360px] rounded-full bg-paper-strong blur-3xl"
       />
 
-      <div className="relative mx-auto grid max-w-6xl gap-8 px-5 pb-10 pt-8 sm:gap-12 sm:px-8 sm:pb-24 sm:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-28 lg:pt-24">
+      <div className="relative mx-auto grid max-w-6xl gap-8 px-5 pb-8 pt-6 sm:gap-12 sm:px-8 sm:pb-16 sm:pt-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-20 lg:pt-16">
         <motion.div initial="hidden" animate="visible" variants={container}>
           <motion.div
             variants={item}
@@ -45,7 +45,7 @@ export function Hero({ featured }: { featured: Product }) {
 
           <motion.h1
             variants={item}
-            className="mt-4 text-[2rem] font-bold leading-[1.12] tracking-tight text-ink sm:mt-5 sm:text-5xl sm:leading-[1.08] lg:text-[3.4rem]"
+            className="mt-4 text-[2rem] font-display font-black leading-[1.12] tracking-tight text-ink sm:mt-5 sm:text-5xl sm:leading-[1.08] lg:text-[3.4rem]"
           >
             Todo dia é dia de{" "}
             <span className="relative inline-block whitespace-nowrap">
@@ -119,7 +119,7 @@ export function Hero({ featured }: { featured: Product }) {
               Oferta do dia
             </p>
             <p className="text-sm font-semibold text-ink">{featured.name}</p>
-            <p className="text-lg font-bold text-ink">
+            <p className="text-lg font-display font-black text-ink">
               R$ {featured.price}
               <span className="text-xs font-medium text-ink-faint">/{featured.unit}</span>
             </p>

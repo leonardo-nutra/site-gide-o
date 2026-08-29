@@ -10,13 +10,13 @@ const icons: Record<string, LucideIcon> = { Tag, MessageCircle, CheckCircle2 };
 
 export function HowItWorks() {
   return (
-    <section id="como-funciona" className="bg-paper py-14 sm:py-28">
+    <section id="como-funciona" className="bg-paper py-10 sm:py-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wide text-gold-strong">
             Simples assim
           </p>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
             Como pedir seu orçamento
           </h2>
           <p className="mt-4 text-base text-ink-soft sm:text-lg">

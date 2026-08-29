@@ -3,24 +3,24 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --paper: #fffdf8;
-  --paper-soft: #faf5ea;
-  --paper-strong: #f3ead6;
-  --ink: #201a10;
-  --ink-soft: #5c5240;
-  --ink-faint: #8a7f6a;
-  --line: #e8dfc8;
+  --paper: #fffdfa;
+  --paper-soft: #fbf3dd;
+  --paper-strong: #f5e7bc;
+  --ink: #18140d;
+  --ink-soft: #4a4030;
+  --ink-faint: #7c715a;
+  --line: #e2d29a;
 
-  --gold: #f0a825;
-  --gold-strong: #d88a0f;
-  --gold-soft: #fdeecb;
-  --red: #d62222;
-  --red-strong: #a51818;
+  --gold: #ffc700;
+  --gold-strong: #d38a00;
+  --gold-soft: #fff0b8;
+  --red: #e8262a;
+  --red-strong: #ad1418;
   --whatsapp: #25d366;
   --whatsapp-strong: #1fb855;
 
-  --shadow-soft: 0 1px 2px rgba(32, 26, 16, 0.04), 0 8px 24px -12px rgba(32, 26, 16, 0.18);
-  --shadow-lift: 0 4px 8px rgba(32, 26, 16, 0.06), 0 20px 40px -16px rgba(32, 26, 16, 0.28);
+  --shadow-soft: 0 1px 2px rgba(24, 20, 13, 0.06), 0 8px 24px -12px rgba(24, 20, 13, 0.22);
+  --shadow-lift: 0 4px 8px rgba(24, 20, 13, 0.08), 0 20px 40px -16px rgba(24, 20, 13, 0.32);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -29,19 +29,19 @@
 }
 
 .dark {
-  --paper: #16130d;
-  --paper-soft: #1c1811;
-  --paper-strong: #262019;
-  --ink: #f6f1e7;
-  --ink-soft: #cec5b1;
-  --ink-faint: #978d76;
-  --line: #33291d;
+  --paper: #15120c;
+  --paper-soft: #1e1810;
+  --paper-strong: #2b2216;
+  --ink: #fbf6ea;
+  --ink-soft: #d9cdb2;
+  --ink-faint: #a39378;
+  --line: #3a2f1d;
 
-  --gold: #f4b23e;
-  --gold-strong: #f7c15e;
-  --gold-soft: #3a2c14;
-  --red: #ff6b5e;
-  --red-strong: #ff8a80;
+  --gold: #ffcf1f;
+  --gold-strong: #ffb703;
+  --gold-soft: #3d2f0f;
+  --red: #ff4a4e;
+  --red-strong: #ff7a7d;
   --whatsapp: #2fe37c;
   --whatsapp-strong: #26c96a;
 
@@ -67,6 +67,7 @@
   --color-whatsapp: var(--whatsapp);
   --color-whatsapp-strong: var(--whatsapp-strong);
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-archivo);
 }
 
 html {
