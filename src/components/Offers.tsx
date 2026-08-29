@@ -74,7 +74,7 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
 
           <div className="mt-2 flex items-baseline gap-1 sm:mt-4">
             <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">R$</span>
-            <span className="text-lg font-bold text-red sm:text-2xl">{offer.price}</span>
+            <span className="text-lg font-bold text-ink sm:text-2xl">{offer.price}</span>
             <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">
               /{offer.unit}
             </span>
