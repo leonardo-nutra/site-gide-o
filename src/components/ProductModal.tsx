@@ -47,12 +47,16 @@ export function ProductModal({
             onClick={onClose}
             className="fixed inset-0 z-[70] bg-black/55"
           />
-          <div className="fixed inset-0 z-[71] flex items-end justify-center sm:items-center sm:p-6">
+          <div
+            onClick={onClose}
+            className="fixed inset-0 z-[71] flex items-end justify-center sm:items-center sm:p-6"
+          >
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.97 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
               aria-label={product.name}

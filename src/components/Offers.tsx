@@ -44,15 +44,27 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
         className="block text-left"
       >
         <div className="relative aspect-square w-full overflow-hidden bg-paper-strong">
-          <Image
-            src={offer.image}
-            alt={offer.name}
-            fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-          />
-          <span className="absolute left-3 top-3 rounded-full bg-red px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft">
+          <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110">
+            <Image
+              src={offer.image}
+              alt={offer.name}
+              fill
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover opacity-100 transition-opacity duration-500 ease-out group-hover:opacity-0"
+            />
+            <Image
+              src={offer.applicationImage}
+              alt={`Exemplo de ambiente com piso no tom de ${offer.name}`}
+              fill
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+            />
+          </div>
+          <span className="absolute left-3 top-3 rounded-full bg-red px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-opacity duration-300 group-hover:opacity-0">
             Oferta
+          </span>
+          <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-ink-soft opacity-0 shadow-soft backdrop-blur transition-opacity duration-300 group-hover:opacity-100">
+            Exemplo montado
           </span>
         </div>
 
