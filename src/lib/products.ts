@@ -37,7 +37,7 @@ const staticProducts: Product[] = [
     detail: "Acabamento polido de alto brilho",
     price: "49,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-1.jpg",
+    image: "/images/produtos/piso-1.jpg",
     applicationImage: APPLICATION_IMAGE.retificado,
   },
   {
@@ -46,7 +46,7 @@ const staticProducts: Product[] = [
     detail: "Mármore claro com veios dourados",
     price: "45,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-9.jpg",
+    image: "/images/produtos/piso-9.jpg",
     applicationImage: APPLICATION_IMAGE.lume,
   },
   {
@@ -55,7 +55,7 @@ const staticProducts: Product[] = [
     detail: "Preto com veios dourados, alto padrão",
     price: "52,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-4.jpg",
+    image: "/images/produtos/piso-4.jpg",
     applicationImage: APPLICATION_IMAGE.karinaPretoDourado,
   },
   {
@@ -64,7 +64,7 @@ const staticProducts: Product[] = [
     detail: "Tom bege claro, polido",
     price: "45,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-2.jpg",
+    image: "/images/produtos/piso-2.jpg",
     applicationImage: APPLICATION_IMAGE.luminaBege,
   },
   {
@@ -73,7 +73,7 @@ const staticProducts: Product[] = [
     detail: "Branco com veios pretos e dourados",
     price: "45,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-5.jpg",
+    image: "/images/produtos/piso-5.jpg",
     applicationImage: APPLICATION_IMAGE.majestic,
   },
   {
@@ -82,7 +82,7 @@ const staticProducts: Product[] = [
     detail: "Preto com veios dourados HD",
     price: "47,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-7.jpg",
+    image: "/images/produtos/piso-7.jpg",
     applicationImage: APPLICATION_IMAGE.karinaPretoDourado,
   },
   {
@@ -91,7 +91,7 @@ const staticProducts: Product[] = [
     detail: "Efeito ônix azulado, polido",
     price: "45,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-6.jpg",
+    image: "/images/produtos/piso-6.jpg",
     applicationImage: APPLICATION_IMAGE.onixBlue,
   },
   {
@@ -100,7 +100,7 @@ const staticProducts: Product[] = [
     detail: "Cinza acinzentado, alta durabilidade",
     price: "39,90",
     unit: "m²",
-    image: "/images/ofertas/crop/piso-3.jpg",
+    image: "/images/produtos/piso-3.jpg",
     applicationImage: APPLICATION_IMAGE.gray,
   },
 ];
