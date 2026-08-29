@@ -83,7 +83,7 @@ export function Hero({ featured }: { featured: Product }) {
             </a>
           </motion.div>
 
-          <motion.p variants={item} className="mt-5 text-xs text-ink-faint sm:mt-6 sm:text-sm">
+          <motion.p variants={item} className="mt-5 text-sm text-ink-faint sm:mt-6 sm:text-base">
             📍 {site.address.line}, {site.address.city} · {site.phoneDisplay}
           </motion.p>
         </motion.div>
