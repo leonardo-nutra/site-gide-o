@@ -21,6 +21,7 @@ import {
 import { formatPrice, useCart } from "@/lib/cart-context";
 import { site, waLink } from "@/lib/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
+import { saveOrder } from "@/lib/orders";
 
 type Payment = "Pix" | "Dinheiro" | "Cartão" | "A combinar";
 type Delivery = "Retirar na loja" | "Entrega";
@@ -431,6 +432,18 @@ export function CartDrawer() {
                       e.preventDefault();
                       return;
                     }
+                    saveOrder({
+                      items: cart.items,
+                      subtotal: cart.subtotal,
+                      hasUnpricedItems: cart.hasUnpricedItems,
+                      customerName: name,
+                      paymentMethod: payment,
+                      deliveryMethod: delivery,
+                      addressStreet: address.street,
+                      addressNumber: address.number,
+                      addressCep: address.cep,
+                      addressReference: address.reference,
+                    });
                     const tracked = trackWhatsAppClick(message);
                     if (tracked) e.currentTarget.href = tracked;
                   }}

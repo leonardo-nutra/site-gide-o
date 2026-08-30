@@ -1,3 +1,5 @@
+import { createPublicClient } from "@/lib/supabase/public";
+
 export type Product = {
   id: string;
   name: string;
@@ -7,30 +9,13 @@ export type Product = {
   image: string;
   /**
    * Illustrative "as installed" reference photo — a generic environment
-   * shot in a similar tone, not a photo of this exact batch/lot. Grouped
-   * by light/dark tone until real per-product installation photos exist.
+   * shot in a similar tone, not a photo of this exact batch/lot.
    */
   applicationImage: string;
 };
 
-const APPLICATION_IMAGE = {
-  retificado: "/images/ambiente/retificado.jpg",
-  lume: "/images/ambiente/lume.jpg",
-  karinaPretoDourado: "/images/ambiente/karina-preto-dourado.jpg",
-  luminaBege: "/images/ambiente/lumina-bege.jpg",
-  majestic: "/images/ambiente/majestic.jpg",
-  onixBlue: "/images/ambiente/onix-blue.jpg",
-  gray: "/images/ambiente/gray.jpg",
-};
-
-/**
- * Static fallback catalog. Once the client's product/pricing system is
- * available (API, database export, etc.), replace the body of
- * `getProducts` below with a real fetch — the rest of the site only
- * depends on the `Product` shape and the `getProducts()` signature, so no
- * UI changes should be needed.
- */
-const staticProducts: Product[] = [
+/** Used only if the Supabase catalog is unreachable or empty. */
+const fallbackProducts: Product[] = [
   {
     id: "piso-1",
     name: "Piso Polido Retificado",
@@ -38,7 +23,7 @@ const staticProducts: Product[] = [
     price: "49,90",
     unit: "m²",
     image: "/images/produtos/piso-1.jpg",
-    applicationImage: APPLICATION_IMAGE.retificado,
+    applicationImage: "/images/ambiente/retificado.jpg",
   },
   {
     id: "piso-9",
@@ -47,7 +32,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/produtos/piso-9.jpg",
-    applicationImage: APPLICATION_IMAGE.lume,
+    applicationImage: "/images/ambiente/lume.jpg",
   },
   {
     id: "piso-4",
@@ -56,7 +41,7 @@ const staticProducts: Product[] = [
     price: "52,90",
     unit: "m²",
     image: "/images/produtos/piso-4.jpg",
-    applicationImage: APPLICATION_IMAGE.karinaPretoDourado,
+    applicationImage: "/images/ambiente/karina-preto-dourado.jpg",
   },
   {
     id: "piso-2",
@@ -65,7 +50,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/produtos/piso-2.jpg",
-    applicationImage: APPLICATION_IMAGE.luminaBege,
+    applicationImage: "/images/ambiente/lumina-bege.jpg",
   },
   {
     id: "piso-5",
@@ -74,7 +59,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/produtos/piso-5.jpg",
-    applicationImage: APPLICATION_IMAGE.majestic,
+    applicationImage: "/images/ambiente/majestic.jpg",
   },
   {
     id: "piso-7",
@@ -83,7 +68,7 @@ const staticProducts: Product[] = [
     price: "47,90",
     unit: "m²",
     image: "/images/produtos/piso-7.jpg",
-    applicationImage: APPLICATION_IMAGE.karinaPretoDourado,
+    applicationImage: "/images/ambiente/karina-preto-dourado.jpg",
   },
   {
     id: "piso-6",
@@ -92,7 +77,7 @@ const staticProducts: Product[] = [
     price: "45,90",
     unit: "m²",
     image: "/images/produtos/piso-6.jpg",
-    applicationImage: APPLICATION_IMAGE.onixBlue,
+    applicationImage: "/images/ambiente/onix-blue.jpg",
   },
   {
     id: "piso-3",
@@ -101,12 +86,37 @@ const staticProducts: Product[] = [
     price: "39,90",
     unit: "m²",
     image: "/images/produtos/piso-3.jpg",
-    applicationImage: APPLICATION_IMAGE.gray,
+    applicationImage: "/images/ambiente/gray.jpg",
   },
 ];
 
+function formatDbPrice(value: number) {
+  return value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 export async function getProducts(): Promise<Product[]> {
-  return staticProducts;
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("slug, name, detail, price, unit, image, application_image")
+      .eq("active", true)
+      .order("sort_order", { ascending: true });
+
+    if (error || !data || data.length === 0) return fallbackProducts;
+
+    return data.map((row) => ({
+      id: row.slug,
+      name: row.name,
+      detail: row.detail,
+      price: formatDbPrice(Number(row.price)),
+      unit: row.unit,
+      image: row.image,
+      applicationImage: row.application_image,
+    }));
+  } catch {
+    return fallbackProducts;
+  }
 }
 
 function localDateKey(date: Date, timeZone = "America/Sao_Paulo") {
