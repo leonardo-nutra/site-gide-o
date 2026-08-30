@@ -114,6 +114,19 @@ export function ProductModal({
                   <h3 className="mt-4 text-lg font-bold text-ink sm:text-xl">{product.name}</h3>
                   <p className="mt-1 text-sm text-ink-soft">{product.detail}</p>
 
+                  {product.specs.length > 0 && (
+                    <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2.5 rounded-xl border border-line bg-paper-soft p-4 sm:grid-cols-2">
+                      {product.specs.map((spec) => (
+                        <div key={spec.label}>
+                          <dt className="text-[0.7rem] font-semibold uppercase tracking-wide text-ink-faint">
+                            {spec.label}
+                          </dt>
+                          <dd className="text-sm font-medium text-ink">{spec.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+
                   <div className="mt-4 flex items-baseline gap-1.5">
                     <span className="text-sm font-medium text-ink-faint">R$</span>
                     <span className="text-2xl font-display font-black text-ink sm:text-3xl">{product.price}</span>

@@ -1,5 +1,7 @@
 import { createPublicClient } from "@/lib/supabase/public";
 
+export type ProductSpec = { label: string; value: string };
+
 export type Product = {
   id: string;
   name: string;
@@ -12,6 +14,7 @@ export type Product = {
    * shot in a similar tone, not a photo of this exact batch/lot.
    */
   applicationImage: string;
+  specs: ProductSpec[];
 };
 
 /** Used only if the Supabase catalog is unreachable or empty. */
@@ -24,6 +27,11 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-1.jpg",
     applicationImage: "/images/ambiente/retificado.jpg",
+    specs: [
+      { label: "Acabamento", value: "Polido de alto brilho" },
+      { label: "Tipo", value: "Retificado" },
+      { label: "Aplicação", value: "Piso e parede internos" },
+    ],
   },
   {
     id: "piso-9",
@@ -33,6 +41,12 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-9.jpg",
     applicationImage: "/images/ambiente/lume.jpg",
+    specs: [
+      { label: "Dimensões", value: "45x89 cm" },
+      { label: "Acabamento", value: "Polido" },
+      { label: "Cor", value: "Mármore claro com veios dourados" },
+      { label: "Aplicação", value: "Piso interno" },
+    ],
   },
   {
     id: "piso-4",
@@ -42,6 +56,11 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-4.jpg",
     applicationImage: "/images/ambiente/karina-preto-dourado.jpg",
+    specs: [
+      { label: "Acabamento", value: "Polido" },
+      { label: "Cor", value: "Preto com veios dourados" },
+      { label: "Aplicação", value: "Piso interno, alto padrão" },
+    ],
   },
   {
     id: "piso-2",
@@ -51,6 +70,12 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-2.jpg",
     applicationImage: "/images/ambiente/lumina-bege.jpg",
+    specs: [
+      { label: "Dimensões", value: "75x75 cm" },
+      { label: "Acabamento", value: "Polido" },
+      { label: "Cor", value: "Bege claro" },
+      { label: "Aplicação", value: "Piso interno" },
+    ],
   },
   {
     id: "piso-5",
@@ -60,6 +85,12 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-5.jpg",
     applicationImage: "/images/ambiente/majestic.jpg",
+    specs: [
+      { label: "Dimensões", value: "75x75 cm" },
+      { label: "Acabamento", value: "Polido" },
+      { label: "Cor", value: "Branco com veios pretos e dourados" },
+      { label: "Aplicação", value: "Piso interno" },
+    ],
   },
   {
     id: "piso-7",
@@ -69,6 +100,12 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-7.jpg",
     applicationImage: "/images/ambiente/karina-preto-dourado.jpg",
+    specs: [
+      { label: "Material", value: "Cerâmico" },
+      { label: "Acabamento", value: "HD" },
+      { label: "Cor", value: "Preto com veios dourados" },
+      { label: "Aplicação", value: "Piso interno" },
+    ],
   },
   {
     id: "piso-6",
@@ -78,6 +115,12 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-6.jpg",
     applicationImage: "/images/ambiente/onix-blue.jpg",
+    specs: [
+      { label: "Dimensões", value: "75x75 cm" },
+      { label: "Acabamento", value: "Polido" },
+      { label: "Efeito", value: "Ônix azulado" },
+      { label: "Aplicação", value: "Piso interno" },
+    ],
   },
   {
     id: "piso-3",
@@ -87,6 +130,12 @@ const fallbackProducts: Product[] = [
     unit: "m²",
     image: "/images/produtos/piso-3.jpg",
     applicationImage: "/images/ambiente/gray.jpg",
+    specs: [
+      { label: "Dimensões", value: "60x60 cm" },
+      { label: "Acabamento", value: "Polido" },
+      { label: "Cor", value: "Cinza acinzentado" },
+      { label: "Aplicação", value: "Piso interno, alta durabilidade" },
+    ],
   },
 ];
 
@@ -99,7 +148,7 @@ export async function getProducts(): Promise<Product[]> {
     const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("products")
-      .select("slug, name, detail, price, unit, image, application_image")
+      .select("slug, name, detail, price, unit, image, application_image, specs")
       .eq("active", true)
       .order("sort_order", { ascending: true });
 
@@ -113,6 +162,7 @@ export async function getProducts(): Promise<Product[]> {
       unit: row.unit,
       image: row.image,
       applicationImage: row.application_image,
+      specs: Array.isArray(row.specs) ? (row.specs as ProductSpec[]) : [],
     }));
   } catch {
     return fallbackProducts;

@@ -4,6 +4,19 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
+/** Parses the admin's "Rótulo: Valor" textarea into the specs jsonb shape. */
+function parseSpecs(raw: string) {
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [label, ...rest] = line.split(":");
+      return { label: label.trim(), value: rest.join(":").trim() };
+    })
+    .filter((spec) => spec.label && spec.value);
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
@@ -31,6 +44,7 @@ export async function updateProduct(formData: FormData) {
       application_image: String(formData.get("application_image")),
       sort_order: Number(formData.get("sort_order")),
       active: formData.get("active") === "on",
+      specs: parseSpecs(String(formData.get("specs") ?? "")),
       updated_at: new Date().toISOString(),
     })
     .eq("id", id);
@@ -50,6 +64,7 @@ export async function createProduct(formData: FormData) {
     image: String(formData.get("image")),
     application_image: String(formData.get("application_image")),
     sort_order: Number(formData.get("sort_order")) || 0,
+    specs: parseSpecs(String(formData.get("specs") ?? "")),
   });
 
   revalidatePath("/admin/produtos");

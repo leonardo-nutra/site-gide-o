@@ -8,6 +8,13 @@ export const dynamic = "force-dynamic";
 const inputClass =
   "w-full rounded-lg border border-line bg-paper px-2.5 py-1.5 text-sm text-ink outline-none focus:border-gold-strong";
 
+type Spec = { label: string; value: string };
+
+function specsToText(specs: unknown) {
+  if (!Array.isArray(specs)) return "";
+  return (specs as Spec[]).map((s) => `${s.label}: ${s.value}`).join("\n");
+}
+
 export default async function AdminProductsPage() {
   const supabase = await createClient();
   const {
@@ -91,6 +98,19 @@ export default async function AdminProductsPage() {
               />
             </label>
 
+            <label className="col-span-2 flex flex-col gap-1 sm:col-span-4">
+              <span className="text-xs font-medium text-ink-faint">
+                Especificações (uma por linha, formato &quot;Rótulo: Valor&quot;)
+              </span>
+              <textarea
+                name="specs"
+                rows={4}
+                defaultValue={specsToText(p.specs)}
+                placeholder={"Dimensões: 75x75 cm\nAcabamento: Polido\nCor: Bege claro"}
+                className={`${inputClass} resize-y font-mono text-xs`}
+              />
+            </label>
+
             <div className="col-span-2 flex items-center gap-2 pt-1 sm:col-span-4">
               <button
                 type="submit"
@@ -128,6 +148,12 @@ export default async function AdminProductsPage() {
             name="application_image"
             placeholder="/images/ambiente/xxx.jpg"
             className={inputClass}
+          />
+          <textarea
+            name="specs"
+            rows={3}
+            placeholder={"Dimensões: 75x75 cm\nAcabamento: Polido\nCor: Bege claro"}
+            className={`col-span-2 sm:col-span-4 ${inputClass} resize-y font-mono text-xs`}
           />
           <button
             type="submit"
