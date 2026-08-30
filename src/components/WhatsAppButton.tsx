@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { MessageCircle, X } from "lucide-react";
+import { X } from "lucide-react";
 import { WhatsAppLink } from "./WhatsAppLink";
+import { WhatsAppIcon } from "./icons/WhatsAppIcon";
 import { site } from "@/lib/site";
 import { useCart } from "@/lib/cart-context";
 
@@ -64,7 +65,7 @@ export function WhatsAppButton() {
           animate={{ scale: [1, 1.6], opacity: [0.55, 0] }}
           transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 2.4, ease: "easeOut" }}
         />
-        <MessageCircle className="relative h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.25} />
+        <WhatsAppIcon className="relative h-6 w-6 sm:h-7 sm:w-7" />
       </WhatsAppLink>
     </motion.div>
   );
