@@ -210,12 +210,12 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
 
           <a
             href="#ofertas"
-            className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-ink px-4 py-2.5 text-white transition-colors active:scale-[0.98] sm:hidden"
+            className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-ink px-4 py-2.5 text-paper transition-colors active:scale-[0.98] sm:hidden"
           >
             <span className="text-xs font-medium leading-snug">
               Ofertas da semana
               <br />
-              <span className="text-[0.65rem] text-white/60">
+              <span className="text-[0.65rem] text-paper/60">
                 válidas enquanto durar o estoque
               </span>
             </span>
