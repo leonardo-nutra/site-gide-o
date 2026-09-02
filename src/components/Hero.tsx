@@ -185,7 +185,11 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="absolute -left-3 bottom-4 rounded-xl border border-line bg-paper/95 px-3 py-2 shadow-lift backdrop-blur sm:-left-8 sm:bottom-6 sm:rounded-2xl sm:px-4 sm:py-3"
             >
-              <p className="text-[0.6rem] font-bold uppercase tracking-wide text-red sm:text-[0.65rem]">
+              <p
+                className={`text-[0.6rem] font-bold uppercase tracking-wide sm:text-[0.65rem] ${
+                  isFeatured ? "text-red" : "text-whatsapp-strong"
+                }`}
+              >
                 {isFeatured ? "Oferta do dia" : "Catálogo Gideão"}
               </p>
               <p className="text-xs font-semibold text-ink sm:text-sm">{current.name}</p>
