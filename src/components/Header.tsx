@@ -43,7 +43,26 @@ export function Header() {
           : "border-b border-transparent bg-paper"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
+      <div className="grid h-14 grid-cols-3 items-center px-3 sm:hidden">
+        <button
+          type="button"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+          className="grid h-10 w-10 place-items-center justify-self-start rounded-full text-ink transition-colors hover:bg-paper-strong"
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+        <a href="#topo" className="justify-self-center">
+          <Logo compact />
+        </a>
+        <div className="flex items-center justify-self-end gap-0.5">
+          <ThemeToggle />
+          <CartButton />
+        </div>
+      </div>
+
+      <div className="mx-auto hidden h-16 max-w-6xl items-center justify-between px-5 sm:flex sm:px-8">
         <a href="#topo" className="shrink-0">
           <Logo />
         </a>

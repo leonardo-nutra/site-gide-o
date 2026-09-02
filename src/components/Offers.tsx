@@ -8,6 +8,13 @@ import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
 import { ProductModal } from "./ProductModal";
 import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
+import { useSearch } from "@/lib/search-context";
+
+const DIACRITICS_PATTERN = new RegExp("[\\u0300-\\u036f]", "g");
+
+function normalize(value: string) {
+  return value.normalize("NFD").replace(DIACRITICS_PATTERN, "").toLowerCase();
+}
 
 function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
   const cart = useCart();
@@ -150,6 +157,15 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
 
 export function Offers({ offers }: { offers: Product[] }) {
   const [selected, setSelected] = useState<Product | null>(null);
+  const { query } = useSearch();
+
+  const trimmedQuery = query.trim();
+  const filtered = trimmedQuery
+    ? offers.filter((o) => {
+        const needle = normalize(trimmedQuery);
+        return normalize(o.name).includes(needle) || normalize(o.detail).includes(needle);
+      })
+    : offers;
 
   return (
     <section id="ofertas" className="bg-paper-soft py-10 sm:py-20">
@@ -157,10 +173,10 @@ export function Offers({ offers }: { offers: Product[] }) {
         <Reveal className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div className="max-w-xl">
             <p className="text-sm font-semibold uppercase tracking-wide text-red">
-              Ofertas da semana
+              {trimmedQuery ? "Resultado da busca" : "Ofertas da semana"}
             </p>
             <h2 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
-              Preços especiais em pisos e porcelanatos
+              {trimmedQuery ? `Produtos para "${trimmedQuery}"` : "Preços especiais em pisos e porcelanatos"}
             </h2>
           </div>
           <p className="text-sm text-ink-faint">
@@ -173,9 +189,14 @@ export function Offers({ offers }: { offers: Product[] }) {
             Nenhuma oferta disponível no momento. Fale com a gente pelo
             WhatsApp para consultar preços.
           </p>
+        ) : filtered.length === 0 ? (
+          <p className="mt-12 text-center text-ink-faint">
+            Nenhum produto encontrado para &quot;{trimmedQuery}&quot;. Fale com
+            a gente pelo WhatsApp — talvez a gente tenha o que você procura.
+          </p>
         ) : (
           <StaggerGroup className="mt-6 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
-            {offers.map((offer) => (
+            {filtered.map((offer) => (
               <OfferCard
                 key={offer.id}
                 offer={offer}

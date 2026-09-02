@@ -3,6 +3,7 @@ import { Archivo, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
+import { SearchProvider } from "@/lib/search-context";
 import { CartDrawer } from "@/components/CartDrawer";
 import { MetaPixel } from "@/components/MetaPixel";
 import { UtmCapture } from "@/components/UtmCapture";
@@ -62,8 +63,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <MetaPixel />
         <UtmCapture />
         <CartProvider>
-          {children}
-          <CartDrawer />
+          <SearchProvider>
+            {children}
+            <CartDrawer />
+          </SearchProvider>
         </CartProvider>
       </body>
     </html>

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
-import { MessageCircle, ShoppingBag, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, MessageCircle, ShoppingBag, Star } from "lucide-react";
 import { WhatsAppLink } from "./WhatsAppLink";
 import { site } from "@/lib/site";
 import type { Product } from "@/lib/products";
@@ -40,6 +40,9 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
 
   const current = showcase[index] ?? featured;
   const isFeatured = current.id === featured.id;
+
+  const goPrev = () => setIndex((i) => (i - 1 + showcase.length) % showcase.length);
+  const goNext = () => setIndex((i) => (i + 1) % showcase.length);
 
   return (
     <section id="topo" className="relative overflow-hidden bg-paper">
@@ -112,8 +115,8 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
           className="relative mx-auto w-full max-w-md lg:max-w-none"
-          style={{ perspective: 1400 }}
         >
+        <div className="relative" style={{ perspective: 1400 }}>
           <motion.div
             animate={{ y: [0, -10, 0], rotateY: [-9, 9, -9], rotateX: [3, 5, 3] }}
             transition={{
@@ -149,16 +152,26 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
             />
           </motion.div>
 
-          <div className="mt-3 flex items-center justify-center gap-1.5 sm:hidden">
-            {showcase.map((p, i) => (
-              <span
-                key={p.id}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === index ? "w-4 bg-gold-strong" : "w-1.5 bg-line"
-                }`}
-              />
-            ))}
-          </div>
+          {showcase.length > 1 && (
+            <>
+              <button
+                type="button"
+                aria-label="Produto anterior"
+                onClick={goPrev}
+                className="absolute left-2 top-1/2 z-10 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-black/35 text-white backdrop-blur transition-colors hover:bg-black/55 active:scale-90 sm:h-9 sm:w-9"
+              >
+                <ChevronLeft className="h-4 w-4" strokeWidth={2.5} />
+              </button>
+              <button
+                type="button"
+                aria-label="Próximo produto"
+                onClick={goNext}
+                className="absolute right-2 top-1/2 z-10 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-black/35 text-white backdrop-blur transition-colors hover:bg-black/55 active:scale-90 sm:h-9 sm:w-9"
+              >
+                <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+              </button>
+            </>
+          )}
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -179,6 +192,34 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
               </p>
             </motion.div>
           </AnimatePresence>
+        </div>
+
+          <div className="mt-3 flex items-center justify-center gap-1.5 sm:hidden">
+            {showcase.map((p, i) => (
+              <span
+                key={p.id}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === index ? "w-4 bg-gold-strong" : "w-1.5 bg-line"
+                }`}
+              />
+            ))}
+          </div>
+
+          <a
+            href="#ofertas"
+            className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-ink px-4 py-2.5 text-white transition-colors active:scale-[0.98] sm:hidden"
+          >
+            <span className="text-xs font-medium leading-snug">
+              Ofertas da semana
+              <br />
+              <span className="text-[0.65rem] text-white/60">
+                válidas enquanto durar o estoque
+              </span>
+            </span>
+            <span className="shrink-0 rounded-full bg-gold-strong px-3.5 py-2 text-xs font-bold text-white">
+              Ver ofertas
+            </span>
+          </a>
         </motion.div>
       </div>
     </section>
