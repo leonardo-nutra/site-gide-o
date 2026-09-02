@@ -95,21 +95,21 @@ export function About({ products }: { products: Product[] }) {
         </Reveal>
       </div>
 
-      <StaggerGroup className="mx-auto mt-8 sm:mt-12 grid max-w-5xl grid-cols-1 gap-8 px-5 sm:grid-cols-3 sm:px-8">
+      <StaggerGroup className="mx-auto mt-6 grid max-w-5xl grid-cols-1 gap-4 px-5 sm:mt-12 sm:gap-8 sm:px-8 sm:grid-cols-3">
         {differentiators.map((d) => {
           const Icon = icons[d.icon];
           return (
             <motion.div
               key={d.title}
               variants={itemVariants}
-              className="flex flex-col items-center gap-3 text-center sm:items-start sm:text-left"
+              className="flex items-center gap-3 text-left sm:flex-col sm:items-start sm:gap-3 sm:text-left"
             >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gold-soft text-gold-strong">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gold-soft text-gold-strong sm:h-12 sm:w-12">
                 <Icon className="h-5 w-5" strokeWidth={2.25} />
               </span>
               <div>
-                <h3 className="font-semibold text-ink">{d.title}</h3>
-                <p className="mt-0.5 text-sm text-ink-soft">{d.description}</p>
+                <h3 className="text-sm font-semibold text-ink sm:text-base">{d.title}</h3>
+                <p className="mt-0.5 text-xs text-ink-soft sm:text-sm">{d.description}</p>
               </div>
             </motion.div>
           );
