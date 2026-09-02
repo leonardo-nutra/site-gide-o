@@ -25,7 +25,7 @@ export function HowItWorks() {
           </p>
         </Reveal>
 
-        <StaggerGroup className="relative mt-8 grid grid-cols-1 gap-7 sm:mt-14 sm:grid-cols-3 sm:gap-6">
+        <StaggerGroup className="relative mt-8 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-3 sm:gap-6">
           <div
             aria-hidden
             className="absolute left-0 right-0 top-8 hidden h-px bg-line sm:block"
@@ -36,18 +36,20 @@ export function HowItWorks() {
               <motion.div
                 key={step.title}
                 variants={itemVariants}
-                className="relative flex flex-col items-center text-center sm:items-start sm:text-left"
+                className="relative flex items-center gap-4 text-left sm:flex-col sm:items-start sm:text-left"
               >
-                <div className="relative z-10 grid h-14 w-14 place-items-center rounded-2xl border border-line bg-paper shadow-soft sm:h-16 sm:w-16">
-                  <Icon className="h-7 w-7 text-gold-strong" strokeWidth={2} />
-                  <span className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-ink text-xs font-bold text-paper">
+                <div className="relative z-10 grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-line bg-paper shadow-soft sm:h-16 sm:w-16">
+                  <Icon className="h-6 w-6 text-gold-strong sm:h-7 sm:w-7" strokeWidth={2} />
+                  <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-ink text-[0.65rem] font-bold text-paper sm:-right-2 sm:-top-2 sm:h-6 sm:w-6 sm:text-xs">
                     {index + 1}
                   </span>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-ink">{step.title}</h3>
-                <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-soft">
-                  {step.description}
-                </p>
+                <div className="sm:mt-5">
+                  <h3 className="text-base font-semibold text-ink sm:text-lg">{step.title}</h3>
+                  <p className="mt-0.5 text-xs leading-relaxed text-ink-soft sm:mt-2 sm:max-w-xs sm:text-sm">
+                    {step.description}
+                  </p>
+                </div>
               </motion.div>
             );
           })}
