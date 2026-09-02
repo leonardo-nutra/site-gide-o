@@ -43,26 +43,28 @@ function CategoryCard({ cat }: { cat: (typeof categories)[number] }) {
       variants={itemVariants}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group relative flex flex-col gap-4 rounded-2xl border border-line bg-paper p-6 shadow-soft transition-shadow duration-300 hover:border-gold-strong/30 hover:shadow-lift"
+      className="group relative flex flex-col gap-2.5 rounded-xl border border-line bg-paper p-3 shadow-soft transition-shadow duration-300 hover:border-gold-strong/30 hover:shadow-lift sm:gap-4 sm:rounded-2xl sm:p-6"
     >
       {cat.comingSoon && (
-        <span className="absolute right-4 top-4 rounded-full bg-gold-strong px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft">
+        <span className="absolute right-2.5 top-2.5 rounded-full bg-gold-strong px-1.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-wide text-white shadow-soft sm:right-4 sm:top-4 sm:px-2.5 sm:py-1 sm:text-[0.65rem]">
           Em breve
         </span>
       )}
-      <span className="grid h-12 w-12 place-items-center rounded-xl bg-gold-soft text-gold-strong transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-        <Icon className="h-6 w-6" strokeWidth={2} />
+      <span className="grid h-9 w-9 place-items-center rounded-lg bg-gold-soft text-gold-strong transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 sm:h-12 sm:w-12 sm:rounded-xl">
+        <Icon className="h-4 w-4 sm:h-6 sm:w-6" strokeWidth={2} />
       </span>
       <div>
-        <h3 className="text-lg font-semibold text-ink">{cat.title}</h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{cat.description}</p>
+        <h3 className="text-xs font-semibold leading-snug text-ink sm:text-lg">{cat.title}</h3>
+        <p className="mt-1 hidden text-sm leading-relaxed text-ink-soft sm:block">
+          {cat.description}
+        </p>
       </div>
 
-      <div className="mt-auto flex flex-col gap-2 pt-1">
+      <div className="mt-auto flex flex-col gap-1.5 pt-1 sm:gap-2">
         <button
           type="button"
           onClick={handleAdd}
-          className={`flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors duration-200 active:scale-95 ${
+          className={`flex items-center justify-center gap-1 rounded-full px-2 py-2 text-[0.65rem] font-semibold transition-colors duration-200 active:scale-95 sm:gap-1.5 sm:px-4 sm:py-2.5 sm:text-sm ${
             added
               ? "bg-whatsapp-strong text-white"
               : "bg-ink text-paper hover:bg-gold-strong hover:text-white"
@@ -76,10 +78,11 @@ function CategoryCard({ cat }: { cat: (typeof categories)[number] }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
                 transition={{ duration: 0.18 }}
-                className="flex items-center gap-1.5"
+                className="flex items-center gap-1 sm:gap-1.5"
               >
-                <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
-                Adicionado ao orçamento
+                <Check className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.5} />
+                <span className="sm:hidden">Adicionado</span>
+                <span className="hidden sm:inline">Adicionado ao orçamento</span>
               </motion.span>
             ) : (
               <motion.span
@@ -88,10 +91,11 @@ function CategoryCard({ cat }: { cat: (typeof categories)[number] }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
                 transition={{ duration: 0.18 }}
-                className="flex items-center gap-1.5"
+                className="flex items-center gap-1 sm:gap-1.5"
               >
-                <ShoppingCart className="h-3.5 w-3.5" strokeWidth={2.25} />
-                Adicionar ao orçamento
+                <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.25} />
+                <span className="sm:hidden">Adicionar</span>
+                <span className="hidden sm:inline">Adicionar ao orçamento</span>
               </motion.span>
             )}
           </AnimatePresence>
@@ -99,9 +103,10 @@ function CategoryCard({ cat }: { cat: (typeof categories)[number] }) {
 
         <WhatsAppLink
           message={cat.message}
-          className="text-center text-xs font-medium text-ink-faint transition-colors hover:text-gold-strong"
+          className="text-center text-[0.65rem] font-medium text-ink-faint transition-colors hover:text-gold-strong sm:text-xs"
         >
-          ou fale direto no WhatsApp →
+          <span className="sm:hidden">WhatsApp →</span>
+          <span className="hidden sm:inline">ou fale direto no WhatsApp →</span>
         </WhatsAppLink>
       </div>
     </motion.div>
@@ -125,7 +130,7 @@ export function Categories() {
           </p>
         </Reveal>
 
-        <StaggerGroup className="mt-8 sm:mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-6 grid grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {categories.map((cat) => (
             <CategoryCard key={cat.id} cat={cat} />
           ))}
