@@ -34,7 +34,7 @@ export function DepartmentStrip() {
           return (
             <a
               key={cat.id}
-              href="#produtos"
+              href={cat.id === "pisos" ? "#ofertas" : "#produtos"}
               className="flex w-16 shrink-0 flex-col items-center gap-1.5 text-center active:scale-95"
             >
               <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ink text-gold">
