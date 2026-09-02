@@ -10,6 +10,11 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
   const [isDark, setIsDark] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // Reads the class set by the inline theme-init script (layout.tsx) —
+    // deliberately deferred to an effect so the server-rendered markup
+    // (isDark = null) matches the client's first render, avoiding a
+    // hydration mismatch; only then does it sync to the real DOM state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
 

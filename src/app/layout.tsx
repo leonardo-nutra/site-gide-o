@@ -19,13 +19,38 @@ const archivo = Archivo({
   weight: ["700", "800", "900"],
 });
 
+const title = "Gideão Atacadão da Construção | Todo dia é dia de ofertas";
+const description =
+  "Pisos, porcelanatos, tintas, torneiras, portas, janelas e materiais de construção com preço de atacado em Mesquita, na Baixada Fluminense. Peça seu orçamento pelo WhatsApp.";
+
 export const metadata: Metadata = {
-  title: "Gideão Atacadão da Construção | Todo dia é dia de ofertas",
-  description:
-    "Pisos, porcelanatos, tintas, torneiras, portas, janelas e materiais de construção com preço de atacado em Mesquita, na Baixada Fluminense. Peça seu orçamento pelo WhatsApp.",
+  metadataBase: new URL("https://site-gide-o.vercel.app"),
+  title,
+  description,
+  keywords: [
+    "material de construção Mesquita",
+    "atacadão da construção",
+    "pisos e porcelanatos Baixada Fluminense",
+    "loja de material de construção RJ",
+  ],
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   appleWebApp: {
     title: "Gideão",
     statusBarStyle: "default",
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "/",
+    siteName: "Gideão Atacadão da Construção",
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary",
+    title,
+    description,
   },
 };
 

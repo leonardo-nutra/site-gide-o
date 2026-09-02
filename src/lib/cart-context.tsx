@@ -50,8 +50,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    // Server-rendered markup always starts with an empty cart, so this load
+    // is deliberately deferred to an effect (not a lazy useState initializer)
+    // to avoid a hydration mismatch between server and client.
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setItems(JSON.parse(raw));
     } catch {
       // ignore malformed storage
