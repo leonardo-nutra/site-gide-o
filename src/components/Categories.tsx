@@ -43,8 +43,13 @@ function CategoryCard({ cat }: { cat: (typeof categories)[number] }) {
       variants={itemVariants}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group flex flex-col gap-4 rounded-2xl border border-line bg-paper p-6 shadow-soft transition-shadow duration-300 hover:border-gold-strong/30 hover:shadow-lift"
+      className="group relative flex flex-col gap-4 rounded-2xl border border-line bg-paper p-6 shadow-soft transition-shadow duration-300 hover:border-gold-strong/30 hover:shadow-lift"
     >
+      {cat.comingSoon && (
+        <span className="absolute right-4 top-4 rounded-full bg-gold-strong px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft">
+          Em breve
+        </span>
+      )}
       <span className="grid h-12 w-12 place-items-center rounded-xl bg-gold-soft text-gold-strong transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
         <Icon className="h-6 w-6" strokeWidth={2} />
       </span>

@@ -46,7 +46,8 @@ export function MobileSearchBar() {
       >
         <MapPin className="h-3.5 w-3.5 shrink-0 text-gold-strong" strokeWidth={2.25} />
         <span className="truncate">
-          <span className="font-semibold text-ink">Gideão</span> Mesquita - RJ
+          <span className="font-semibold text-ink">Gideão</span> {site.address.line},{" "}
+          {site.address.city}
         </span>
         <ChevronRight className="ml-auto h-3.5 w-3.5 shrink-0 text-ink-faint" />
       </a>

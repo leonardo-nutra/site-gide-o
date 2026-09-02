@@ -27,6 +27,7 @@ export const categories = [
     description: "Polidos, retificados e em diversas medidas para sua obra ou reforma.",
     icon: "Grid3x3",
     message: "Olá! Quero saber os preços de pisos e porcelanatos da Gideão.",
+    comingSoon: false,
   },
   {
     id: "revestimentos",
@@ -34,6 +35,7 @@ export const categories = [
     description: "Ripados, frisos e acabamentos para paredes internas e externas.",
     icon: "Layers",
     message: "Olá! Quero saber os preços de revestimentos da Gideão.",
+    comingSoon: true,
   },
   {
     id: "tintas",
@@ -41,6 +43,7 @@ export const categories = [
     description: "Látex, acrílicas e esmaltes das principais marcas do mercado.",
     icon: "PaintBucket",
     message: "Olá! Quero saber os preços de tintas da Gideão.",
+    comingSoon: true,
   },
   {
     id: "torneiras",
@@ -48,6 +51,7 @@ export const categories = [
     description: "Torneiras, registros e acessórios para cozinha e banheiro.",
     icon: "Droplets",
     message: "Olá! Quero saber os preços de torneiras e metais da Gideão.",
+    comingSoon: true,
   },
   {
     id: "portas",
@@ -55,6 +59,7 @@ export const categories = [
     description: "Modelos variados em madeira, alumínio e vidro.",
     icon: "DoorOpen",
     message: "Olá! Quero saber os preços de portas e janelas da Gideão.",
+    comingSoon: true,
   },
   {
     id: "ferramentas",
@@ -62,6 +67,7 @@ export const categories = [
     description: "Tudo para construção, reforma e acabamento em um só lugar.",
     icon: "Hammer",
     message: "Olá! Quero saber sobre ferramentas e materiais de construção da Gideão.",
+    comingSoon: true,
   },
 ] as const;
 
