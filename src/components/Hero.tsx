@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { MessageCircle, ShoppingBag, Star } from "lucide-react";
 import { WhatsAppLink } from "./WhatsAppLink";
@@ -21,7 +22,25 @@ const item = {
   },
 };
 
-export function Hero({ featured }: { featured: Product }) {
+export function Hero({ featured, products }: { featured: Product; products: Product[] }) {
+  const showcase = useMemo(() => {
+    const others = products.filter((p) => p.id !== featured.id);
+    return [featured, ...others].slice(0, 6);
+  }, [featured, products]);
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (showcase.length <= 1) return;
+    const timer = setInterval(() => {
+      setIndex((i) => (i + 1) % showcase.length);
+    }, 4200);
+    return () => clearInterval(timer);
+  }, [showcase.length]);
+
+  const current = showcase[index] ?? featured;
+  const isFeatured = current.id === featured.id;
+
   return (
     <section id="topo" className="relative overflow-hidden bg-paper">
       <div
@@ -93,37 +112,73 @@ export function Hero({ featured }: { featured: Product }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
           className="relative mx-auto w-full max-w-md lg:max-w-none"
+          style={{ perspective: 1400 }}
         >
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ y: [0, -10, 0], rotateY: [-9, 9, -9], rotateX: [3, 5, 3] }}
+            transition={{
+              y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+              rotateY: { duration: 9, repeat: Infinity, ease: "easeInOut" },
+              rotateX: { duration: 9, repeat: Infinity, ease: "easeInOut" },
+            }}
+            style={{ transformStyle: "preserve-3d" }}
             className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-line shadow-lift sm:aspect-square sm:rounded-[28px]"
           >
-            <Image
-              src={featured.image}
-              alt={`${featured.name} em oferta na Gideão`}
-              fill
-              sizes="(min-width: 640px) 448px, 90vw"
-              priority
-              className="object-cover"
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={current.image}
+                  alt={`${current.name} em oferta na Gideão`}
+                  fill
+                  sizes="(min-width: 640px) 448px, 90vw"
+                  priority
+                  className="object-cover"
+                />
+              </motion.div>
+            </AnimatePresence>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/15"
             />
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute -left-3 bottom-4 rounded-xl border border-line bg-paper/95 px-3 py-2 shadow-lift backdrop-blur sm:-left-8 sm:bottom-6 sm:rounded-2xl sm:px-4 sm:py-3"
-          >
-            <p className="text-[0.6rem] font-bold uppercase tracking-wide text-red sm:text-[0.65rem]">
-              Oferta do dia
-            </p>
-            <p className="text-xs font-semibold text-ink sm:text-sm">{featured.name}</p>
-            <p className="text-base font-display font-black text-ink sm:text-lg">
-              R$ {featured.price}
-              <span className="text-xs font-medium text-ink-faint">/{featured.unit}</span>
-            </p>
-          </motion.div>
+          <div className="mt-3 flex items-center justify-center gap-1.5 sm:hidden">
+            {showcase.map((p, i) => (
+              <span
+                key={p.id}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === index ? "w-4 bg-gold-strong" : "w-1.5 bg-line"
+                }`}
+              />
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0, y: 10, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.96 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute -left-3 bottom-4 rounded-xl border border-line bg-paper/95 px-3 py-2 shadow-lift backdrop-blur sm:-left-8 sm:bottom-6 sm:rounded-2xl sm:px-4 sm:py-3"
+            >
+              <p className="text-[0.6rem] font-bold uppercase tracking-wide text-red sm:text-[0.65rem]">
+                {isFeatured ? "Oferta do dia" : "Catálogo Gideão"}
+              </p>
+              <p className="text-xs font-semibold text-ink sm:text-sm">{current.name}</p>
+              <p className="text-base font-display font-black text-ink sm:text-lg">
+                R$ {current.price}
+                <span className="text-xs font-medium text-ink-faint">/{current.unit}</span>
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>

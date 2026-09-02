@@ -22,7 +22,7 @@ export default async function Home() {
     <>
       <Header />
       <main className="flex-1">
-        <Hero featured={featured} />
+        <Hero featured={featured} products={products} />
         <Offers offers={products} />
         <HowItWorks />
         <About products={products} />
