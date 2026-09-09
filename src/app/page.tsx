@@ -12,13 +12,14 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CartBar } from "@/components/CartBar";
 import { getDailyIndex, getProducts } from "@/lib/products";
+import { getBanners } from "@/lib/banners";
 
 // Re-generate at most once an hour so the deal of the day rotates without
 // needing a new deploy every midnight.
 export const revalidate = 3600;
 
 export default async function Home() {
-  const products = await getProducts();
+  const [products, banners] = await Promise.all([getProducts(), getBanners()]);
   const featured = products[getDailyIndex(products.length)];
 
   return (
@@ -28,7 +29,7 @@ export default async function Home() {
       <main className="flex-1">
         <Hero featured={featured} products={products} />
         <DepartmentStrip />
-        <PromoBannerSlot />
+        <PromoBannerSlot banners={banners} />
         <Offers offers={products} />
         <HowItWorks />
         <About products={products} />

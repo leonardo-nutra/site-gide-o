@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogOut, PackageSearch, ShoppingCart } from "lucide-react";
+import { GalleryHorizontal, LogOut, PackageSearch, ShoppingCart } from "lucide-react";
 import { signOut } from "@/app/admin/actions";
 import type { ReactNode } from "react";
 
@@ -16,6 +16,9 @@ export function AdminShell({ email, children }: { email: string; children: React
               </Link>
               <Link href="/admin/produtos" className="flex items-center gap-1.5 hover:text-ink">
                 <PackageSearch className="h-4 w-4" /> Produtos
+              </Link>
+              <Link href="/admin/banners" className="flex items-center gap-1.5 hover:text-ink">
+                <GalleryHorizontal className="h-4 w-4" /> Banners
               </Link>
             </nav>
           </div>

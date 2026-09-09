@@ -75,3 +75,44 @@ export async function deleteProduct(id: string) {
   await supabase.from("products").delete().eq("id", id);
   revalidatePath("/admin/produtos");
 }
+
+export async function createBanner(formData: FormData) {
+  const supabase = await createClient();
+
+  await supabase.from("banners").insert({
+    title: String(formData.get("title")),
+    image: String(formData.get("image")),
+    link: String(formData.get("link")),
+    sort_order: Number(formData.get("sort_order")) || 0,
+  });
+
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+}
+
+export async function updateBanner(formData: FormData) {
+  const supabase = await createClient();
+  const id = String(formData.get("id"));
+
+  await supabase
+    .from("banners")
+    .update({
+      title: String(formData.get("title")),
+      image: String(formData.get("image")),
+      link: String(formData.get("link")),
+      sort_order: Number(formData.get("sort_order")) || 0,
+      active: formData.get("active") === "on",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id);
+
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+}
+
+export async function deleteBanner(id: string) {
+  const supabase = await createClient();
+  await supabase.from("banners").delete().eq("id", id);
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+}
