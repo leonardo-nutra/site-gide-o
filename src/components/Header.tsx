@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, MessageCircle, X } from "lucide-react";
+import { Menu, MessageCircle, Search, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { CartButton } from "./CartButton";
 import { ThemeToggle } from "./ThemeToggle";
 import { WhatsAppLink } from "./WhatsAppLink";
 import { site, waLink } from "@/lib/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
+import { useSearch } from "@/lib/search-context";
 
 const navLinks = [
   { href: "#produtos", label: "Produtos" },
@@ -20,6 +21,12 @@ const navLinks = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { query, setQuery } = useSearch();
+
+  function handleSearchSubmit(e: FormEvent) {
+    e.preventDefault();
+    document.getElementById("ofertas")?.scrollIntoView({ behavior: "smooth" });
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -67,7 +74,7 @@ export function Header() {
           <Logo />
         </a>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -78,6 +85,27 @@ export function Header() {
             </a>
           ))}
         </nav>
+
+        <form
+          onSubmit={handleSearchSubmit}
+          className="mx-4 hidden max-w-md flex-1 items-center gap-2 rounded-full border border-line bg-paper-soft pl-4 pr-1.5 lg:flex"
+        >
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Digite sua busca aqui"
+            aria-label="Buscar produtos"
+            className="h-9 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink-faint"
+          />
+          <button
+            type="submit"
+            aria-label="Buscar"
+            className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gold-strong text-white transition-transform active:scale-90"
+          >
+            <Search className="h-3.5 w-3.5" strokeWidth={2.5} />
+          </button>
+        </form>
 
         <div className="flex items-center gap-1 sm:gap-2">
           <ThemeToggle />
