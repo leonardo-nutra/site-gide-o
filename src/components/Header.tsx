@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, MessageCircle, Search, User, X } from "lucide-react";
 import { Logo } from "./Logo";
@@ -52,35 +53,7 @@ export function Header() {
           : "border-b border-transparent bg-paper"
       }`}
     >
-      <div className="hidden border-b border-line/60 bg-paper-soft sm:block">
-        <div className="mx-auto flex h-9 max-w-6xl items-center gap-5 px-5 text-xs font-medium text-ink-faint sm:px-8">
-          <a href="#produtos" className="whitespace-nowrap transition-colors hover:text-ink">
-            Departamentos
-          </a>
-          <a href="#ofertas" className="whitespace-nowrap transition-colors hover:text-ink">
-            Ofertas
-          </a>
-          <a href="#como-funciona" className="whitespace-nowrap transition-colors hover:text-ink">
-            Como funciona
-          </a>
-          <a href="#contato" className="whitespace-nowrap transition-colors hover:text-ink">
-            Contato
-          </a>
-          <a
-            href="/privacidade"
-            className="ml-auto whitespace-nowrap transition-colors hover:text-ink"
-          >
-            Política de Privacidade
-          </a>
-          <WhatsAppLink
-            message="Olá! Quero pedir um orçamento com a Gideão."
-            className="flex items-center gap-1.5 whitespace-nowrap font-semibold text-gold-strong transition-colors hover:text-ink"
-          >
-            <MessageCircle className="h-3.5 w-3.5" strokeWidth={2.5} />
-            Peça seu orçamento
-          </WhatsAppLink>
-        </div>
-      </div>
+      <div aria-hidden className="h-1 w-full bg-gold-strong" />
 
       <div className="grid h-14 grid-cols-3 items-center px-3 sm:hidden">
         <button
@@ -101,14 +74,14 @@ export function Header() {
         </div>
       </div>
 
-      <div className="mx-auto hidden h-16 max-w-6xl items-center justify-between px-5 sm:flex sm:px-8">
+      <div className="mx-auto hidden h-20 max-w-6xl items-center justify-between gap-4 px-5 sm:flex sm:px-8">
         <a href="#topo" className="shrink-0">
           <Logo />
         </a>
 
         <form
           onSubmit={handleSearchSubmit}
-          className="mx-4 hidden max-w-md flex-1 items-center gap-2 rounded-full border border-line bg-paper-soft pl-4 pr-1.5 lg:flex"
+          className="hidden max-w-2xl flex-1 items-center gap-2 rounded-full border border-line bg-paper-soft pl-4 pr-1.5 lg:flex"
         >
           <input
             type="text"
@@ -116,33 +89,68 @@ export function Header() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Digite sua busca aqui"
             aria-label="Buscar produtos"
-            className="h-9 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink-faint"
+            className="h-10 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink-faint"
           />
           <button
             type="submit"
             aria-label="Buscar"
-            className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gold-strong text-white transition-transform active:scale-90"
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gold-strong text-white transition-transform active:scale-90"
           >
             <Search className="h-3.5 w-3.5" strokeWidth={2.5} />
           </button>
         </form>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-3">
           <AccountButton className="hidden lg:flex" showLabel />
           <AccountButton className="lg:hidden" />
           <LocationIndicator className="hidden lg:flex" />
           <ThemeToggle />
-          <CartButton variant="solid" className="ml-1" />
+          <CartButton variant="solid" className="h-14 w-14 lg:h-[3.75rem] lg:w-[3.75rem]" />
+        </div>
+      </div>
 
+      <div className="hidden bg-ink sm:block">
+        <div className="mx-auto flex h-11 max-w-6xl items-center gap-4 px-5 text-sm text-paper-soft/80 sm:px-8">
           <button
             type="button"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="grid h-11 w-11 place-items-center rounded-full text-ink transition-colors hover:bg-paper-strong lg:hidden"
+            className="grid h-7 w-7 place-items-center text-paper transition-colors hover:text-gold"
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
+          <a
+            href="#produtos"
+            className="whitespace-nowrap font-semibold text-paper transition-colors hover:text-gold"
+          >
+            Departamentos
+          </a>
+          <span className="text-paper-soft/30">|</span>
+          <a href="#ofertas" className="whitespace-nowrap transition-colors hover:text-gold">
+            Ofertas
+          </a>
+          <span className="text-paper-soft/30">|</span>
+          <a href="#como-funciona" className="whitespace-nowrap transition-colors hover:text-gold">
+            Como funciona
+          </a>
+          <span className="text-paper-soft/30">|</span>
+          <a href="#contato" className="whitespace-nowrap transition-colors hover:text-gold">
+            Contato
+          </a>
+          <span className="text-paper-soft/30">|</span>
+          <Link href="/privacidade" className="whitespace-nowrap transition-colors hover:text-gold">
+            Política de Privacidade
+          </Link>
+
+          <WhatsAppLink
+            message="Olá! Quero pedir um orçamento com a Gideão."
+            className="ml-auto flex items-center gap-1.5 whitespace-nowrap"
+          >
+            <MessageCircle className="h-4 w-4 text-gold" strokeWidth={2.5} />
+            <span className="font-semibold text-paper">Orçamento</span>
+            <span className="underline underline-offset-2">Clique aqui</span>
+          </WhatsAppLink>
         </div>
       </div>
 
@@ -153,7 +161,7 @@ export function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-b border-line bg-paper lg:hidden"
+            className="overflow-hidden border-b border-line bg-paper"
           >
             <nav className="flex flex-col gap-1 px-5 pb-5 pt-2">
               {navLinks.map((link, i) => (
