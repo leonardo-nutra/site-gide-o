@@ -2,9 +2,10 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, MessageCircle, Search, X } from "lucide-react";
+import { Menu, MessageCircle, Search, User, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { CartButton } from "./CartButton";
+import { AccountButton } from "./AccountButton";
 import { ThemeToggle } from "./ThemeToggle";
 import { WhatsAppLink } from "./WhatsAppLink";
 import { site, waLink } from "@/lib/site";
@@ -108,6 +109,7 @@ export function Header() {
         </form>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          <AccountButton />
           <ThemeToggle />
           <CartButton />
 
@@ -170,6 +172,10 @@ export function Header() {
                 <MessageCircle className="h-5 w-5" strokeWidth={2.25} />
                 Pedir orçamento no WhatsApp
               </a>
+              <div className="mt-4 flex items-center gap-2 rounded-xl bg-paper-soft px-3 py-3 text-sm text-ink-soft">
+                <User className="h-4 w-4 shrink-0 text-gold-strong" strokeWidth={2.25} />
+                Login de clientes chegando em breve
+              </div>
               <div className="mt-3 px-3 text-sm text-ink-faint">{site.phoneDisplay}</div>
             </nav>
           </motion.div>
