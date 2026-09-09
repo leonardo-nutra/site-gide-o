@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "motion/react";
-import type { ReactNode } from "react";
+import { forwardRef, type ReactNode, type Ref } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -50,13 +50,17 @@ const containerVariants: Variants = {
   },
 };
 
-export function StaggerGroup({ children, className, stagger, as = "div" }: StaggerProps) {
+export const StaggerGroup = forwardRef<HTMLDivElement, StaggerProps>(function StaggerGroup(
+  { children, className, stagger, as = "div" },
+  ref
+) {
   const Component = motion[as];
   const variants: Variants = stagger
     ? { hidden: {}, visible: { transition: { staggerChildren: stagger } } }
     : containerVariants;
   return (
     <Component
+      ref={ref as Ref<never>}
       className={className}
       initial="hidden"
       whileInView="visible"
@@ -66,7 +70,7 @@ export function StaggerGroup({ children, className, stagger, as = "div" }: Stagg
       {children}
     </Component>
   );
-}
+});
 
 export const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },

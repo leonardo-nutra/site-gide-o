@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, Minus, Plus, ShoppingCart } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
 import { ProductModal } from "./ProductModal";
 import type { Product } from "@/lib/products";
@@ -158,6 +158,14 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
 export function Offers({ offers }: { offers: Product[] }) {
   const [selected, setSelected] = useState<Product | null>(null);
   const { query } = useSearch();
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  function scrollByCards(direction: 1 | -1) {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const cardWidth = el.querySelector("[data-card]")?.clientWidth ?? 260;
+    el.scrollBy({ left: direction * (cardWidth + 16), behavior: "smooth" });
+  }
 
   const trimmedQuery = query.trim();
   const filtered = trimmedQuery
@@ -194,7 +202,7 @@ export function Offers({ offers }: { offers: Product[] }) {
             Nenhum produto encontrado para &quot;{trimmedQuery}&quot;. Fale com
             a gente pelo WhatsApp — talvez a gente tenha o que você procura.
           </p>
-        ) : (
+        ) : trimmedQuery ? (
           <StaggerGroup className="mt-6 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
             {filtered.map((offer) => (
               <OfferCard
@@ -204,6 +212,40 @@ export function Offers({ offers }: { offers: Product[] }) {
               />
             ))}
           </StaggerGroup>
+        ) : (
+          <div className="relative mt-6 sm:mt-12">
+            <StaggerGroup
+              ref={scrollerRef}
+              className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {filtered.map((offer) => (
+                <div
+                  key={offer.id}
+                  data-card
+                  className="w-[46%] shrink-0 snap-start sm:w-56 lg:w-64"
+                >
+                  <OfferCard offer={offer} onOpen={() => setSelected(offer)} />
+                </div>
+              ))}
+            </StaggerGroup>
+
+            <button
+              type="button"
+              aria-label="Ver produtos anteriores"
+              onClick={() => scrollByCards(-1)}
+              className="absolute -left-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              aria-label="Ver mais produtos"
+              onClick={() => scrollByCards(1)}
+              className="absolute -right-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
         )}
       </div>
 

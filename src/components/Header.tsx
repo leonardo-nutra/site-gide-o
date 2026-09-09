@@ -51,6 +51,23 @@ export function Header() {
           : "border-b border-transparent bg-paper"
       }`}
     >
+      <div className="hidden border-b border-line/60 bg-paper-soft sm:block">
+        <div className="mx-auto flex h-9 max-w-6xl items-center gap-5 px-5 text-xs font-medium text-ink-faint sm:px-8">
+          <a href="#produtos" className="whitespace-nowrap transition-colors hover:text-ink">
+            Departamentos
+          </a>
+          <a href="#como-funciona" className="whitespace-nowrap transition-colors hover:text-ink">
+            Como funciona
+          </a>
+          <a href="#contato" className="whitespace-nowrap transition-colors hover:text-ink">
+            Nossa loja
+          </a>
+          <a href="/privacidade" className="ml-auto whitespace-nowrap transition-colors hover:text-ink">
+            Política de Privacidade
+          </a>
+        </div>
+      </div>
+
       <div className="grid h-14 grid-cols-3 items-center px-3 sm:hidden">
         <button
           type="button"
