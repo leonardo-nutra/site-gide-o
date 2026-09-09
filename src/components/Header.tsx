@@ -6,6 +6,7 @@ import { Menu, MessageCircle, Search, User, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { CartButton } from "./CartButton";
 import { AccountButton } from "./AccountButton";
+import { LocationIndicator } from "./LocationIndicator";
 import { ThemeToggle } from "./ThemeToggle";
 import { WhatsAppLink } from "./WhatsAppLink";
 import { site, waLink } from "@/lib/site";
@@ -56,15 +57,28 @@ export function Header() {
           <a href="#produtos" className="whitespace-nowrap transition-colors hover:text-ink">
             Departamentos
           </a>
+          <a href="#ofertas" className="whitespace-nowrap transition-colors hover:text-ink">
+            Ofertas
+          </a>
           <a href="#como-funciona" className="whitespace-nowrap transition-colors hover:text-ink">
             Como funciona
           </a>
           <a href="#contato" className="whitespace-nowrap transition-colors hover:text-ink">
-            Nossa loja
+            Contato
           </a>
-          <a href="/privacidade" className="ml-auto whitespace-nowrap transition-colors hover:text-ink">
+          <a
+            href="/privacidade"
+            className="ml-auto whitespace-nowrap transition-colors hover:text-ink"
+          >
             Política de Privacidade
           </a>
+          <WhatsAppLink
+            message="Olá! Quero pedir um orçamento com a Gideão."
+            className="flex items-center gap-1.5 whitespace-nowrap font-semibold text-gold-strong transition-colors hover:text-ink"
+          >
+            <MessageCircle className="h-3.5 w-3.5" strokeWidth={2.5} />
+            Peça seu orçamento
+          </WhatsAppLink>
         </div>
       </div>
 
@@ -92,18 +106,6 @@ export function Header() {
           <Logo />
         </a>
 
-        <nav className="hidden items-center gap-6 lg:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="whitespace-nowrap text-sm font-medium text-ink-soft transition-colors hover:text-ink"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
         <form
           onSubmit={handleSearchSubmit}
           className="mx-4 hidden max-w-md flex-1 items-center gap-2 rounded-full border border-line bg-paper-soft pl-4 pr-1.5 lg:flex"
@@ -126,17 +128,11 @@ export function Header() {
         </form>
 
         <div className="flex items-center gap-1 sm:gap-2">
-          <AccountButton />
+          <AccountButton className="hidden lg:flex" showLabel />
+          <AccountButton className="lg:hidden" />
+          <LocationIndicator className="hidden lg:flex" />
           <ThemeToggle />
-          <CartButton />
-
-          <WhatsAppLink
-            message="Olá! Vim pelo site e quero falar com a Gideão."
-            className="hidden items-center gap-2 whitespace-nowrap rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition-transform duration-200 hover:scale-[1.03] hover:bg-whatsapp-strong active:scale-95 lg:flex"
-          >
-            <MessageCircle className="h-4 w-4" strokeWidth={2.25} />
-            Pedir orçamento
-          </WhatsAppLink>
+          <CartButton variant="solid" className="ml-1" />
 
           <button
             type="button"

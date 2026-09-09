@@ -5,7 +5,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { User } from "lucide-react";
 import { WhatsAppLink } from "./WhatsAppLink";
 
-export function AccountButton({ className = "" }: { className?: string }) {
+export function AccountButton({
+  className = "",
+  showLabel = false,
+}: {
+  className?: string;
+  showLabel?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,9 +30,17 @@ export function AccountButton({ className = "" }: { className?: string }) {
         aria-label="Minha conta"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className={`grid h-11 w-11 place-items-center rounded-full text-ink transition-colors hover:bg-paper-strong ${className}`}
+        className={`flex items-center gap-2 rounded-full text-ink transition-colors hover:bg-paper-strong ${
+          showLabel ? "px-2.5 py-1.5" : "grid h-11 w-11 place-items-center"
+        } ${className}`}
       >
-        <User className="h-5 w-5" strokeWidth={2.25} />
+        <User className="h-5 w-5 shrink-0 text-gold-strong" strokeWidth={2.25} />
+        {showLabel && (
+          <span className="text-left leading-tight">
+            <span className="block text-xs text-ink-faint">Bem-vindo!</span>
+            <span className="block text-sm font-semibold text-ink">Entrar</span>
+          </span>
+        )}
       </button>
 
       <AnimatePresence>
