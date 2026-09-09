@@ -55,8 +55,13 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
         className="pointer-events-none absolute -bottom-40 left-[-15%] h-[360px] w-[360px] rounded-full bg-paper-strong blur-3xl"
       />
 
-      <div className="relative mx-auto grid max-w-6xl gap-5 px-5 pb-6 pt-5 sm:gap-12 sm:px-8 sm:pb-16 sm:pt-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-20 lg:pt-16">
-        <motion.div initial="hidden" animate="visible" variants={container}>
+      <div className="relative grid gap-5 pb-6 pt-5 sm:gap-10 sm:pb-10 sm:pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch lg:gap-0 lg:pb-0 lg:pt-0">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={container}
+          className="px-5 sm:px-8 lg:py-16 lg:pl-[max(2rem,calc((100vw-72rem)/2+2rem))] lg:pr-10"
+        >
           <motion.div
             variants={item}
             className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper-soft px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-ink-soft sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-xs"
@@ -117,9 +122,9 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
           initial={{ opacity: 0, scale: 0.94, y: 18 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-          className="relative mx-auto w-full max-w-md lg:max-w-none"
+          className="relative mx-auto w-full max-w-md px-5 sm:px-8 lg:mx-0 lg:h-full lg:max-w-none lg:px-0"
         >
-        <div className="relative" style={{ perspective: 1400 }}>
+        <div className="relative lg:h-full" style={{ perspective: 1400 }}>
           <motion.div
             animate={{ y: [0, -10, 0], rotateY: [-9, 9, -9], rotateX: [3, 5, 3] }}
             transition={{
@@ -128,7 +133,7 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
               rotateX: { duration: 9, repeat: Infinity, ease: "easeInOut" },
             }}
             style={{ transformStyle: "preserve-3d" }}
-            className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-line shadow-lift sm:aspect-square sm:rounded-[28px]"
+            className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-line shadow-lift sm:aspect-square sm:rounded-[28px] lg:aspect-auto lg:h-full lg:rounded-none lg:border-0 lg:shadow-none"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -201,7 +206,7 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
           </AnimatePresence>
         </div>
 
-          <div className="mt-3 flex items-center justify-center gap-1.5 sm:hidden">
+          <div className="mt-3 flex items-center justify-center gap-1.5 lg:hidden">
             {showcase.map((p, i) => (
               <span
                 key={p.id}
@@ -211,24 +216,21 @@ export function Hero({ featured, products }: { featured: Product; products: Prod
               />
             ))}
           </div>
-
-          <a
-            href="#ofertas"
-            className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-ink px-4 py-2.5 text-paper transition-colors active:scale-[0.98] sm:hidden"
-          >
-            <span className="text-xs font-medium leading-snug">
-              Ofertas da semana
-              <br />
-              <span className="text-[0.65rem] text-paper/60">
-                válidas enquanto durar o estoque
-              </span>
-            </span>
-            <span className="shrink-0 rounded-full bg-gold-strong px-3.5 py-2 text-xs font-bold text-white">
-              Ver ofertas
-            </span>
-          </a>
         </motion.div>
       </div>
+
+      <a
+        href="#ofertas"
+        className="flex w-full items-center justify-center gap-3 bg-ink px-5 py-3 text-paper transition-colors hover:bg-ink/90 sm:px-8 sm:py-3.5 lg:gap-6"
+      >
+        <span className="text-xs font-medium leading-snug sm:text-sm">
+          <span className="font-semibold">Ofertas da semana</span>
+          <span className="text-paper/60"> · válidas enquanto durar o estoque</span>
+        </span>
+        <span className="shrink-0 rounded-full bg-gold-strong px-3.5 py-1.5 text-xs font-bold text-white sm:px-4 sm:py-2 sm:text-sm">
+          Ver ofertas
+        </span>
+      </a>
     </section>
   );
 }
