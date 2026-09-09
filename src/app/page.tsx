@@ -18,15 +18,20 @@ import { getBanners } from "@/lib/banners";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const [products, banners] = await Promise.all([getProducts(), getBanners()]);
+  const [products, heroBanners, secondaryBanners] = await Promise.all([
+    getProducts(),
+    getBanners("hero"),
+    getBanners("secondary"),
+  ]);
 
   return (
     <>
       <Header />
       <MobileSearchBar />
       <main id="topo" className="flex-1">
-        <PromoBannerSlot banners={banners} />
+        <PromoBannerSlot banners={heroBanners} variant="hero" />
         <DepartmentStrip />
+        <PromoBannerSlot banners={secondaryBanners} variant="strip" />
         <Offers offers={products} />
         <HowItWorks />
         <About products={products} />

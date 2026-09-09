@@ -3,12 +3,13 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, ChevronLeft, ChevronRight, Minus, Plus, ShoppingCart } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Heart, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
 import { ProductModal } from "./ProductModal";
 import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
 import { useSearch } from "@/lib/search-context";
+import { useWishlist } from "@/lib/wishlist";
 
 const DIACRITICS_PATTERN = new RegExp("[\\u0300-\\u036f]", "g");
 
@@ -18,6 +19,7 @@ function normalize(value: string) {
 
 function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
   const cart = useCart();
+  const wishlist = useWishlist(offer.id);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -42,8 +44,24 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
       variants={itemVariants}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group flex flex-col overflow-hidden rounded-xl border border-line bg-paper shadow-soft transition-shadow duration-300 hover:shadow-lift sm:rounded-2xl"
+      className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-paper shadow-soft transition-shadow duration-300 hover:shadow-lift sm:rounded-2xl"
     >
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          wishlist.toggle();
+        }}
+        aria-label={wishlist.isSaved ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+        className="absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-paper/90 text-gold-strong shadow-soft backdrop-blur transition-transform active:scale-90 sm:right-3 sm:top-3"
+      >
+        <Heart
+          className="h-4 w-4"
+          strokeWidth={2.25}
+          fill={wishlist.isSaved ? "currentColor" : "none"}
+        />
+      </button>
+
       <button
         type="button"
         onClick={onOpen}

@@ -24,9 +24,14 @@ export default async function AdminBannersPage() {
     <AdminShell email={user.email ?? ""}>
       <h1 className="text-xl font-display font-black text-ink">Banners</h1>
       <p className="mt-1 text-sm text-ink-soft">
-        Cadastre quantos banners quiser — eles giram automaticamente no topo
-        do site, um atrás do outro. Se não tiver nenhum ativo, o espaço fica
+        Cadastre quantos banners quiser — eles giram automaticamente, um
+        atrás do outro. Se não tiver nenhum ativo num espaço, ele fica
         reservado (vazio) até você adicionar.
+      </p>
+      <p className="mt-1 text-xs text-ink-faint">
+        <strong className="text-ink-soft">Topo:</strong> banner grande, primeira coisa do site. {" "}
+        <strong className="text-ink-soft">Faixa:</strong> banner fino, logo abaixo dos
+        departamentos.
       </p>
 
       <div className="mt-6 flex flex-col gap-4">
@@ -66,9 +71,17 @@ export default async function AdminBannersPage() {
               />
             </label>
 
-            <label className="col-span-2 flex flex-col gap-1 sm:col-span-3">
+            <label className="col-span-2 flex flex-col gap-1">
               <span className="text-xs font-medium text-ink-faint">URL da imagem do banner</span>
               <input name="image" defaultValue={b.image} required className={inputClass} />
+            </label>
+
+            <label className="flex flex-col gap-1">
+              <span className="text-xs font-medium text-ink-faint">Posição</span>
+              <select name="placement" defaultValue={b.placement} className={inputClass}>
+                <option value="hero">Topo (grande)</option>
+                <option value="secondary">Faixa (fina)</option>
+              </select>
             </label>
 
             <label className="flex flex-col gap-1">
@@ -124,6 +137,10 @@ export default async function AdminBannersPage() {
             required
             className={`col-span-2 ${inputClass}`}
           />
+          <select name="placement" defaultValue="hero" className={inputClass}>
+            <option value="hero">Topo (grande)</option>
+            <option value="secondary">Faixa (fina)</option>
+          </select>
           <input name="sort_order" type="number" placeholder="Ordem" className={inputClass} />
           <button
             type="submit"

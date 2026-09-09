@@ -83,6 +83,7 @@ export async function createBanner(formData: FormData) {
     title: String(formData.get("title")),
     image: String(formData.get("image")),
     link: String(formData.get("link")),
+    placement: String(formData.get("placement")) || "hero",
     sort_order: Number(formData.get("sort_order")) || 0,
   });
 
@@ -100,6 +101,7 @@ export async function updateBanner(formData: FormData) {
       title: String(formData.get("title")),
       image: String(formData.get("image")),
       link: String(formData.get("link")),
+      placement: String(formData.get("placement")) || "hero",
       sort_order: Number(formData.get("sort_order")) || 0,
       active: formData.get("active") === "on",
       updated_at: new Date().toISOString(),
