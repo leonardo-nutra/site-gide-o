@@ -1,6 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import {
+  ChevronLeft,
+  ChevronRight,
   DoorOpen,
   Droplets,
   Grid3x3,
@@ -22,14 +25,43 @@ const icons: Record<string, LucideIcon> = {
 };
 
 export function DepartmentStrip() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  function scrollByIcons(direction: 1 | -1) {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollBy({ left: direction * 240, behavior: "smooth" });
+  }
+
   return (
     <div className="border-b border-line bg-paper px-4 py-4 sm:px-8 sm:py-5">
       <p className="mx-auto mb-3 flex max-w-6xl items-center gap-1.5 text-sm font-semibold text-ink sm:mb-4">
         Compre por departamento
         <ShoppingBag className="h-4 w-4 text-gold-strong" strokeWidth={2.25} />
       </p>
-      <div className="mx-auto -mx-4 flex max-w-6xl gap-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:gap-8 sm:overflow-visible [&::-webkit-scrollbar]:hidden">
-        {categories.map((cat) => {
+      <div className="relative mx-auto max-w-6xl">
+        <button
+          type="button"
+          aria-label="Ver departamentos anteriores"
+          onClick={() => scrollByIcons(-1)}
+          className="absolute -left-3 top-[calc(50%-12px)] hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
+        >
+          <ChevronLeft className="h-4 w-4" strokeWidth={2.5} />
+        </button>
+        <button
+          type="button"
+          aria-label="Ver mais departamentos"
+          onClick={() => scrollByIcons(1)}
+          className="absolute -right-3 top-[calc(50%-12px)] hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
+        >
+          <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+        </button>
+
+        <div
+          ref={scrollerRef}
+          className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:gap-8 sm:px-0 [&::-webkit-scrollbar]:hidden"
+        >
+          {categories.map((cat) => {
           const Icon = icons[cat.icon];
           return (
             <a
@@ -49,8 +81,9 @@ export function DepartmentStrip() {
                 </span>
               )}
             </a>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

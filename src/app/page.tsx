@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { MobileSearchBar } from "@/components/MobileSearchBar";
 import { DepartmentStrip } from "@/components/DepartmentStrip";
+import { PromoBannerSlot } from "@/components/PromoBannerSlot";
 import { Hero } from "@/components/Hero";
 import { Categories } from "@/components/Categories";
 import { Offers } from "@/components/Offers";
@@ -27,6 +28,7 @@ export default async function Home() {
       <main className="flex-1">
         <Hero featured={featured} products={products} />
         <DepartmentStrip />
+        <PromoBannerSlot />
         <Offers offers={products} />
         <HowItWorks />
         <About products={products} />
