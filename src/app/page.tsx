@@ -40,7 +40,27 @@ export default async function Home() {
         <Offers offers={products} />
         <PromoBannerSlot banners={offersBanners} variant="strip" />
         <DuoBannerSlot banners={duoBanners} />
-        <ExampleCarousel />
+        <ExampleCarousel
+          title="Básicos e essenciais para a obra"
+          items={[
+            "Cimento 50kg",
+            "Areia média 20kg",
+            "Brita 1 20kg",
+            "Chapa drywall standard",
+            "Argamassa colante 20kg",
+          ]}
+        />
+        <ExampleCarousel
+          bg="soft"
+          title="Sua obra merece o melhor"
+          items={[
+            "Telha ondulada fibrocimento",
+            "Telha ondulada cimentícia",
+            "Telha plan PVC cerâmica",
+            "Telha ondulada hidrofugada",
+            "Cumeeira para telhado",
+          ]}
+        />
         <HowItWorks />
         <About products={products} />
         <Categories />

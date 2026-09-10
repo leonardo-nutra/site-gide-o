@@ -3,21 +3,21 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight, Package } from "lucide-react";
 
-const exampleItems = [
-  "Cimento 50kg",
-  "Areia média 20kg",
-  "Brita 1 20kg",
-  "Chapa drywall standard",
-  "Argamassa colante 20kg",
-];
-
 /**
  * Layout demo only — NOT real inventory. Placeholder text everywhere a real
  * price/photo would go, so nothing here could be mistaken for a live offer.
- * Swap the `exampleItems` list (and wire real prices) once Leonardo sends
- * real "Básicos e essenciais" products.
+ * Pass real `items` (and wire real prices) once Leonardo sends real
+ * products for that category.
  */
-export function ExampleCarousel() {
+export function ExampleCarousel({
+  title,
+  items,
+  bg = "paper",
+}: {
+  title: string;
+  items: string[];
+  bg?: "paper" | "soft";
+}) {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   function scrollByCards(direction: 1 | -1) {
@@ -28,7 +28,7 @@ export function ExampleCarousel() {
   }
 
   return (
-    <section className="bg-paper py-10 sm:py-20">
+    <section className={`py-10 sm:py-20 ${bg === "soft" ? "bg-paper-soft" : "bg-paper"}`}>
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="flex items-center justify-between gap-3">
           <div>
@@ -36,7 +36,7 @@ export function ExampleCarousel() {
               Exemplo de layout — não é oferta real
             </div>
             <h2 className="mt-2 text-xl font-display font-black tracking-tight text-ink sm:text-3xl">
-              Básicos e essenciais para a obra
+              {title}
             </h2>
           </div>
           <div className="hidden shrink-0 items-center gap-2 sm:flex">
@@ -70,7 +70,7 @@ export function ExampleCarousel() {
           ref={scrollerRef}
           className="mt-6 flex gap-3 overflow-x-auto pb-2 sm:mt-8 sm:gap-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {exampleItems.map((name, i) => (
+          {items.map((name, i) => (
             <div
               key={i}
               data-card
