@@ -32,7 +32,9 @@ export default async function AdminBannersPage() {
         <strong className="text-ink-soft">Topo:</strong> banner grande, primeira coisa do site. {" "}
         <strong className="text-ink-soft">Faixa 1:</strong> banner fino, logo abaixo dos
         departamentos. {" "}
-        <strong className="text-ink-soft">Faixa 2:</strong> banner fino, logo abaixo das ofertas.
+        <strong className="text-ink-soft">Faixa 2:</strong> banner fino, logo abaixo das ofertas. {" "}
+        <strong className="text-ink-soft">Dupla:</strong> dois banners lado a lado (um pouco mais
+        abaixo) — não gira, mostra sempre os 2 primeiros ativos dessa posição.
       </p>
 
       <div className="mt-6 flex flex-col gap-4">
@@ -83,6 +85,7 @@ export default async function AdminBannersPage() {
                 <option value="hero">Topo (grande)</option>
                 <option value="secondary">Faixa 1 (depois dos departamentos)</option>
                 <option value="offers">Faixa 2 (depois das ofertas)</option>
+                <option value="duo">Dupla (dois banners lado a lado)</option>
               </select>
             </label>
 
@@ -143,6 +146,7 @@ export default async function AdminBannersPage() {
             <option value="hero">Topo (grande)</option>
             <option value="secondary">Faixa 1 (depois dos departamentos)</option>
             <option value="offers">Faixa 2 (depois das ofertas)</option>
+            <option value="duo">Dupla (dois banners lado a lado)</option>
           </select>
           <input name="sort_order" type="number" placeholder="Ordem" className={inputClass} />
           <button

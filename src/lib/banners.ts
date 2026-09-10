@@ -7,7 +7,7 @@ export type Banner = {
   link: string;
 };
 
-export type BannerPlacement = "hero" | "secondary" | "offers";
+export type BannerPlacement = "hero" | "secondary" | "offers" | "duo";
 
 export async function getBanners(placement: BannerPlacement): Promise<Banner[]> {
   try {

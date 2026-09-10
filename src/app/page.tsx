@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { MobileSearchBar } from "@/components/MobileSearchBar";
 import { DepartmentStrip } from "@/components/DepartmentStrip";
 import { PromoBannerSlot } from "@/components/PromoBannerSlot";
+import { DuoBannerSlot } from "@/components/DuoBannerSlot";
 import { Categories } from "@/components/Categories";
 import { Offers } from "@/components/Offers";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -19,11 +20,12 @@ import { getBanners } from "@/lib/banners";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const [products, heroBanners, secondaryBanners, offersBanners] = await Promise.all([
+  const [products, heroBanners, secondaryBanners, offersBanners, duoBanners] = await Promise.all([
     getProducts(),
     getBanners("hero"),
     getBanners("secondary"),
     getBanners("offers"),
+    getBanners("duo"),
   ]);
 
   return (
@@ -36,6 +38,7 @@ export default async function Home() {
         <PromoBannerSlot banners={secondaryBanners} variant="strip" />
         <Offers offers={products} />
         <PromoBannerSlot banners={offersBanners} variant="strip" />
+        <DuoBannerSlot banners={duoBanners} />
         <HowItWorks />
         <About products={products} />
         <Categories />
