@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { categories } from "@/lib/site";
 import { createProduct, deleteProduct, updateProduct } from "../actions";
 
 export const dynamic = "force-dynamic";
@@ -33,6 +34,16 @@ export default async function AdminProductsPage() {
       <p className="mt-1 text-sm text-ink-soft">
         Edite preço, fotos e disponibilidade. Produtos inativos somem do site.
       </p>
+      <div className="mt-4 rounded-xl border border-gold-soft bg-gold-soft/40 p-4 text-xs leading-relaxed text-ink-soft">
+        <p className="font-semibold text-ink">Ao cadastrar um produto, preencha:</p>
+        <ul className="mt-1.5 list-disc space-y-0.5 pl-4">
+          <li><strong className="text-ink">Aba/Departamento</strong> — em qual categoria do menu o produto aparece.</li>
+          <li><strong className="text-ink">Preço</strong> — valor por unidade escolhida em &quot;Unidade&quot; (m², un, kg...).</li>
+          <li><strong className="text-ink">Material</strong> — ex: Cerâmico, Porcelanato, Alumínio, Madeira.</li>
+          <li><strong className="text-ink">Medida</strong> — ex: 60x60 cm, 75x75 cm, 1,20m.</li>
+          <li><strong className="text-ink">Especificações</strong> — qualquer outra informação (cor, acabamento, aplicação...), uma por linha.</li>
+        </ul>
+      </div>
 
       <div className="mt-6 flex flex-col gap-4">
         {(products ?? []).map((p) => (
@@ -51,6 +62,17 @@ export default async function AdminProductsPage() {
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
               <span className="text-xs font-medium text-ink-faint">Detalhe</span>
               <input name="detail" defaultValue={p.detail} className={inputClass} />
+            </label>
+
+            <label className="flex flex-col gap-1">
+              <span className="text-xs font-medium text-ink-faint">Aba / Departamento</span>
+              <select name="category" defaultValue={p.category} className={inputClass}>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.title}
+                  </option>
+                ))}
+              </select>
             </label>
 
             <label className="flex flex-col gap-1">
@@ -75,6 +97,26 @@ export default async function AdminProductsPage() {
                 name="sort_order"
                 type="number"
                 defaultValue={p.sort_order}
+                className={inputClass}
+              />
+            </label>
+
+            <label className="flex flex-col gap-1">
+              <span className="text-xs font-medium text-ink-faint">Material</span>
+              <input
+                name="material"
+                defaultValue={p.material}
+                placeholder="Cerâmico, Porcelanato..."
+                className={inputClass}
+              />
+            </label>
+
+            <label className="flex flex-col gap-1">
+              <span className="text-xs font-medium text-ink-faint">Medida</span>
+              <input
+                name="measure"
+                defaultValue={p.measure}
+                placeholder="60x60 cm"
                 className={inputClass}
               />
             </label>
@@ -136,8 +178,17 @@ export default async function AdminProductsPage() {
           <input name="slug" placeholder="slug (ex: piso-10)" required className={inputClass} />
           <input name="name" placeholder="Nome" required className={inputClass} />
           <input name="detail" placeholder="Detalhe" className={inputClass} />
+          <select name="category" defaultValue="pisos" className={inputClass}>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.title}
+              </option>
+            ))}
+          </select>
           <input name="price" type="number" step="0.01" placeholder="Preço" required className={inputClass} />
           <input name="unit" placeholder="Unidade (m², un...)" className={inputClass} />
+          <input name="material" placeholder="Material (ex: Cerâmico)" className={inputClass} />
+          <input name="measure" placeholder="Medida (ex: 60x60 cm)" className={inputClass} />
           <input name="sort_order" type="number" placeholder="Ordem" className={inputClass} />
           <input
             name="image"
