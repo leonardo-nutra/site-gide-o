@@ -138,7 +138,7 @@ export function CartDrawer() {
             aria-label="Seu orçamento"
             className="fixed inset-y-0 right-0 z-[61] flex w-full max-w-md flex-col bg-paper shadow-lift"
           >
-            <div className="flex items-center justify-between border-b border-line px-5 py-4">
+            <div className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4">
               <div className="flex items-center gap-2.5">
                 <ShoppingCart className="h-5 w-5 text-gold-strong" strokeWidth={2.25} />
                 <h2 className="text-base font-semibold text-ink sm:text-lg">Seu orçamento</h2>
@@ -153,7 +153,7 @@ export function CartDrawer() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-4">
+            <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4 pb-6">
               {isEmpty ? (
                 <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
                   <span className="grid h-14 w-14 place-items-center rounded-full bg-paper-strong text-ink-faint">
@@ -409,7 +409,7 @@ export function CartDrawer() {
             </div>
 
             {!isEmpty && (
-              <div className="border-t border-line bg-paper-soft px-5 py-4">
+              <div className="shrink-0 border-t border-line bg-paper-soft px-5 py-4 shadow-[0_-6px_12px_-6px_rgba(0,0,0,0.12)]">
                 <div className="flex items-baseline justify-between">
                   <span className="text-sm font-medium text-ink-soft">Subtotal estimado</span>
                   <span className="text-lg font-display font-black text-ink sm:text-xl">
