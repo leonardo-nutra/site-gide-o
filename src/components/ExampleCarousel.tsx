@@ -13,10 +13,12 @@ export function ExampleCarousel({
   title,
   items,
   bg = "paper",
+  cardTag,
 }: {
   title: string;
   items: string[];
   bg?: "paper" | "soft";
+  cardTag?: string;
 }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -74,9 +76,14 @@ export function ExampleCarousel({
             <div
               key={i}
               data-card
-              className="flex w-[46%] shrink-0 flex-col overflow-hidden rounded-xl border border-dashed border-line bg-paper-soft sm:w-56"
+              className="relative flex w-[46%] shrink-0 flex-col overflow-hidden rounded-xl border border-dashed border-line bg-paper-soft sm:w-56"
             >
-              <div className="flex aspect-square w-full items-center justify-center bg-paper-strong">
+              <div className="relative flex aspect-square w-full items-center justify-center bg-paper-strong">
+                {cardTag && (
+                  <span className="absolute left-2 top-2 rounded-full bg-ink px-2 py-1 text-[0.6rem] font-bold text-paper">
+                    {cardTag}
+                  </span>
+                )}
                 <Package className="h-10 w-10 text-ink-faint" strokeWidth={1.5} />
               </div>
 

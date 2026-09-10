@@ -61,6 +61,17 @@ export default async function Home() {
             "Cumeeira para telhado",
           ]}
         />
+        <ExampleCarousel
+          title="Max por menos - últimas oportunidades"
+          cardTag="🤑 Max Por Menos"
+          items={[
+            "Piso Classic City Retificado",
+            "Piso Carrara Prime Bold",
+            "Piso Calacata Ochre Retificado",
+            "Piso Mineral Bold Granilhado",
+            "Piso Hanover Retificado",
+          ]}
+        />
         <HowItWorks />
         <About products={products} />
         <Categories />
