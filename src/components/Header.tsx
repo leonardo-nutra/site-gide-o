@@ -22,6 +22,7 @@ const navLinks = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [showAccountNote, setShowAccountNote] = useState(false);
   const { query, setQuery } = useSearch();
 
   function handleSearchSubmit(e: FormEvent) {
@@ -187,9 +188,46 @@ export function Header() {
                 <MessageCircle className="h-5 w-5" strokeWidth={2.25} />
                 Pedir orçamento no WhatsApp
               </a>
-              <div className="mt-4 flex items-center gap-2 rounded-xl bg-paper-soft px-3 py-3 text-sm text-ink-soft">
-                <User className="h-4 w-4 shrink-0 text-gold-strong" strokeWidth={2.25} />
-                Login de clientes chegando em breve
+              <div className="mt-4 rounded-xl border border-line bg-paper-soft px-3.5 py-3">
+                <div className="flex items-center gap-2.5">
+                  <User className="h-6 w-6 shrink-0 text-gold-strong" strokeWidth={2} />
+                  <div>
+                    <p className="text-sm font-bold text-ink">Bem-vindo!</p>
+                    <p className="text-xs text-ink-soft">Entre ou Cadastre-se</p>
+                  </div>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowAccountNote((v) => !v)}
+                    className="rounded-full bg-gold-strong px-3 py-2 text-xs font-bold text-white active:scale-95"
+                  >
+                    Entrar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowAccountNote((v) => !v)}
+                    className="rounded-full border border-gold-strong px-3 py-2 text-xs font-bold text-gold-strong active:scale-95"
+                  >
+                    Cadastre-se
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {showAccountNote && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="mt-3 text-xs leading-relaxed text-ink-faint">
+                        Login de clientes chegando em breve. Por enquanto, fale
+                        direto com a gente pelo WhatsApp.
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
               <div className="mt-3 px-3 text-sm text-ink-faint">{site.phoneDisplay}</div>
             </nav>
