@@ -21,7 +21,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.85fr_0.85fr_1fr]">
           <div>
-            <Logo inverted />
+            <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-paper-soft/70">
               Pisos, tintas, torneiras, portas, janelas e materiais de
               construção com preço de atacado em Mesquita e na Baixada
