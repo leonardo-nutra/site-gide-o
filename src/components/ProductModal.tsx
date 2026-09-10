@@ -10,6 +10,7 @@ import {
   Info,
   MessageCircle,
   Minus,
+  Play,
   Plus,
   ShoppingCart,
   X,
@@ -38,16 +39,21 @@ export function ProductModal({
   const total = unitPrice * qty;
   const categoryInfo = product ? categories.find((c) => c.id === product.category) : undefined;
 
-  const images = product
+  const media = product
     ? [
-        { src: product.image, alt: product.name, tag: "Produto" },
+        { type: "image" as const, src: product.image, alt: product.name, tag: "Produto" },
         {
+          type: "image" as const,
           src: product.applicationImage,
           alt: `Exemplo de ambiente com o produto no tom de ${product.name}`,
           tag: "Exemplo montado",
         },
+        ...(product.video
+          ? [{ type: "video" as const, src: product.video, alt: product.name, tag: "Vídeo" }]
+          : []),
       ]
     : [];
+  const current = media[activeImage] ?? media[0];
 
   function goToCategory() {
     if (!product) return;
@@ -146,29 +152,53 @@ export function ProductModal({
                 <div className="grid gap-0 sm:grid-cols-2">
                   <div>
                     <div className="relative aspect-square w-full bg-paper-strong">
-                      <Image
-                        src={images[activeImage].src}
-                        alt={images[activeImage].alt}
-                        fill
-                        sizes="(min-width: 640px) 50vw, 100vw"
-                        className="object-cover"
-                      />
+                      {current.type === "video" ? (
+                        <video
+                          key={current.src}
+                          src={current.src}
+                          controls
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <Image
+                          src={current.src}
+                          alt={current.alt}
+                          fill
+                          sizes="(min-width: 640px) 50vw, 100vw"
+                          className="object-cover"
+                        />
+                      )}
                       <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-ink-soft shadow-soft backdrop-blur">
-                        {images[activeImage].tag}
+                        {current.tag}
                       </span>
                     </div>
                     <div className="flex gap-2 p-3">
-                      {images.map((img, i) => (
+                      {media.map((item, i) => (
                         <button
-                          key={img.tag}
+                          key={item.tag}
                           type="button"
                           onClick={() => setActiveImage(i)}
-                          aria-label={`Ver foto: ${img.tag}`}
+                          aria-label={`Ver ${item.type === "video" ? "vídeo" : "foto"}: ${item.tag}`}
                           className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
                             activeImage === i ? "border-gold-strong" : "border-line"
                           }`}
                         >
-                          <Image src={img.src} alt={img.alt} fill sizes="56px" className="object-cover" />
+                          {item.type === "video" ? (
+                            <>
+                              <video src={item.src} className="h-full w-full object-cover" />
+                              <span className="absolute inset-0 grid place-items-center bg-black/35">
+                                <Play className="h-5 w-5 text-white" fill="currentColor" />
+                              </span>
+                            </>
+                          ) : (
+                            <Image
+                              src={item.src}
+                              alt={item.alt}
+                              fill
+                              sizes="56px"
+                              className="object-cover"
+                            />
+                          )}
                         </button>
                       ))}
                     </div>

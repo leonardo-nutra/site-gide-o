@@ -14,6 +14,8 @@ export type Product = {
    * shot in a similar tone, not a photo of this exact batch/lot.
    */
   applicationImage: string;
+  /** Optional product video URL — empty string when none was uploaded. */
+  video: string;
   /** Department/tab id from `categories` in `@/lib/site` (e.g. "pisos"). */
   category: string;
   specs: ProductSpec[];
@@ -23,6 +25,7 @@ export type Product = {
 const fallbackProducts: Product[] = [
   {
     category: "pisos",
+    video: "",
     id: "piso-1",
     name: "Piso Polido Retificado",
     detail: "Acabamento polido de alto brilho",
@@ -38,6 +41,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    video: "",
     id: "piso-9",
     name: "Piso 45x89 Lume",
     detail: "Mármore claro com veios dourados",
@@ -54,6 +58,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    video: "",
     id: "piso-4",
     name: "Piso Karina Polido",
     detail: "Preto com veios dourados, alto padrão",
@@ -69,6 +74,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    video: "",
     id: "piso-2",
     name: "Piso 75x75 Lumina Bege Karina",
     detail: "Tom bege claro, polido",
@@ -85,6 +91,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    video: "",
     id: "piso-5",
     name: "Piso 75x75 Majestic",
     detail: "Branco com veios pretos e dourados",
@@ -101,6 +108,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    video: "",
     id: "piso-7",
     name: "Piso Cerâmico Black Gold HD",
     detail: "Preto com veios dourados HD",
@@ -117,6 +125,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    video: "",
     id: "piso-6",
     name: "Piso Extra Onix Blue 75x75",
     detail: "Efeito ônix azulado, polido",
@@ -133,6 +142,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    video: "",
     id: "piso-3",
     name: "Piso Polido 60x60",
     detail: "Cinza acinzentado, alta durabilidade",
@@ -159,7 +169,7 @@ export async function getProducts(): Promise<Product[]> {
     const { data, error } = await supabase
       .from("products")
       .select(
-        "slug, name, detail, price, unit, image, application_image, category, material, measure, specs"
+        "slug, name, detail, price, unit, image, application_image, video, category, material, measure, specs"
       )
       .eq("active", true)
       .order("sort_order", { ascending: true });
@@ -181,6 +191,7 @@ export async function getProducts(): Promise<Product[]> {
         unit: row.unit,
         image: row.image,
         applicationImage: row.application_image,
+        video: row.video ?? "",
         category: row.category ?? "pisos",
         specs: [...structuredSpecs, ...specs],
       };

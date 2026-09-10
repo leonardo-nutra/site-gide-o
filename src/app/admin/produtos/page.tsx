@@ -9,6 +9,9 @@ export const dynamic = "force-dynamic";
 const inputClass =
   "w-full rounded-lg border border-line bg-paper px-2.5 py-1.5 text-sm text-ink outline-none focus:border-gold-strong";
 
+const fileInputClass =
+  "w-full rounded-lg border border-line bg-paper px-2.5 py-1.5 text-xs text-ink-soft outline-none file:mr-2 file:rounded-full file:border-0 file:bg-ink file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-paper file:cursor-pointer focus:border-gold-strong";
+
 type Spec = { label: string; value: string };
 
 function specsToText(specs: unknown) {
@@ -42,6 +45,7 @@ export default async function AdminProductsPage() {
           <li><strong className="text-ink">Material</strong> — ex: Cerâmico, Porcelanato, Alumínio, Madeira.</li>
           <li><strong className="text-ink">Medida</strong> — ex: 60x60 cm, 75x75 cm, 1,20m.</li>
           <li><strong className="text-ink">Especificações</strong> — qualquer outra informação (cor, acabamento, aplicação...), uma por linha.</li>
+          <li><strong className="text-ink">Foto e vídeo</strong> — envie os arquivos direto do computador ou celular, sem precisar de link.</li>
         </ul>
       </div>
 
@@ -53,6 +57,9 @@ export default async function AdminProductsPage() {
             className="grid grid-cols-2 gap-3 rounded-2xl border border-line bg-paper p-5 shadow-soft sm:grid-cols-4"
           >
             <input type="hidden" name="id" value={p.id} />
+            <input type="hidden" name="current_image" value={p.image} />
+            <input type="hidden" name="current_application_image" value={p.application_image} />
+            <input type="hidden" name="current_video" value={p.video} />
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
               <span className="text-xs font-medium text-ink-faint">Nome</span>
@@ -128,16 +135,52 @@ export default async function AdminProductsPage() {
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
               <span className="text-xs font-medium text-ink-faint">Foto do produto</span>
-              <input name="image" defaultValue={p.image} className={inputClass} />
+              <input name="image" type="file" accept="image/*" className={fileInputClass} />
+              {p.image && (
+                <a
+                  href={p.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate text-[0.7rem] text-ink-faint underline"
+                >
+                  Foto atual
+                </a>
+              )}
             </label>
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
               <span className="text-xs font-medium text-ink-faint">Foto ilustrativa (ambiente)</span>
               <input
                 name="application_image"
-                defaultValue={p.application_image}
-                className={inputClass}
+                type="file"
+                accept="image/*"
+                className={fileInputClass}
               />
+              {p.application_image && (
+                <a
+                  href={p.application_image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate text-[0.7rem] text-ink-faint underline"
+                >
+                  Foto atual
+                </a>
+              )}
+            </label>
+
+            <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
+              <span className="text-xs font-medium text-ink-faint">Vídeo do produto (opcional)</span>
+              <input name="video" type="file" accept="video/*" className={fileInputClass} />
+              {p.video && (
+                <a
+                  href={p.video}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate text-[0.7rem] text-ink-faint underline"
+                >
+                  Vídeo atual
+                </a>
+              )}
             </label>
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-4">
@@ -190,16 +233,18 @@ export default async function AdminProductsPage() {
           <input name="material" placeholder="Material (ex: Cerâmico)" className={inputClass} />
           <input name="measure" placeholder="Medida (ex: 60x60 cm)" className={inputClass} />
           <input name="sort_order" type="number" placeholder="Ordem" className={inputClass} />
-          <input
-            name="image"
-            placeholder="/images/produtos/xxx.jpg"
-            className={inputClass}
-          />
-          <input
-            name="application_image"
-            placeholder="/images/ambiente/xxx.jpg"
-            className={inputClass}
-          />
+          <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
+            <span className="text-xs font-medium text-ink-faint">Foto do produto</span>
+            <input name="image" type="file" accept="image/*" required className={fileInputClass} />
+          </label>
+          <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
+            <span className="text-xs font-medium text-ink-faint">Foto ilustrativa (ambiente)</span>
+            <input name="application_image" type="file" accept="image/*" className={fileInputClass} />
+          </label>
+          <label className="col-span-2 flex flex-col gap-1 sm:col-span-4">
+            <span className="text-xs font-medium text-ink-faint">Vídeo do produto (opcional)</span>
+            <input name="video" type="file" accept="video/*" className={fileInputClass} />
+          </label>
           <textarea
             name="specs"
             rows={3}

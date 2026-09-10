@@ -17,6 +17,29 @@ function parseSpecs(raw: string) {
     .filter((spec) => spec.label && spec.value);
 }
 
+/**
+ * Uploads a file picked in the admin form to the public `product-media`
+ * bucket. Returns null (not "") when no file was chosen, so callers can
+ * fall back to whatever URL was already saved instead of overwriting it.
+ */
+async function uploadMedia(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  entry: FormDataEntryValue | null,
+  folder: "images" | "videos"
+): Promise<string | null> {
+  if (!(entry instanceof File) || entry.size === 0) return null;
+
+  const ext = entry.name.split(".").pop()?.toLowerCase() || (folder === "videos" ? "mp4" : "jpg");
+  const path = `${folder}/${crypto.randomUUID()}.${ext}`;
+
+  const { error } = await supabase.storage
+    .from("product-media")
+    .upload(path, entry, { contentType: entry.type || undefined });
+  if (error) throw error;
+
+  return supabase.storage.from("product-media").getPublicUrl(path).data.publicUrl;
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
@@ -33,6 +56,12 @@ export async function updateProduct(formData: FormData) {
   const supabase = await createClient();
   const id = String(formData.get("id"));
 
+  const [image, applicationImage, video] = await Promise.all([
+    uploadMedia(supabase, formData.get("image"), "images"),
+    uploadMedia(supabase, formData.get("application_image"), "images"),
+    uploadMedia(supabase, formData.get("video"), "videos"),
+  ]);
+
   await supabase
     .from("products")
     .update({
@@ -40,8 +69,10 @@ export async function updateProduct(formData: FormData) {
       detail: String(formData.get("detail")),
       price: Number(formData.get("price")),
       unit: String(formData.get("unit")),
-      image: String(formData.get("image")),
-      application_image: String(formData.get("application_image")),
+      image: image ?? String(formData.get("current_image") ?? ""),
+      application_image:
+        applicationImage ?? String(formData.get("current_application_image") ?? ""),
+      video: video ?? String(formData.get("current_video") ?? ""),
       category: String(formData.get("category")) || "pisos",
       material: String(formData.get("material") ?? ""),
       measure: String(formData.get("measure") ?? ""),
@@ -58,14 +89,21 @@ export async function updateProduct(formData: FormData) {
 export async function createProduct(formData: FormData) {
   const supabase = await createClient();
 
+  const [image, applicationImage, video] = await Promise.all([
+    uploadMedia(supabase, formData.get("image"), "images"),
+    uploadMedia(supabase, formData.get("application_image"), "images"),
+    uploadMedia(supabase, formData.get("video"), "videos"),
+  ]);
+
   await supabase.from("products").insert({
     slug: String(formData.get("slug")),
     name: String(formData.get("name")),
     detail: String(formData.get("detail")),
     price: Number(formData.get("price")),
     unit: String(formData.get("unit")) || "un",
-    image: String(formData.get("image")),
-    application_image: String(formData.get("application_image")),
+    image: image ?? "",
+    application_image: applicationImage ?? "",
+    video: video ?? "",
     category: String(formData.get("category")) || "pisos",
     material: String(formData.get("material") ?? ""),
     measure: String(formData.get("measure") ?? ""),
