@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, MessageCircle, Search, User, X } from "lucide-react";
 import { Logo } from "./Logo";
@@ -133,11 +132,6 @@ export function Header() {
           <a href="#contato" className="whitespace-nowrap transition-colors hover:text-gold">
             Contato
           </a>
-          <span className="text-paper-soft/30">|</span>
-          <Link href="/privacidade" className="whitespace-nowrap transition-colors hover:text-gold">
-            Política de Privacidade
-          </Link>
-
           <WhatsAppLink
             message="Olá! Quero pedir um orçamento com a Gideão."
             className="ml-auto flex items-center gap-1.5 whitespace-nowrap"
