@@ -78,11 +78,6 @@ export function DepartmentStrip() {
                 <span className="line-clamp-2 text-[0.65rem] font-medium leading-tight text-ink-soft sm:text-xs">
                   {cat.title}
                 </span>
-                {cat.comingSoon && (
-                  <span className="rounded-full bg-gold-soft px-1.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-wide text-gold-strong">
-                    Em breve
-                  </span>
-                )}
               </a>
             );
           })}
