@@ -15,7 +15,6 @@ import { trackWhatsAppClick } from "@/lib/tracking";
 import { useSearch } from "@/lib/search-context";
 
 const navLinks = [
-  { href: "#produtos", label: "Produtos" },
   { href: "#ofertas", label: "Ofertas" },
   { href: "#contato", label: "Contato" },
 ];
@@ -120,7 +119,7 @@ export function Header() {
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
           <a
-            href="#produtos"
+            href="#ofertas"
             className="whitespace-nowrap font-semibold text-paper transition-colors hover:text-gold"
           >
             Departamentos

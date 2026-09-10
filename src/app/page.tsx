@@ -3,7 +3,6 @@ import { MobileSearchBar } from "@/components/MobileSearchBar";
 import { DepartmentStrip } from "@/components/DepartmentStrip";
 import { PromoBannerSlot } from "@/components/PromoBannerSlot";
 import { DuoBannerSlot } from "@/components/DuoBannerSlot";
-import { Categories } from "@/components/Categories";
 import { Offers } from "@/components/Offers";
 import { ExampleCarousel } from "@/components/ExampleCarousel";
 import { About } from "@/components/About";
@@ -71,8 +70,7 @@ export default async function Home() {
             "Piso Hanover Retificado",
           ]}
         />
-        <About products={products} />
-        <Categories />
+        <About />
         <Contact />
       </main>
       <Footer />
