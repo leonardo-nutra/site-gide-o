@@ -17,7 +17,6 @@ import { useSearch } from "@/lib/search-context";
 const navLinks = [
   { href: "#produtos", label: "Produtos" },
   { href: "#ofertas", label: "Ofertas" },
-  { href: "#como-funciona", label: "Como funciona" },
   { href: "#contato", label: "Contato" },
 ];
 
@@ -129,10 +128,6 @@ export function Header() {
           <span className="text-paper-soft/30">|</span>
           <a href="#ofertas" className="whitespace-nowrap transition-colors hover:text-gold">
             Ofertas
-          </a>
-          <span className="text-paper-soft/30">|</span>
-          <a href="#como-funciona" className="whitespace-nowrap transition-colors hover:text-gold">
-            Como funciona
           </a>
           <span className="text-paper-soft/30">|</span>
           <a href="#contato" className="whitespace-nowrap transition-colors hover:text-gold">

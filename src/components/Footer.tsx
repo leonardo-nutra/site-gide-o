@@ -7,7 +7,6 @@ import { site, categories } from "@/lib/site";
 const links = [
   { href: "#produtos", label: "Produtos" },
   { href: "#ofertas", label: "Ofertas" },
-  { href: "#como-funciona", label: "Como funciona" },
   { href: "#contato", label: "Contato" },
 ];
 

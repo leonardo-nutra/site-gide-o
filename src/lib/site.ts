@@ -71,24 +71,6 @@ export const categories = [
   },
 ] as const;
 
-export const steps = [
-  {
-    title: "Monte seu orçamento",
-    description: "Adicione os produtos e categorias que precisa ao seu orçamento.",
-    icon: "Tag",
-  },
-  {
-    title: "Envie pelo WhatsApp",
-    description: "Escolha pagamento e entrega, e mande tudo de uma vez só.",
-    icon: "MessageCircle",
-  },
-  {
-    title: "Receba atendimento",
-    description: "Nossa equipe confirma preços, prazos e a melhor forma de entrega.",
-    icon: "CheckCircle2",
-  },
-] as const;
-
 export const differentiators = [
   {
     title: "Preço de atacado",

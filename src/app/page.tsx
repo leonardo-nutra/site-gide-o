@@ -5,7 +5,6 @@ import { PromoBannerSlot } from "@/components/PromoBannerSlot";
 import { DuoBannerSlot } from "@/components/DuoBannerSlot";
 import { Categories } from "@/components/Categories";
 import { Offers } from "@/components/Offers";
-import { HowItWorks } from "@/components/HowItWorks";
 import { ExampleCarousel } from "@/components/ExampleCarousel";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
@@ -72,7 +71,6 @@ export default async function Home() {
             "Piso Hanover Retificado",
           ]}
         />
-        <HowItWorks />
         <About products={products} />
         <Categories />
         <Contact />
