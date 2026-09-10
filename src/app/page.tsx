@@ -10,6 +10,7 @@ import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CartBar } from "@/components/CartBar";
+import { BackToTop } from "@/components/BackToTop";
 import { getProducts } from "@/lib/products";
 import { getBanners } from "@/lib/banners";
 
@@ -18,10 +19,11 @@ import { getBanners } from "@/lib/banners";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const [products, heroBanners, secondaryBanners] = await Promise.all([
+  const [products, heroBanners, secondaryBanners, offersBanners] = await Promise.all([
     getProducts(),
     getBanners("hero"),
     getBanners("secondary"),
+    getBanners("offers"),
   ]);
 
   return (
@@ -33,6 +35,7 @@ export default async function Home() {
         <DepartmentStrip />
         <PromoBannerSlot banners={secondaryBanners} variant="strip" />
         <Offers offers={products} />
+        <PromoBannerSlot banners={offersBanners} variant="strip" />
         <HowItWorks />
         <About products={products} />
         <Categories />
@@ -41,6 +44,7 @@ export default async function Home() {
       <Footer />
       <WhatsAppButton />
       <CartBar />
+      <BackToTop />
     </>
   );
 }

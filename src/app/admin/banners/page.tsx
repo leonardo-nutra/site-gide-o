@@ -30,8 +30,9 @@ export default async function AdminBannersPage() {
       </p>
       <p className="mt-1 text-xs text-ink-faint">
         <strong className="text-ink-soft">Topo:</strong> banner grande, primeira coisa do site. {" "}
-        <strong className="text-ink-soft">Faixa:</strong> banner fino, logo abaixo dos
-        departamentos.
+        <strong className="text-ink-soft">Faixa 1:</strong> banner fino, logo abaixo dos
+        departamentos. {" "}
+        <strong className="text-ink-soft">Faixa 2:</strong> banner fino, logo abaixo das ofertas.
       </p>
 
       <div className="mt-6 flex flex-col gap-4">
@@ -80,7 +81,8 @@ export default async function AdminBannersPage() {
               <span className="text-xs font-medium text-ink-faint">Posição</span>
               <select name="placement" defaultValue={b.placement} className={inputClass}>
                 <option value="hero">Topo (grande)</option>
-                <option value="secondary">Faixa (fina)</option>
+                <option value="secondary">Faixa 1 (depois dos departamentos)</option>
+                <option value="offers">Faixa 2 (depois das ofertas)</option>
               </select>
             </label>
 
@@ -139,7 +141,8 @@ export default async function AdminBannersPage() {
           />
           <select name="placement" defaultValue="hero" className={inputClass}>
             <option value="hero">Topo (grande)</option>
-            <option value="secondary">Faixa (fina)</option>
+            <option value="secondary">Faixa 1 (depois dos departamentos)</option>
+            <option value="offers">Faixa 2 (depois das ofertas)</option>
           </select>
           <input name="sort_order" type="number" placeholder="Ordem" className={inputClass} />
           <button
