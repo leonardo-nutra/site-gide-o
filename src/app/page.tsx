@@ -6,6 +6,7 @@ import { DuoBannerSlot } from "@/components/DuoBannerSlot";
 import { Categories } from "@/components/Categories";
 import { Offers } from "@/components/Offers";
 import { HowItWorks } from "@/components/HowItWorks";
+import { ExampleCarousel } from "@/components/ExampleCarousel";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
@@ -39,6 +40,7 @@ export default async function Home() {
         <Offers offers={products} />
         <PromoBannerSlot banners={offersBanners} variant="strip" />
         <DuoBannerSlot banners={duoBanners} />
+        <ExampleCarousel />
         <HowItWorks />
         <About products={products} />
         <Categories />
