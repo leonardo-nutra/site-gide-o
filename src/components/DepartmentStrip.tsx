@@ -39,51 +39,56 @@ export function DepartmentStrip() {
         Compre por departamento
         <ShoppingBag className="h-4 w-4 text-gold-strong" strokeWidth={2.25} />
       </p>
-      <div className="relative mx-auto max-w-6xl">
+
+      {/* Arrows + icons form a single row that hugs its own content width at
+          lg+ (so it can center as one unit), instead of icons floating
+          inside a much wider fixed box with arrows pinned to its edges. */}
+      <div className="mx-auto flex max-w-6xl items-center gap-2 lg:w-fit lg:max-w-full lg:gap-3">
         <button
           type="button"
           aria-label="Ver departamentos anteriores"
           onClick={() => scrollByIcons(-1)}
-          className="absolute -left-3 top-[calc(50%-12px)] hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
+          className="hidden h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-strong text-white shadow-lift transition-transform hover:scale-105 active:scale-95 lg:grid"
         >
           <ChevronLeft className="h-4 w-4" strokeWidth={2.5} />
-        </button>
-        <button
-          type="button"
-          aria-label="Ver mais departamentos"
-          onClick={() => scrollByIcons(1)}
-          className="absolute -right-3 top-[calc(50%-12px)] hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
-        >
-          <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
         </button>
 
         <div
           ref={scrollerRef}
-          className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:gap-8 sm:px-0 [&::-webkit-scrollbar]:hidden"
+          className="-mx-4 flex flex-1 gap-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:gap-8 lg:mx-0 lg:flex-none lg:px-0 [&::-webkit-scrollbar]:hidden"
         >
           {categories.map((cat) => {
-          const Icon = icons[cat.icon];
-          return (
-            <a
-              key={cat.id}
-              href="#ofertas"
-              className="group flex w-16 shrink-0 flex-col items-center gap-1.5 text-center transition-transform active:scale-95 sm:w-24 sm:gap-2"
-            >
-              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ink text-gold transition-transform sm:h-16 sm:w-16 group-hover:scale-105">
-                <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2} />
-              </span>
-              <span className="line-clamp-2 text-[0.65rem] font-medium leading-tight text-ink-soft sm:text-xs">
-                {cat.title}
-              </span>
-              {cat.comingSoon && (
-                <span className="rounded-full bg-gold-soft px-1.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-wide text-gold-strong">
-                  Em breve
+            const Icon = icons[cat.icon];
+            return (
+              <a
+                key={cat.id}
+                href="#ofertas"
+                className="group flex w-16 shrink-0 flex-col items-center gap-1.5 text-center transition-transform active:scale-95 sm:w-24 sm:gap-2"
+              >
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ink text-gold transition-transform sm:h-16 sm:w-16 group-hover:scale-105">
+                  <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2} />
                 </span>
-              )}
-            </a>
+                <span className="line-clamp-2 text-[0.65rem] font-medium leading-tight text-ink-soft sm:text-xs">
+                  {cat.title}
+                </span>
+                {cat.comingSoon && (
+                  <span className="rounded-full bg-gold-soft px-1.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-wide text-gold-strong">
+                    Em breve
+                  </span>
+                )}
+              </a>
             );
           })}
         </div>
+
+        <button
+          type="button"
+          aria-label="Ver mais departamentos"
+          onClick={() => scrollByIcons(1)}
+          className="hidden h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-strong text-white shadow-lift transition-transform hover:scale-105 active:scale-95 lg:grid"
+        >
+          <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+        </button>
       </div>
     </div>
   );
