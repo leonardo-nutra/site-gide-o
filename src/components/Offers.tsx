@@ -269,17 +269,17 @@ export function Offers({ offers }: { offers: Product[] }) {
               type="button"
               aria-label="Ver produtos anteriores"
               onClick={() => scrollByCards(-1)}
-              className="absolute -left-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
+              className="absolute -left-2 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:-left-3 sm:h-10 sm:w-10"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
             <button
               type="button"
               aria-label="Ver mais produtos"
               onClick={() => scrollByCards(1)}
-              className="absolute -right-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:grid"
+              className="absolute -right-2 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:-right-3 sm:h-10 sm:w-10"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
           </div>
         )}
