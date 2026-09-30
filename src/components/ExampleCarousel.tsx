@@ -33,10 +33,7 @@ export function ExampleCarousel({
     <section className={`py-10 sm:py-20 ${bg === "soft" ? "bg-paper-soft" : "bg-paper"}`}>
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-gold-soft px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-gold-strong">
-            Exemplo de layout — não é oferta real
-          </div>
-          <h2 className="mt-2 text-xl font-display font-black tracking-tight text-ink sm:text-3xl">
+          <h2 className="text-xl font-display font-black tracking-tight text-ink sm:text-3xl">
             {title}
           </h2>
         </div>
