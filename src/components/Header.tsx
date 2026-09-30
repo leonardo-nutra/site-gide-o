@@ -113,7 +113,7 @@ export function Header() {
           <AccountButton className="hidden lg:flex" showLabel />
           <AccountButton className="lg:hidden" />
           <LocationIndicator className="hidden lg:flex" />
-          <CartButton variant="solid" className="h-14 w-14 lg:h-[3.75rem] lg:w-[3.75rem]" />
+          <CartButton variant="solid" className="h-11 w-11 lg:h-12 lg:w-12" />
         </div>
       </div>
 
