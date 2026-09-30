@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { CartIcon } from "./icons/CartIcon";
 
 export function CartButton({
   className = "",
@@ -24,7 +24,7 @@ export function CartButton({
           : "text-ink hover:bg-paper-strong"
       } ${className}`}
     >
-      <ShoppingCart className="h-5 w-5" strokeWidth={2.25} />
+      <CartIcon className="h-5 w-5" />
       <AnimatePresence>
         {cart.count > 0 && (
           <motion.span
