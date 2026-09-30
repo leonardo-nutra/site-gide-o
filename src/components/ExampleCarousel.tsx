@@ -99,7 +99,7 @@ export function ExampleCarousel({
             type="button"
             aria-label="Ver anteriores"
             onClick={() => scrollByCards(-1)}
-            className="absolute -left-2 top-[22%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-soft transition-transform hover:scale-105 active:scale-95 sm:-left-3 sm:h-10 sm:w-10"
+            className="absolute -left-2 top-[38%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-soft transition-transform hover:scale-105 active:scale-95 sm:-left-3 sm:h-10 sm:w-10"
           >
             <ChevronLeft className="h-4 w-4" strokeWidth={2.5} />
           </button>
@@ -107,7 +107,7 @@ export function ExampleCarousel({
             type="button"
             aria-label="Ver mais"
             onClick={() => scrollByCards(1)}
-            className="absolute -right-2 top-[22%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-soft transition-transform hover:scale-105 active:scale-95 sm:-right-3 sm:h-10 sm:w-10"
+            className="absolute -right-2 top-[38%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-gold-strong text-white shadow-soft transition-transform hover:scale-105 active:scale-95 sm:-right-3 sm:h-10 sm:w-10"
           >
             <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
           </button>
