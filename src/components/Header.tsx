@@ -117,7 +117,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="hidden bg-ink sm:block">
+      <div className="hidden bg-neutral-600 sm:block">
         <div className="mx-auto flex h-11 max-w-6xl items-center gap-4 px-5 text-sm text-paper-soft/80 sm:px-8">
           <button
             type="button"
