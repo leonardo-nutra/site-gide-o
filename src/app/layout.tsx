@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Geist } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { SearchProvider } from "@/lib/search-context";
@@ -58,33 +57,16 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fffdf8" },
-    { media: "(prefers-color-scheme: dark)", color: "#16130d" },
-  ],
+  themeColor: "#ffffff",
 };
-
-const themeInitScript = `
-(function () {
-  try {
-    var stored = localStorage.getItem('gideao-theme');
-    var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (isDark) document.documentElement.classList.add('dark');
-  } catch (e) {}
-})();
-`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
       className={`${geistSans.variable} ${archivo.variable} h-full antialiased`}
-      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-paper text-ink font-sans">
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeInitScript}
-        </Script>
         <MetaPixel />
         <UtmCapture />
         <CartProvider>

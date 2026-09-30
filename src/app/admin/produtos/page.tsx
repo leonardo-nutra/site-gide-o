@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { categories } from "@/lib/site";
 import { createProduct, deleteProduct, updateProduct } from "../actions";
@@ -20,11 +19,7 @@ function specsToText(specs: unknown) {
 }
 
 export default async function AdminProductsPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/admin/login");
+  const { supabase, user } = await requireAdmin();
 
   const { data: products } = await supabase
     .from("products")

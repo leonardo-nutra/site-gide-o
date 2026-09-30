@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/admin";
 
 /** Parses the admin's "Rótulo: Valor" textarea into the specs jsonb shape. */
 function parseSpecs(raw: string) {
@@ -47,13 +48,13 @@ export async function signOut() {
 }
 
 export async function updateOrderStatus(id: string, status: string) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   await supabase.from("orders").update({ status }).eq("id", id);
   revalidatePath("/admin");
 }
 
 export async function updateProduct(formData: FormData) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   const id = String(formData.get("id"));
 
   const [image, applicationImage, video] = await Promise.all([
@@ -87,7 +88,7 @@ export async function updateProduct(formData: FormData) {
 }
 
 export async function createProduct(formData: FormData) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   const [image, applicationImage, video] = await Promise.all([
     uploadMedia(supabase, formData.get("image"), "images"),
@@ -115,13 +116,13 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   await supabase.from("products").delete().eq("id", id);
   revalidatePath("/admin/produtos");
 }
 
 export async function createBanner(formData: FormData) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   await supabase.from("banners").insert({
     title: String(formData.get("title")),
@@ -136,7 +137,7 @@ export async function createBanner(formData: FormData) {
 }
 
 export async function updateBanner(formData: FormData) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   const id = String(formData.get("id"));
 
   await supabase
@@ -157,7 +158,7 @@ export async function updateBanner(formData: FormData) {
 }
 
 export async function deleteBanner(id: string) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   await supabase.from("banners").delete().eq("id", id);
   revalidatePath("/admin/banners");
   revalidatePath("/");

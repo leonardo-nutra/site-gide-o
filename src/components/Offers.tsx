@@ -269,7 +269,7 @@ export function Offers({ offers }: { offers: Product[] }) {
               type="button"
               aria-label="Ver produtos anteriores"
               onClick={() => scrollByCards(-1)}
-              className="absolute -left-2 top-[46%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:-left-3 sm:h-10 sm:w-10"
+              className="absolute -left-2 top-[30%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:-left-3 sm:h-10 sm:w-10"
             >
               <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
@@ -277,7 +277,7 @@ export function Offers({ offers }: { offers: Product[] }) {
               type="button"
               aria-label="Ver mais produtos"
               onClick={() => scrollByCards(1)}
-              className="absolute -right-2 top-[46%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:-right-3 sm:h-10 sm:w-10"
+              className="absolute -right-2 top-[30%] grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:-right-3 sm:h-10 sm:w-10"
             >
               <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>

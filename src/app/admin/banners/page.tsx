@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { createBanner, deleteBanner, updateBanner } from "../actions";
 
@@ -9,11 +8,7 @@ const inputClass =
   "w-full rounded-lg border border-line bg-paper px-2.5 py-1.5 text-sm text-ink outline-none focus:border-gold-strong";
 
 export default async function AdminBannersPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/admin/login");
+  const { supabase, user } = await requireAdmin();
 
   const { data: banners } = await supabase
     .from("banners")

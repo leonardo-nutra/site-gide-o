@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { OrderStatusSelect } from "@/components/admin/OrderStatusSelect";
 
@@ -8,11 +7,7 @@ export const dynamic = "force-dynamic";
 type OrderItem = { name: string; qty: number; unitPrice?: number; unit?: string };
 
 export default async function AdminOrdersPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/admin/login");
+  const { supabase, user } = await requireAdmin();
 
   const { data: orders } = await supabase
     .from("orders")

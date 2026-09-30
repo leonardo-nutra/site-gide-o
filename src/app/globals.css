@@ -1,11 +1,9 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
-  --paper: #fffdfa;
-  --paper-soft: #fbf3dd;
-  --paper-strong: #f5e7bc;
+  --paper: #ffffff;
+  --paper-soft: #ffffff;
+  --paper-strong: #f4f4f4;
   --ink: #18140d;
   --ink-soft: #4a4030;
   --ink-faint: #7c715a;
@@ -26,29 +24,6 @@
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   color-scheme: light;
-}
-
-.dark {
-  --paper: #15120c;
-  --paper-soft: #1e1810;
-  --paper-strong: #2b2216;
-  --ink: #fbf6ea;
-  --ink-soft: #d9cdb2;
-  --ink-faint: #a39378;
-  --line: #3a2f1d;
-
-  --gold: #ffcf1f;
-  --gold-strong: #ffb703;
-  --gold-soft: #3d2f0f;
-  --red: #ff4a4e;
-  --red-strong: #ff7a7d;
-  --whatsapp: #2fe37c;
-  --whatsapp-strong: #26c96a;
-
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.55);
-  --shadow-lift: 0 4px 10px rgba(0, 0, 0, 0.4), 0 24px 48px -16px rgba(0, 0, 0, 0.65);
-
-  color-scheme: dark;
 }
 
 @theme inline {

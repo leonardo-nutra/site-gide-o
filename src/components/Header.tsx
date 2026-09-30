@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, MessageCircle, Search, User, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { CartButton } from "./CartButton";
 import { AccountButton } from "./AccountButton";
 import { LocationIndicator } from "./LocationIndicator";
-import { ThemeToggle } from "./ThemeToggle";
 import { WhatsAppLink } from "./WhatsAppLink";
 import { site, waLink } from "@/lib/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { useSearch } from "@/lib/search-context";
+import { useCustomer } from "@/lib/supabase/use-customer";
+import { createClient } from "@/lib/supabase/client";
 
 const navLinks = [
   { href: "#ofertas", label: "Ofertas" },
@@ -21,8 +24,17 @@ const navLinks = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [showAccountNote, setShowAccountNote] = useState(false);
   const { query, setQuery } = useSearch();
+  const { user } = useCustomer();
+  const router = useRouter();
+
+  async function handleSignOut() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setOpen(false);
+    router.push("/");
+    router.refresh();
+  }
 
   function handleSearchSubmit(e: FormEvent) {
     e.preventDefault();
@@ -67,7 +79,6 @@ export function Header() {
           <Logo compact />
         </a>
         <div className="flex items-center justify-self-end gap-0.5">
-          <ThemeToggle />
           <CartButton />
         </div>
       </div>
@@ -102,7 +113,6 @@ export function Header() {
           <AccountButton className="hidden lg:flex" showLabel />
           <AccountButton className="lg:hidden" />
           <LocationIndicator className="hidden lg:flex" />
-          <ThemeToggle />
           <CartButton variant="solid" className="h-14 w-14 lg:h-[3.75rem] lg:w-[3.75rem]" />
         </div>
       </div>
@@ -186,42 +196,49 @@ export function Header() {
                 <div className="flex items-center gap-2.5">
                   <User className="h-6 w-6 shrink-0 text-gold-strong" strokeWidth={2} />
                   <div>
-                    <p className="text-sm font-bold text-ink">Bem-vindo!</p>
-                    <p className="text-xs text-ink-soft">Entre ou Cadastre-se</p>
+                    <p className="text-sm font-bold text-ink">
+                      {user ? "Você está logado" : "Bem-vindo!"}
+                    </p>
+                    <p className="text-xs text-ink-soft">
+                      {user ? user.email : "Entre ou Cadastre-se"}
+                    </p>
                   </div>
                 </div>
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setShowAccountNote((v) => !v)}
-                    className="rounded-full bg-gold-strong px-3 py-2 text-xs font-bold text-white active:scale-95"
-                  >
-                    Entrar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowAccountNote((v) => !v)}
-                    className="rounded-full border border-gold-strong px-3 py-2 text-xs font-bold text-gold-strong active:scale-95"
-                  >
-                    Cadastre-se
-                  </button>
-                </div>
-                <AnimatePresence>
-                  {showAccountNote && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
+                {user ? (
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <Link
+                      href="/conta"
+                      onClick={() => setOpen(false)}
+                      className="rounded-full bg-gold-strong px-3 py-2 text-center text-xs font-bold text-white active:scale-95"
                     >
-                      <p className="mt-3 text-xs leading-relaxed text-ink-faint">
-                        Login de clientes chegando em breve. Por enquanto, fale
-                        direto com a gente pelo WhatsApp.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      Minha conta
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleSignOut}
+                      className="rounded-full border border-gold-strong px-3 py-2 text-xs font-bold text-gold-strong active:scale-95"
+                    >
+                      Sair
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <Link
+                      href="/conta/entrar"
+                      onClick={() => setOpen(false)}
+                      className="rounded-full bg-gold-strong px-3 py-2 text-center text-xs font-bold text-white active:scale-95"
+                    >
+                      Entrar
+                    </Link>
+                    <Link
+                      href="/conta/cadastro"
+                      onClick={() => setOpen(false)}
+                      className="rounded-full border border-gold-strong px-3 py-2 text-center text-xs font-bold text-gold-strong active:scale-95"
+                    >
+                      Cadastre-se
+                    </Link>
+                  </div>
+                )}
               </div>
               <div className="mt-3 px-3 text-sm text-ink-faint">{site.phoneDisplay}</div>
             </nav>
