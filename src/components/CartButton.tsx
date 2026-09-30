@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { useCart } from "@/lib/cart-context";
-import { CartIcon } from "./icons/CartIcon";
 
 export function CartButton({
   className = "",
@@ -24,7 +24,13 @@ export function CartButton({
           : "text-ink hover:bg-paper-strong"
       } ${className}`}
     >
-      <CartIcon className="h-5 w-5" />
+      <Image
+        src="/images/icons/carrinho.png"
+        alt=""
+        width={20}
+        height={20}
+        className={`h-5 w-5 object-contain ${variant === "solid" ? "brightness-0 invert" : ""}`}
+      />
       <AnimatePresence>
         {cart.count > 0 && (
           <motion.span

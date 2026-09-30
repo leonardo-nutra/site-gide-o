@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import {
   ChevronLeft,
   ChevronRight,
@@ -14,7 +15,6 @@ import {
 } from "lucide-react";
 import { categories } from "@/lib/site";
 import { useSearch } from "@/lib/search-context";
-import { CartIcon } from "./icons/CartIcon";
 
 const icons: Record<string, LucideIcon> = {
   Grid3x3,
@@ -39,7 +39,7 @@ export function DepartmentStrip() {
     <div className="border-b border-line bg-paper px-4 py-4 sm:px-8 sm:py-5">
       <p className="mx-auto mb-3 flex max-w-6xl items-center gap-1.5 border-b border-neutral-300 pb-2 text-sm font-bold text-neutral-700 sm:mb-4">
         Compre por departamento
-        <CartIcon className="h-4 w-4 text-gold-strong" />
+        <Image src="/images/icons/carrinho.png" alt="" width={16} height={16} className="h-4 w-4 object-contain" />
       </p>
 
       <div className="relative mx-auto max-w-6xl">
