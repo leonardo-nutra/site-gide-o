@@ -72,6 +72,29 @@ section[id] {
   color: var(--ink);
 }
 
+html {
+  scrollbar-color: #ef7f00 var(--paper-strong);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper-strong);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ef7f00;
+  border-radius: 999px;
+  border: 2px solid var(--paper-strong);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gold-strong);
+}
+
 /* Prevent iOS Safari from auto-zooming when focusing form fields */
 @media (max-width: 640px) {
   input,
