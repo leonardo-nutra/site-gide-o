@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
@@ -14,7 +15,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { categories } from "@/lib/site";
-import { useSearch } from "@/lib/search-context";
 
 const icons: Record<string, LucideIcon> = {
   Grid3x3,
@@ -25,9 +25,8 @@ const icons: Record<string, LucideIcon> = {
   Hammer,
 };
 
-export function DepartmentStrip() {
+export function DepartmentStrip({ activeId }: { activeId?: string }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const { category, setCategory } = useSearch();
 
   function scrollByIcons(direction: 1 | -1) {
     const el = scrollerRef.current;
@@ -50,15 +49,14 @@ export function DepartmentStrip() {
           {categories.map((cat) => {
             const Icon = icons[cat.icon];
             return (
-              <a
+              <Link
                 key={cat.id}
-                href="#ofertas"
-                onClick={() => setCategory(cat.id)}
+                href={`/departamento/${cat.id}`}
                 className="group flex w-16 shrink-0 flex-col items-center gap-1.5 text-center transition-transform active:scale-95 sm:w-24 sm:gap-2"
               >
                 <span
                   className={`grid h-14 w-14 shrink-0 place-items-center rounded-full text-white transition-transform sm:h-16 sm:w-16 group-hover:scale-105 ${
-                    category === cat.id ? "bg-gold-strong" : "bg-neutral-600"
+                    activeId === cat.id ? "bg-gold-strong" : "bg-neutral-600"
                   }`}
                 >
                   <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2} />
@@ -66,7 +64,7 @@ export function DepartmentStrip() {
                 <span className="line-clamp-2 text-[0.65rem] font-medium leading-tight text-neutral-700 sm:text-xs">
                   {cat.title}
                 </span>
-              </a>
+              </Link>
             );
           })}
         </div>

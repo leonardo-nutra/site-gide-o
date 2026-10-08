@@ -1,19 +1,23 @@
 "use client";
 
 import type { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { ChevronRight, MapPin, Search } from "lucide-react";
 import { useSearch } from "@/lib/search-context";
 import { site } from "@/lib/site";
 
 export function MobileSearchBar() {
   const { query, setQuery } = useSearch();
+  const router = useRouter();
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     site.address.mapsQuery
   )}`;
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    document.getElementById("ofertas")?.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById("ofertas");
+    if (target) target.scrollIntoView({ behavior: "smooth" });
+    else router.push("/#ofertas");
   }
 
   return (

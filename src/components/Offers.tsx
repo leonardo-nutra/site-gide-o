@@ -10,7 +10,6 @@ import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
 import { useSearch } from "@/lib/search-context";
 import { useWishlist } from "@/lib/wishlist";
-import { categories } from "@/lib/site";
 
 const DIACRITICS_PATTERN = new RegExp("[\\u0300-\\u036f]", "g");
 
@@ -18,7 +17,7 @@ function normalize(value: string) {
   return value.normalize("NFD").replace(DIACRITICS_PATTERN, "").toLowerCase();
 }
 
-function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
+export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
   const cart = useCart();
   const wishlist = useWishlist(offer.id);
   const [qty, setQty] = useState(1);
@@ -176,7 +175,7 @@ function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
 
 export function Offers({ offers }: { offers: Product[] }) {
   const [selected, setSelected] = useState<Product | null>(null);
-  const { query, category, setCategory } = useSearch();
+  const { query } = useSearch();
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   function scrollByCards(direction: 1 | -1) {
@@ -187,15 +186,13 @@ export function Offers({ offers }: { offers: Product[] }) {
   }
 
   const trimmedQuery = query.trim();
-  const activeCategory = category ? categories.find((c) => c.id === category) : undefined;
 
-  const byCategory = category ? offers.filter((o) => o.category === category) : offers;
   const filtered = trimmedQuery
-    ? byCategory.filter((o) => {
+    ? offers.filter((o) => {
         const needle = normalize(trimmedQuery);
         return normalize(o.name).includes(needle) || normalize(o.detail).includes(needle);
       })
-    : byCategory;
+    : offers;
 
   return (
     <section id="ofertas" className="bg-paper-soft py-10 sm:py-20">
@@ -203,24 +200,13 @@ export function Offers({ offers }: { offers: Product[] }) {
         <Reveal className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div className="max-w-xl">
             <p className="text-sm font-semibold uppercase tracking-wide text-red">
-              {trimmedQuery ? "Resultado da busca" : activeCategory ? "Departamento" : "Ofertas da semana"}
+              {trimmedQuery ? "Resultado da busca" : "Ofertas da semana"}
             </p>
             <h2 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
               {trimmedQuery
                 ? `Produtos para "${trimmedQuery}"`
-                : activeCategory
-                  ? activeCategory.title
-                  : "Preços especiais em pisos e porcelanatos"}
+                : "Preços especiais em pisos e porcelanatos"}
             </h2>
-            {activeCategory && !trimmedQuery && (
-              <button
-                type="button"
-                onClick={() => setCategory(null)}
-                className="mt-2 text-xs font-semibold text-gold-strong underline underline-offset-2"
-              >
-                Ver todos os produtos
-              </button>
-            )}
           </div>
           <p className="text-sm text-ink-faint">
             Preços por m² · válidos enquanto durar o estoque
@@ -234,11 +220,10 @@ export function Offers({ offers }: { offers: Product[] }) {
           </p>
         ) : filtered.length === 0 ? (
           <p className="mt-12 text-center text-ink-faint">
-            {trimmedQuery
-              ? <>Nenhum produto encontrado para &quot;{trimmedQuery}&quot;. Fale com a gente pelo WhatsApp — talvez a gente tenha o que você procura.</>
-              : <>Ainda não temos produtos cadastrados em {activeCategory?.title ?? "esse departamento"}. Fale com a gente pelo WhatsApp para consultar disponibilidade.</>}
+            Nenhum produto encontrado para &quot;{trimmedQuery}&quot;. Fale com a gente pelo
+            WhatsApp — talvez a gente tenha o que você procura.
           </p>
-        ) : trimmedQuery || activeCategory ? (
+        ) : trimmedQuery ? (
           <StaggerGroup className="mt-6 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
             {filtered.map((offer) => (
               <OfferCard

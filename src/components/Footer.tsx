@@ -5,8 +5,8 @@ import { WhatsAppLink } from "./WhatsAppLink";
 import { site, categories } from "@/lib/site";
 
 const links = [
-  { href: "#ofertas", label: "Ofertas" },
-  { href: "#contato", label: "Contato" },
+  { href: "/#ofertas", label: "Ofertas" },
+  { href: "/#contato", label: "Contato" },
 ];
 
 const paymentMethods = [
@@ -57,7 +57,7 @@ export function Footer() {
               {categories.map((cat) => (
                 <li key={cat.id}>
                   <a
-                    href="#ofertas"
+                    href={`/departamento/${cat.id}`}
                     className="text-sm text-paper-soft/80 transition-colors hover:text-gold"
                   >
                     {cat.title}

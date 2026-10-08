@@ -17,8 +17,8 @@ import { useCustomer } from "@/lib/supabase/use-customer";
 import { createClient } from "@/lib/supabase/client";
 
 const navLinks = [
-  { href: "#ofertas", label: "Ofertas" },
-  { href: "#contato", label: "Contato" },
+  { href: "/#ofertas", label: "Ofertas" },
+  { href: "/#contato", label: "Contato" },
 ];
 
 export function Header() {
@@ -38,7 +38,9 @@ export function Header() {
 
   function handleSearchSubmit(e: FormEvent) {
     e.preventDefault();
-    document.getElementById("ofertas")?.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById("ofertas");
+    if (target) target.scrollIntoView({ behavior: "smooth" });
+    else router.push("/#ofertas");
   }
 
   useEffect(() => {
@@ -75,18 +77,18 @@ export function Header() {
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
-        <a href="#topo" className="justify-self-center">
+        <Link href="/" className="justify-self-center">
           <Logo compact />
-        </a>
+        </Link>
         <div className="flex items-center justify-self-end gap-0.5">
           <CartButton />
         </div>
       </div>
 
       <div className="mx-auto hidden h-20 max-w-6xl items-center justify-between gap-4 px-5 sm:flex sm:px-8">
-        <a href="#topo" className="shrink-0">
+        <Link href="/" className="shrink-0">
           <Logo />
-        </a>
+        </Link>
 
         <form
           onSubmit={handleSearchSubmit}
@@ -128,20 +130,20 @@ export function Header() {
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
-          <a
-            href="#ofertas"
+          <Link
+            href="/#ofertas"
             className="whitespace-nowrap font-semibold text-paper transition-colors hover:text-gold"
           >
             Departamentos
-          </a>
+          </Link>
           <span className="text-paper-soft/30">|</span>
-          <a href="#ofertas" className="whitespace-nowrap transition-colors hover:text-gold">
+          <Link href="/#ofertas" className="whitespace-nowrap transition-colors hover:text-gold">
             Ofertas
-          </a>
+          </Link>
           <span className="text-paper-soft/30">|</span>
-          <a href="#contato" className="whitespace-nowrap transition-colors hover:text-gold">
+          <Link href="/#contato" className="whitespace-nowrap transition-colors hover:text-gold">
             Contato
-          </a>
+          </Link>
           <WhatsAppLink
             message="Olá! Quero pedir um orçamento com a Gideão."
             className="ml-auto flex items-center gap-1.5 whitespace-nowrap"

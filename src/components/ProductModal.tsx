@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import {
   Check,
@@ -17,7 +18,6 @@ import {
 } from "lucide-react";
 import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
-import { useSearch } from "@/lib/search-context";
 import { categories, waLink } from "@/lib/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 
@@ -29,7 +29,7 @@ export function ProductModal({
   onClose: () => void;
 }) {
   const cart = useCart();
-  const { setCategory } = useSearch();
+  const router = useRouter();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -57,9 +57,8 @@ export function ProductModal({
 
   function goToCategory() {
     if (!product) return;
-    setCategory(product.category);
     onClose();
-    document.getElementById("ofertas")?.scrollIntoView({ behavior: "smooth" });
+    router.push(`/departamento/${product.category}`);
   }
 
   const handleAdd = () => {
