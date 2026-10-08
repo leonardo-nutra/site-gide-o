@@ -22,6 +22,7 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
   const wishlist = useWishlist(offer.id);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const hasAlt = offer.applicationImage !== offer.image;
 
   const handleAdd = () => {
     cart.addItem(
@@ -77,18 +78,26 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
               sizes="(min-width: 1024px) 25vw, 50vw"
               className="object-cover opacity-100 transition-opacity duration-500 ease-out group-hover:opacity-0"
             />
-            <Image
-              src={offer.applicationImage}
-              alt={`Exemplo de ambiente com piso no tom de ${offer.name}`}
-              fill
-              sizes="(min-width: 1024px) 25vw, 50vw"
-              className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
-            />
+            {hasAlt && (
+              <Image
+                src={offer.applicationImage}
+                alt={`Exemplo de ambiente com piso no tom de ${offer.name}`}
+                fill
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+              />
+            )}
           </div>
-          <div className="absolute inset-x-0 bottom-0 bg-whatsapp py-1.5 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-colors duration-300 group-hover:bg-ink group-hover:text-paper sm:py-2 sm:text-xs">
-            <span className="block group-hover:hidden">Oferta</span>
-            <span className="hidden group-hover:block">Exemplo montado</span>
-          </div>
+          {offer.featured && (
+            <div
+              className={`absolute inset-x-0 bottom-0 bg-whatsapp py-1.5 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-colors duration-300 sm:py-2 sm:text-xs ${
+                hasAlt ? "group-hover:bg-ink group-hover:text-paper" : ""
+              }`}
+            >
+              <span className={hasAlt ? "block group-hover:hidden" : "block"}>Oferta</span>
+              {hasAlt && <span className="hidden group-hover:block">Exemplo montado</span>}
+            </div>
+          )}
         </div>
 
         <div className="px-3 pt-3 sm:px-5 sm:pt-5">
@@ -187,12 +196,15 @@ export function Offers({ offers }: { offers: Product[] }) {
 
   const trimmedQuery = query.trim();
 
+  // The carousel only shows the hand-picked offers; a search looks through the whole catalog.
+  const featured = offers.filter((o) => o.featured);
+  const carousel = featured.length > 0 ? featured : offers.slice(0, 8);
   const filtered = trimmedQuery
     ? offers.filter((o) => {
         const needle = normalize(trimmedQuery);
         return normalize(o.name).includes(needle) || normalize(o.detail).includes(needle);
       })
-    : offers;
+    : carousel;
 
   return (
     <section id="ofertas" className="bg-paper-soft py-10 sm:py-20">

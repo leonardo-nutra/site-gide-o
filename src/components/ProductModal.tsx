@@ -42,12 +42,16 @@ export function ProductModal({
   const media = product
     ? [
         { type: "image" as const, src: product.image, alt: product.name, tag: "Produto" },
-        {
-          type: "image" as const,
-          src: product.applicationImage,
-          alt: `Exemplo de ambiente com o produto no tom de ${product.name}`,
-          tag: "Exemplo montado",
-        },
+        ...(product.applicationImage !== product.image
+          ? [
+              {
+                type: "image" as const,
+                src: product.applicationImage,
+                alt: `Exemplo de ambiente com o produto no tom de ${product.name}`,
+                tag: "Exemplo montado",
+              },
+            ]
+          : []),
         ...(product.video
           ? [{ type: "video" as const, src: product.video, alt: product.name, tag: "Vídeo" }]
           : []),

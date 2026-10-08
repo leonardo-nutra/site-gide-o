@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Foto em breve">
+  <rect width="600" height="600" fill="#f4f4f4"/>
+  <g fill="none" stroke="#a3a3a3" stroke-width="14" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M300 170 410 232v136L300 430 190 368V232z"/>
+    <path d="M190 232 300 294 410 232M300 294v136"/>
+  </g>
+  <text x="300" y="500" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600" fill="#a3a3a3">Foto em breve</text>
+</svg>

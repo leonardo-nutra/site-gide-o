@@ -4,6 +4,8 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  Bath,
+  BrickWall,
   ChevronLeft,
   ChevronRight,
   DoorOpen,
@@ -11,7 +13,10 @@ import {
   Grid3x3,
   Hammer,
   Layers,
+  Nut,
   PaintBucket,
+  Pipette,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 import { categories } from "@/lib/site";
@@ -23,6 +28,11 @@ const icons: Record<string, LucideIcon> = {
   Droplets,
   DoorOpen,
   Hammer,
+  BrickWall,
+  Zap,
+  Pipette,
+  Nut,
+  Bath,
 };
 
 export function DepartmentStrip({ activeId }: { activeId?: string }) {
@@ -44,8 +54,9 @@ export function DepartmentStrip({ activeId }: { activeId?: string }) {
       <div className="relative mx-auto max-w-6xl">
         <div
           ref={scrollerRef}
-          className="flex gap-4 overflow-x-auto px-8 pb-1 [scrollbar-width:none] sm:gap-8 lg:justify-center [&::-webkit-scrollbar]:hidden"
+          className="overflow-x-auto px-8 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
+          <div className="mx-auto flex w-max gap-4 sm:gap-6">
           {categories.map((cat) => {
             const Icon = icons[cat.icon];
             return (
@@ -67,6 +78,7 @@ export function DepartmentStrip({ activeId }: { activeId?: string }) {
               </Link>
             );
           })}
+          </div>
         </div>
 
         <button

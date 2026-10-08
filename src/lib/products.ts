@@ -18,13 +18,19 @@ export type Product = {
   video: string;
   /** Department/tab id from `categories` in `@/lib/site` (e.g. "pisos"). */
   category: string;
+  /** Hand-picked offer: shown in the home carousel and tagged OFERTA. */
+  featured: boolean;
   specs: ProductSpec[];
 };
+
+/** Shown for catalog items that don't have a photo yet. */
+export const PLACEHOLDER_IMAGE = "/images/sem-foto.svg";
 
 /** Used only if the Supabase catalog is unreachable or empty. */
 const fallbackProducts: Product[] = [
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-1",
     name: "Piso Polido Retificado",
@@ -41,6 +47,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-9",
     name: "Piso 45x89 Lume",
@@ -58,6 +65,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-4",
     name: "Piso Karina Polido",
@@ -74,6 +82,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-2",
     name: "Piso 75x75 Lumina Bege Karina",
@@ -91,6 +100,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-5",
     name: "Piso 75x75 Majestic",
@@ -108,6 +118,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-7",
     name: "Piso Cerâmico Black Gold HD",
@@ -125,6 +136,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-6",
     name: "Piso Extra Onix Blue 75x75",
@@ -142,6 +154,7 @@ const fallbackProducts: Product[] = [
   },
   {
     category: "pisos",
+    featured: true,
     video: "",
     id: "piso-3",
     name: "Piso Polido 60x60",
@@ -169,7 +182,7 @@ export async function getProducts(): Promise<Product[]> {
     const { data, error } = await supabase
       .from("products")
       .select(
-        "slug, name, detail, price, unit, image, application_image, video, category, material, measure, specs"
+        "slug, name, detail, price, unit, image, application_image, video, category, featured, material, measure, specs"
       )
       .eq("active", true)
       .order("sort_order", { ascending: true });
@@ -189,10 +202,11 @@ export async function getProducts(): Promise<Product[]> {
         detail: row.detail,
         price: formatDbPrice(Number(row.price)),
         unit: row.unit,
-        image: row.image,
-        applicationImage: row.application_image,
+        image: row.image || PLACEHOLDER_IMAGE,
+        applicationImage: row.application_image || row.image || PLACEHOLDER_IMAGE,
         video: row.video ?? "",
         category: row.category ?? "pisos",
+        featured: Boolean(row.featured),
         specs: [...structuredSpecs, ...specs],
       };
     });
