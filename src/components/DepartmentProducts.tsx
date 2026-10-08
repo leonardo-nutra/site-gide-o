@@ -49,7 +49,13 @@ function buildFacets(products: Product[]): Facet[] {
         .map(([value, count]) => ({ value, count }))
         .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value, "pt-BR")),
     }))
-    .filter((facet) => facet.values.length >= 2);
+    .filter((facet) => facet.values.length >= 2)
+    .sort((a, b) => facetRank(a.label) - facetRank(b.label));
+}
+
+// "Tipo" narrows the most, "Medida" lists the most values — so type first, measure last.
+function facetRank(label: string) {
+  return label === "Tipo" ? 0 : label === "Medida" ? 2 : 1;
 }
 
 function matchesSelection(product: Product, selected: Selected) {

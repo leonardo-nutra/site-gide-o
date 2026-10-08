@@ -85,6 +85,8 @@ export async function updateProduct(formData: FormData) {
     .eq("id", id);
 
   revalidatePath("/admin/produtos");
+  revalidatePath("/");
+  revalidatePath("/departamento/[id]", "page");
 }
 
 export async function createProduct(formData: FormData) {
@@ -113,12 +115,16 @@ export async function createProduct(formData: FormData) {
   });
 
   revalidatePath("/admin/produtos");
+  revalidatePath("/");
+  revalidatePath("/departamento/[id]", "page");
 }
 
 export async function deleteProduct(id: string) {
   const { supabase } = await requireAdmin();
   await supabase.from("products").delete().eq("id", id);
   revalidatePath("/admin/produtos");
+  revalidatePath("/");
+  revalidatePath("/departamento/[id]", "page");
 }
 
 export async function createBanner(formData: FormData) {
