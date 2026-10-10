@@ -37,11 +37,20 @@ export function ProductModal({
 
   const unitPrice = product ? parsePrice(product.price) : 0;
   const total = unitPrice * qty;
-  const categoryInfo = product ? categories.find((c) => c.id === product.category) : undefined;
+  const categoryInfo = product
+    ? categories.find((c) => c.id === product.category)
+    : undefined;
 
   const media = product
     ? [
-        { type: "image" as const, src: product.image, alt: product.name, tag: "Produto" },
+        {
+          type: "image" as const,
+          src: product.image,
+          alt: product.name,
+          tag: product.image.includes("/ilustrativa/")
+            ? "Foto ilustrativa"
+            : "Produto",
+        },
         ...(product.applicationImage !== product.image
           ? [
               {
@@ -53,7 +62,14 @@ export function ProductModal({
             ]
           : []),
         ...(product.video
-          ? [{ type: "video" as const, src: product.video, alt: product.name, tag: "Vídeo" }]
+          ? [
+              {
+                type: "video" as const,
+                src: product.video,
+                alt: product.name,
+                tag: "Vídeo",
+              },
+            ]
           : []),
       ]
     : [];
@@ -75,7 +91,7 @@ export function ProductModal({
         unit: product.unit,
         unitPrice,
       },
-      qty
+      qty,
     );
     setAdded(true);
     setQty(1);
@@ -139,7 +155,9 @@ export function ProductModal({
                     </>
                   )}
                   <ChevronRight className="h-3 w-3 shrink-0" />
-                  <span className="truncate font-semibold text-ink">{product.name}</span>
+                  <span className="truncate font-semibold text-ink">
+                    {product.name}
+                  </span>
                 </nav>
                 <button
                   type="button"
@@ -183,14 +201,22 @@ export function ProductModal({
                           onClick={() => setActiveImage(i)}
                           aria-label={`Ver ${item.type === "video" ? "vídeo" : "foto"}: ${item.tag}`}
                           className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
-                            activeImage === i ? "border-gold-strong" : "border-line"
+                            activeImage === i
+                              ? "border-gold-strong"
+                              : "border-line"
                           }`}
                         >
                           {item.type === "video" ? (
                             <>
-                              <video src={item.src} className="h-full w-full object-cover" />
+                              <video
+                                src={item.src}
+                                className="h-full w-full object-cover"
+                              />
                               <span className="absolute inset-0 grid place-items-center bg-black/35">
-                                <Play className="h-5 w-5 text-white" fill="currentColor" />
+                                <Play
+                                  className="h-5 w-5 text-white"
+                                  fill="currentColor"
+                                />
                               </span>
                             </>
                           ) : (
@@ -206,32 +232,47 @@ export function ProductModal({
                       ))}
                     </div>
                     <div className="mx-3 mb-3 flex items-start gap-2 rounded-xl bg-gold-soft px-3.5 py-2.5 text-xs leading-relaxed text-ink sm:hidden">
-                      <Info className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong" strokeWidth={2.25} />
+                      <Info
+                        className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong"
+                        strokeWidth={2.25}
+                      />
                       <span>
-                        A foto &quot;Exemplo montado&quot; é uma imagem ilustrativa de
-                        ambiente, no mesmo tom do produto — não é o item exato instalado.
+                        A foto &quot;Exemplo montado&quot; é uma imagem
+                        ilustrativa de ambiente, no mesmo tom do produto — não é
+                        o item exato instalado.
                       </span>
                     </div>
                   </div>
 
                   <div className="flex flex-col p-4 sm:p-6">
                     <div className="hidden items-start gap-2 rounded-xl bg-gold-soft px-3.5 py-2.5 text-xs leading-relaxed text-ink sm:flex">
-                      <Info className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong" strokeWidth={2.25} />
+                      <Info
+                        className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong"
+                        strokeWidth={2.25}
+                      />
                       <span>
-                        A foto &quot;Exemplo montado&quot; é ilustrativa, no mesmo tom
-                        do produto — não é o item exato instalado.
+                        A foto &quot;Exemplo montado&quot; é ilustrativa, no
+                        mesmo tom do produto — não é o item exato instalado.
                       </span>
                     </div>
 
-                    <h3 className="mt-4 text-lg font-bold text-ink sm:text-xl">{product.name}</h3>
-                    <p className="mt-1 text-sm text-ink-soft">{product.detail}</p>
+                    <h3 className="mt-4 text-lg font-bold text-ink sm:text-xl">
+                      {product.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-ink-soft">
+                      {product.detail}
+                    </p>
 
                     <div className="mt-4 flex items-baseline gap-1.5">
-                      <span className="text-sm font-medium text-ink-faint">R$</span>
+                      <span className="text-sm font-medium text-ink-faint">
+                        R$
+                      </span>
                       <span className="text-2xl font-display font-black text-ink sm:text-3xl">
                         {product.price}
                       </span>
-                      <span className="text-sm font-medium text-ink-faint">/{product.unit}</span>
+                      <span className="text-sm font-medium text-ink-faint">
+                        /{product.unit}
+                      </span>
                     </div>
 
                     <div className="mt-5 flex items-center gap-3">
@@ -244,7 +285,10 @@ export function ProductModal({
                         <Minus className="h-4 w-4" />
                       </button>
                       <span className="w-14 text-center text-base font-semibold text-ink">
-                        {qty} <span className="text-sm font-normal text-ink-faint">{product.unit}</span>
+                        {qty}{" "}
+                        <span className="text-sm font-normal text-ink-faint">
+                          {product.unit}
+                        </span>
                       </span>
                       <button
                         type="button"
@@ -296,7 +340,10 @@ export function ProductModal({
                             transition={{ duration: 0.18 }}
                             className="flex items-center gap-2"
                           >
-                            <ShoppingCart className="h-5 w-5" strokeWidth={2.25} />
+                            <ShoppingCart
+                              className="h-5 w-5"
+                              strokeWidth={2.25}
+                            />
                             Adicionar ao orçamento
                           </motion.span>
                         )}
@@ -332,7 +379,9 @@ export function ProductModal({
                                     <dt className="text-[0.7rem] font-semibold uppercase tracking-wide text-ink-faint">
                                       {spec.label}
                                     </dt>
-                                    <dd className="text-sm font-medium text-ink">{spec.value}</dd>
+                                    <dd className="text-sm font-medium text-ink">
+                                      {spec.value}
+                                    </dd>
                                   </div>
                                 ))}
                               </dl>
@@ -343,12 +392,14 @@ export function ProductModal({
                     )}
 
                     <a
-                      href={waLink(`Olá! Tenho uma dúvida sobre o produto "${product.name}".`)}
+                      href={waLink(
+                        `Olá! Tenho uma dúvida sobre o produto "${product.name}".`,
+                      )}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => {
                         const tracked = trackWhatsAppClick(
-                          `Olá! Tenho uma dúvida sobre o produto "${product.name}".`
+                          `Olá! Tenho uma dúvida sobre o produto "${product.name}".`,
                         );
                         if (tracked) e.currentTarget.href = tracked;
                       }}

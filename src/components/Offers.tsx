@@ -88,6 +88,11 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
               />
             )}
           </div>
+          {offer.image.includes("/ilustrativa/") && (
+            <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-0.5 text-[0.6rem] font-semibold text-ink-soft shadow-soft sm:text-[0.65rem]">
+              Foto ilustrativa
+            </span>
+          )}
           {offer.featured && (
             <div
               className={`absolute inset-x-0 bottom-0 bg-whatsapp py-1.5 text-center text-[0.65rem] font-bold uppercase tracking-wide text-white shadow-soft transition-colors duration-300 sm:py-2 sm:text-xs ${
