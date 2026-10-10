@@ -3,13 +3,22 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, ChevronLeft, ChevronRight, Heart, Minus, Plus, ShoppingCart } from "lucide-react";
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  Minus,
+  Plus,
+  ShoppingCart,
+} from "lucide-react";
 import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
 import { ProductModal } from "./ProductModal";
 import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
 import { useSearch } from "@/lib/search-context";
 import { useWishlist } from "@/lib/wishlist";
+import { categories } from "@/lib/site";
 
 const DIACRITICS_PATTERN = new RegExp("[\\u0300-\\u036f]", "g");
 
@@ -17,7 +26,51 @@ function normalize(value: string) {
   return value.normalize("NFD").replace(DIACRITICS_PATTERN, "").toLowerCase();
 }
 
-export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => void }) {
+/** Plural/gender-tolerant stem so "torneiras" finds "torneira" and "branca" finds "branco". */
+function stem(word: string) {
+  if (word.length <= 3) return word;
+  const singular = word.replace(/(es|s)$/, "");
+  return singular.length > 4 ? singular.replace(/[ao]$/, "") : singular;
+}
+
+/**
+ * Searches the whole catalog: every word typed must appear somewhere in the
+ * product name, description, department, measure or specs, in any order.
+ * Products whose name alone matches every word come first.
+ */
+function searchProducts(products: Product[], query: string) {
+  const words = normalize(query).split(/\s+/).filter(Boolean).map(stem);
+  if (words.length === 0) return products;
+
+  return products
+    .map((product) => {
+      const name = normalize(product.name);
+      const department =
+        categories.find((c) => c.id === product.category)?.title ?? "";
+      const haystack = normalize(
+        [
+          product.name,
+          product.detail,
+          department,
+          ...product.specs.flatMap((spec) => [spec.label, spec.value]),
+        ].join(" "),
+      );
+      const matchesAll = words.every((word) => haystack.includes(word));
+      const inName = words.every((word) => name.includes(word));
+      return { product, matchesAll, inName };
+    })
+    .filter((entry) => entry.matchesAll)
+    .sort((a, b) => Number(b.inName) - Number(a.inName))
+    .map((entry) => entry.product);
+}
+
+export function OfferCard({
+  offer,
+  onOpen,
+}: {
+  offer: Product;
+  onOpen: () => void;
+}) {
   const cart = useCart();
   const wishlist = useWishlist(offer.id);
   const [qty, setQty] = useState(1);
@@ -33,7 +86,7 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
         unit: offer.unit,
         unitPrice: parsePrice(offer.price),
       },
-      qty
+      qty,
     );
     setAdded(true);
     setQty(1);
@@ -53,7 +106,9 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
           e.stopPropagation();
           wishlist.toggle();
         }}
-        aria-label={wishlist.isSaved ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+        aria-label={
+          wishlist.isSaved ? "Remover dos favoritos" : "Adicionar aos favoritos"
+        }
         className="absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-paper/90 text-gold-strong shadow-soft backdrop-blur transition-transform active:scale-90 sm:right-3 sm:top-3"
       >
         <Heart
@@ -99,8 +154,14 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
                 hasAlt ? "group-hover:bg-ink group-hover:text-paper" : ""
               }`}
             >
-              <span className={hasAlt ? "block group-hover:hidden" : "block"}>Oferta</span>
-              {hasAlt && <span className="hidden group-hover:block">Exemplo montado</span>}
+              <span className={hasAlt ? "block group-hover:hidden" : "block"}>
+                Oferta
+              </span>
+              {hasAlt && (
+                <span className="hidden group-hover:block">
+                  Exemplo montado
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -109,11 +170,17 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
           <h3 className="line-clamp-2 text-xs font-semibold leading-snug text-ink sm:text-sm">
             {offer.name}
           </h3>
-          <p className="mt-1 hidden text-xs text-ink-faint sm:block">{offer.detail}</p>
+          <p className="mt-1 hidden text-xs text-ink-faint sm:block">
+            {offer.detail}
+          </p>
 
           <div className="mt-2 flex items-baseline gap-1 sm:mt-4">
-            <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">R$</span>
-            <span className="text-lg font-display font-black text-ink sm:text-2xl">{offer.price}</span>
+            <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">
+              R$
+            </span>
+            <span className="text-lg font-display font-black text-ink sm:text-2xl">
+              {offer.price}
+            </span>
             <span className="text-[0.65rem] font-medium text-ink-faint sm:text-xs">
               /{offer.unit}
             </span>
@@ -132,7 +199,10 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
             <Minus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </button>
           <span className="w-9 text-center text-xs font-semibold text-ink sm:w-10 sm:text-sm">
-            {qty} <span className="text-[0.65rem] font-normal text-ink-faint sm:text-xs">{offer.unit}</span>
+            {qty}{" "}
+            <span className="text-[0.65rem] font-normal text-ink-faint sm:text-xs">
+              {offer.unit}
+            </span>
           </span>
           <button
             type="button"
@@ -163,7 +233,10 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
                 transition={{ duration: 0.18 }}
                 className="flex items-center gap-1 sm:gap-1.5"
               >
-                <Check className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.5} />
+                <Check
+                  className="h-3 w-3 sm:h-3.5 sm:w-3.5"
+                  strokeWidth={2.5}
+                />
                 Adicionado
               </motion.span>
             ) : (
@@ -175,7 +248,10 @@ export function OfferCard({ offer, onOpen }: { offer: Product; onOpen: () => voi
                 transition={{ duration: 0.18 }}
                 className="flex items-center gap-1 sm:gap-1.5"
               >
-                <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.25} />
+                <ShoppingCart
+                  className="h-3 w-3 sm:h-3.5 sm:w-3.5"
+                  strokeWidth={2.25}
+                />
                 <span className="sm:hidden">Adicionar</span>
                 <span className="hidden sm:inline">Adicionar ao orçamento</span>
               </motion.span>
@@ -205,10 +281,7 @@ export function Offers({ offers }: { offers: Product[] }) {
   const featured = offers.filter((o) => o.featured);
   const carousel = featured.length > 0 ? featured : offers.slice(0, 8);
   const filtered = trimmedQuery
-    ? offers.filter((o) => {
-        const needle = normalize(trimmedQuery);
-        return normalize(o.name).includes(needle) || normalize(o.detail).includes(needle);
-      })
+    ? searchProducts(offers, trimmedQuery)
     : carousel;
 
   return (
@@ -226,19 +299,21 @@ export function Offers({ offers }: { offers: Product[] }) {
             </h2>
           </div>
           <p className="text-sm text-ink-faint">
-            Preços por m² · válidos enquanto durar o estoque
+            {trimmedQuery
+              ? `${filtered.length} ${filtered.length === 1 ? "produto encontrado" : "produtos encontrados"}`
+              : "Preços por m² · válidos enquanto durar o estoque"}
           </p>
         </Reveal>
 
         {offers.length === 0 ? (
           <p className="mt-12 text-center text-ink-faint">
-            Nenhuma oferta disponível no momento. Fale com a gente pelo
-            WhatsApp para consultar preços.
+            Nenhuma oferta disponível no momento. Fale com a gente pelo WhatsApp
+            para consultar preços.
           </p>
         ) : filtered.length === 0 ? (
           <p className="mt-12 text-center text-ink-faint">
-            Nenhum produto encontrado para &quot;{trimmedQuery}&quot;. Fale com a gente pelo
-            WhatsApp — talvez a gente tenha o que você procura.
+            Nenhum produto encontrado para &quot;{trimmedQuery}&quot;. Fale com
+            a gente pelo WhatsApp — talvez a gente tenha o que você procura.
           </p>
         ) : trimmedQuery ? (
           <StaggerGroup className="mt-6 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
