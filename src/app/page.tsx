@@ -41,16 +41,20 @@ const mortar = [
   "construcao-74ffc9f3cc",
 ];
 
-const priceValue = (p: Product) =>
-  Number(p.price.replace(/\./g, "").replace(",", "."));
-
-// The cheapest floors in the catalog, so this row stays correct as prices change.
-function cheapestFloors(products: Product[], count: number) {
-  return products
-    .filter((p) => p.category === "pisos")
-    .sort((a, b) => priceValue(a) - priceValue(b))
-    .slice(0, count);
-}
+const doorsAndWindows = [
+  "portas-d704e117c0",
+  "portas-183fd75c8d",
+  "portas-3295c9defc",
+  "portas-7ec8c83eff",
+  "portas-9cf1ee2500",
+  "portas-c5e694d716",
+  "portas-d212f8d8ba",
+  "portas-a8ad818f20",
+  "portas-1fbc95e90b",
+  "portas-7df00ae14f",
+  "portas-e8b17cc9f6",
+  "portas-bf939a75db",
+];
 
 function pick(products: Product[], ids: string[]) {
   return ids.flatMap((id) => products.find((p) => p.id === id) ?? []);
@@ -90,8 +94,8 @@ export default async function Home() {
           products={pick(products, mortar)}
         />
         <ProductCarousel
-          title="Pisos por menos - últimas oportunidades"
-          products={cheapestFloors(products, 10)}
+          title="Portas e janelas para sua obra"
+          products={pick(products, doorsAndWindows)}
         />
         <About />
         <Contact />
