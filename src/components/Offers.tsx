@@ -295,7 +295,7 @@ export function Offers({ offers }: { offers: Product[] }) {
             <h2 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
               {trimmedQuery
                 ? `Produtos para "${trimmedQuery}"`
-                : "Preços especiais em pisos e porcelanatos"}
+                : "Preços especiais em pisos e revestimentos"}
             </h2>
           </div>
           <p className="text-sm text-ink-faint">
