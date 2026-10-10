@@ -23,8 +23,13 @@ const roofing = ["construcao-bc298029d6", "construcao-2c59bc491b"];
 const waterproofing = [
   "construcao-591ac1be13",
   "construcao-98b4138eb9",
+  "tintas-2630f607f8",
+  "tintas-913b0c0012",
+  "ferramentas-cc2fbec2a9",
   "construcao-10b7bc619d",
   "construcao-69f407db4a",
+  "ferramentas-442fde57a6",
+  "tintas-3bec9f6d5a",
 ];
 const mortar = [
   "construcao-25fff32868",
