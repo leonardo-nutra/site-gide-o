@@ -18,21 +18,31 @@ import { getBanners } from "@/lib/banners";
 // without needing a new deploy every midnight.
 export const revalidate = 3600;
 
-// Hand-picked catalog items (by product id) for the first two home page rows.
-const essentials = [
-  "construcao-f2dec65eb2",
-  "construcao-25fff32868",
-  "construcao-74ffc9f3cc",
-  "construcao-9283bd9283",
-  "construcao-bd432671a8",
-  "construcao-1919b70570",
-];
+// Hand-picked catalog items (by product id) for the home page rows.
 const roofing = [
   "construcao-bc298029d6",
   "construcao-2c59bc491b",
   "ferragens-55c39713cf",
+  "ferragens-2287fa4705",
+  "ferragens-fe7e880399",
+  "ferragens-0f0e401381",
+  "ferragens-1b336999ba",
+  "ferragens-37159d86e7",
+];
+const waterproofing = [
   "construcao-591ac1be13",
   "construcao-98b4138eb9",
+  "construcao-10b7bc619d",
+  "construcao-69f407db4a",
+];
+const mortar = [
+  "construcao-25fff32868",
+  "construcao-f2dec65eb2",
+  "construcao-9283bd9283",
+  "construcao-bd432671a8",
+  "construcao-1919b70570",
+  "construcao-c127d242ee",
+  "construcao-74ffc9f3cc",
 ];
 
 const priceValue = (p: Product) =>
@@ -72,16 +82,19 @@ export default async function Home() {
         <PromoBannerSlot banners={offersBanners} variant="strip" />
         <DuoBannerSlot banners={duoBanners} />
         <ProductCarousel
-          title="Básicos e essenciais para a obra"
-          products={pick(products, essentials)}
-        />
-        <ProductCarousel
-          bg="soft"
-          title="Sua obra merece o melhor"
+          title="Telhas de alta resistência para sua casa"
           products={pick(products, roofing)}
         />
         <ProductCarousel
-          title="Pisos com ótimo preço"
+          title="Adeus umidade, impermeabilize!"
+          products={pick(products, waterproofing)}
+        />
+        <ProductCarousel
+          title="Sua obra merece a argamassa certa"
+          products={pick(products, mortar)}
+        />
+        <ProductCarousel
+          title="Pisos por menos - últimas oportunidades"
           products={cheapestFloors(products, 10)}
         />
         <About />
