@@ -19,16 +19,7 @@ import { getBanners } from "@/lib/banners";
 export const revalidate = 3600;
 
 // Hand-picked catalog items (by product id) for the home page rows.
-const roofing = [
-  "construcao-bc298029d6",
-  "construcao-2c59bc491b",
-  "ferragens-55c39713cf",
-  "ferragens-2287fa4705",
-  "ferragens-fe7e880399",
-  "ferragens-0f0e401381",
-  "ferragens-1b336999ba",
-  "ferragens-37159d86e7",
-];
+const roofing = ["construcao-bc298029d6", "construcao-2c59bc491b"];
 const waterproofing = [
   "construcao-591ac1be13",
   "construcao-98b4138eb9",
