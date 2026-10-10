@@ -18,7 +18,7 @@ import { getBanners } from "@/lib/banners";
 // without needing a new deploy every midnight.
 export const revalidate = 3600;
 
-// Hand-picked catalog items (by product id) for the home page rows.
+// Hand-picked catalog items (by product id) for the first two home page rows.
 const essentials = [
   "construcao-f2dec65eb2",
   "construcao-25fff32868",
@@ -34,16 +34,17 @@ const roofing = [
   "construcao-591ac1be13",
   "construcao-98b4138eb9",
 ];
-const floors = [
-  "pisos-48cf74ea64",
-  "pisos-b72a7c167b",
-  "pisos-0acad29096",
-  "pisos-bec1703aa9",
-  "pisos-485b593e96",
-  "pisos-9762cc5e54",
-  "pisos-ed6aee1163",
-  "pisos-3c0f9e45e7",
-];
+
+const priceValue = (p: Product) =>
+  Number(p.price.replace(/\./g, "").replace(",", "."));
+
+// The cheapest floors in the catalog, so this row stays correct as prices change.
+function cheapestFloors(products: Product[], count: number) {
+  return products
+    .filter((p) => p.category === "pisos")
+    .sort((a, b) => priceValue(a) - priceValue(b))
+    .slice(0, count);
+}
 
 function pick(products: Product[], ids: string[]) {
   return ids.flatMap((id) => products.find((p) => p.id === id) ?? []);
@@ -81,7 +82,7 @@ export default async function Home() {
         />
         <ProductCarousel
           title="Pisos com ótimo preço"
-          products={pick(products, floors)}
+          products={cheapestFloors(products, 10)}
         />
         <About />
         <Contact />
