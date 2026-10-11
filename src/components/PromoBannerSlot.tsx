@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Banner } from "@/lib/banners";
@@ -9,7 +10,8 @@ import type { Banner } from "@/lib/banners";
 type Variant = "hero" | "strip";
 
 const sizeClasses: Record<Variant, string> = {
-  hero: "h-64 sm:h-[420px]",
+  // Matches the 2000x668 banner artwork so nothing gets cropped.
+  hero: "aspect-[2000/668]",
   strip: "h-24 sm:h-32",
 };
 
@@ -63,14 +65,20 @@ export function PromoBannerSlot({
           className="absolute inset-0"
         >
           {current.link ? (
-            <a
-              href={current.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block h-full w-full"
-            >
-              {image}
-            </a>
+            current.link.startsWith("/") ? (
+              <Link href={current.link} className="block h-full w-full">
+                {image}
+              </Link>
+            ) : (
+              <a
+                href={current.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block h-full w-full"
+              >
+                {image}
+              </a>
+            )
           ) : (
             image
           )}
