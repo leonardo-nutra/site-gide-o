@@ -22,9 +22,12 @@ import { useWishlist } from "@/lib/wishlist";
 export function OfferCard({
   offer,
   onOpen,
+  priority = false,
 }: {
   offer: Product;
   onOpen: () => void;
+  /** Load eagerly: use for the first cards visible on screen (helps LCP). */
+  priority?: boolean;
 }) {
   const cart = useCart();
   const wishlist = useWishlist(offer.id);
@@ -85,6 +88,7 @@ export function OfferCard({
               src={offer.image}
               alt={offer.name}
               fill
+              priority={priority}
               sizes="(min-width: 1024px) 25vw, 50vw"
               className="object-cover opacity-100 transition-opacity duration-500 ease-out group-hover:opacity-0"
             />
@@ -327,13 +331,17 @@ export function Offers({ offers }: { offers: Product[] }) {
               ref={scrollerRef}
               className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
-              {filtered.map((offer) => (
+              {filtered.map((offer, index) => (
                 <div
                   key={offer.id}
                   data-card
                   className="w-[46%] shrink-0 snap-start sm:w-56 lg:w-64"
                 >
-                  <OfferCard offer={offer} onOpen={() => setSelected(offer)} />
+                  <OfferCard
+                    offer={offer}
+                    onOpen={() => setSelected(offer)}
+                    priority={index < 2}
+                  />
                 </div>
               ))}
             </StaggerGroup>
