@@ -12,10 +12,10 @@
   --gold: #ffc700;
   --gold-strong: #ef7f00;
   --gold-soft: #fff0b8;
-  --red: #e8262a;
+  --red: #d4191e;
   --red-strong: #ad1418;
-  --whatsapp: #25d366;
-  --whatsapp-strong: #1fb855;
+  --whatsapp: #0e8545;
+  --whatsapp-strong: #0b6f38;
 
   --shadow-soft: 0 1px 2px rgba(24, 20, 13, 0.06), 0 8px 24px -12px rgba(24, 20, 13, 0.22);
   --shadow-lift: 0 4px 8px rgba(24, 20, 13, 0.08), 0 20px 40px -16px rgba(24, 20, 13, 0.32);
@@ -48,6 +48,28 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--paper);
+  /* iOS/Android: keep text size stable when rotating the phone */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Avoid the page ever scrolling sideways on small screens */
+  overflow-x: clip;
+}
+
+/* Touch devices: no grey tap flash and no 300ms double-tap-zoom delay on controls */
+a,
+button,
+input,
+select,
+textarea,
+summary,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Keep room for the sticky header when jumping to an anchor */
+html {
+  scroll-padding-top: 84px;
 }
 
 @keyframes marquee {

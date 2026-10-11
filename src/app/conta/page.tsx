@@ -14,7 +14,7 @@ export default async function ContaPage() {
   const name = (user.user_metadata?.full_name as string | undefined) || "";
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-5 py-16">
+    <div className="mx-auto flex min-h-dvh max-w-lg flex-col justify-center px-5 py-16">
       <div className="rounded-2xl border border-line bg-paper p-6 shadow-lift sm:p-8">
         <h1 className="text-xl font-display font-black text-ink">
           Olá{name ? `, ${name}` : ""}!

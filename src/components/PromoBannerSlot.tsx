@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { ChevronLeft, ChevronRight, ImagePlus } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Banner } from "@/lib/banners";
 
 type Variant = "hero" | "strip";
@@ -12,22 +12,6 @@ const sizeClasses: Record<Variant, string> = {
   hero: "h-64 sm:h-[420px]",
   strip: "h-24 sm:h-32",
 };
-
-function EmptySlot({ variant }: { variant: Variant }) {
-  return (
-    <div
-      className={`flex w-full flex-col items-center justify-center gap-2 border-b border-line bg-paper-soft px-5 text-center ${sizeClasses[variant]}`}
-    >
-      <ImagePlus className="h-6 w-6 text-ink-faint" strokeWidth={1.75} />
-      <p className="text-sm font-medium text-ink-faint">
-        Espaço reservado para banner promocional
-      </p>
-      <p className="hidden text-xs text-ink-faint/70 sm:block">
-        Cadastre banners em /admin/banners que eles aparecem aqui, girando automaticamente.
-      </p>
-    </div>
-  );
-}
 
 export function PromoBannerSlot({
   banners,
@@ -46,10 +30,12 @@ export function PromoBannerSlot({
     return () => clearInterval(timer);
   }, [banners.length]);
 
-  if (banners.length === 0) return <EmptySlot variant={variant} />;
+  // No banners registered yet: show nothing instead of an empty placeholder.
+  if (banners.length === 0) return null;
 
   const current = banners[index];
-  const goPrev = () => setIndex((i) => (i - 1 + banners.length) % banners.length);
+  const goPrev = () =>
+    setIndex((i) => (i - 1 + banners.length) % banners.length);
   const goNext = () => setIndex((i) => (i + 1) % banners.length);
 
   const image = (

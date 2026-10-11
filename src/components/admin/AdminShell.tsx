@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 
 export function AdminShell({ email, children }: { email: string; children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-paper-soft">
+    <div className="min-h-dvh bg-paper-soft">
       <header className="border-b border-line bg-paper px-5 py-4 sm:px-8">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-6">

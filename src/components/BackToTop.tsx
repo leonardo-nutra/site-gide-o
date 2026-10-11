@@ -25,6 +25,7 @@ export function BackToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.7, y: 10 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ bottom: "calc(1.25rem + env(safe-area-inset-bottom))" }}
           className="fixed bottom-5 left-5 z-40 grid h-10 w-10 place-items-center rounded-full border border-line bg-paper text-ink shadow-lift transition-transform hover:scale-105 active:scale-90 sm:bottom-7 sm:left-7"
         >
           <ArrowUp className="h-4 w-4" strokeWidth={2.5} />

@@ -70,6 +70,10 @@ export default async function Home() {
       getBanners("duo"),
     ]);
 
+  // The offers row only needs the hand-picked offers; search runs on the server.
+  const featured = products.filter((p) => p.featured);
+  const homeOffers = featured.length > 0 ? featured : products.slice(0, 8);
+
   return (
     <>
       <Header />
@@ -78,7 +82,7 @@ export default async function Home() {
         <PromoBannerSlot banners={heroBanners} variant="hero" />
         <DepartmentStrip />
         <PromoBannerSlot banners={secondaryBanners} variant="strip" />
-        <Offers offers={products} />
+        <Offers offers={homeOffers} />
         <PromoBannerSlot banners={offersBanners} variant="strip" />
         <DuoBannerSlot banners={duoBanners} />
         <ProductCarousel

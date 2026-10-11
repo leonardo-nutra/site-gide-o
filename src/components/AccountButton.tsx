@@ -42,7 +42,7 @@ export function AccountButton({
     <div ref={ref} className="relative">
       <button
         type="button"
-        aria-label="Minha conta"
+        aria-label={showLabel ? undefined : "Minha conta"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className={`flex items-center gap-2 rounded-full text-ink transition-colors hover:bg-paper-strong ${

@@ -12,7 +12,7 @@ type RevealProps = {
 };
 
 const makeVariants = (y: number): Variants => ({
-  hidden: { opacity: 0, y },
+  hidden: { opacity: 0.4, y },
   visible: {
     opacity: 1,
     y: 0,
@@ -73,7 +73,7 @@ export const StaggerGroup = forwardRef<HTMLDivElement, StaggerProps>(function St
 });
 
 export const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0.4, y: 20 },
   visible: {
     opacity: 1,
     y: 0,

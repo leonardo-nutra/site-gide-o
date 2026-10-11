@@ -128,7 +128,7 @@ export function ProductModal({
               role="dialog"
               aria-modal="true"
               aria-label={product.name}
-              className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-3xl border border-line bg-paper shadow-lift sm:rounded-3xl"
+              className="flex max-h-[92dvh] w-full max-w-3xl flex-col overflow-hidden rounded-t-3xl border border-line bg-paper shadow-lift sm:rounded-3xl"
             >
               <div className="flex items-center justify-between border-b border-line px-5 py-3">
                 <nav
@@ -169,7 +169,7 @@ export function ProductModal({
                 </button>
               </div>
 
-              <div className="overflow-y-auto">
+              <div className="overflow-y-auto overscroll-contain">
                 <div className="grid gap-0 sm:grid-cols-2">
                   <div>
                     <div className="relative aspect-square w-full bg-paper-strong">

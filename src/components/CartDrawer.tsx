@@ -153,7 +153,7 @@ export function CartDrawer() {
               </button>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4 pb-6">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 pb-6">
               {isEmpty ? (
                 <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
                   <span className="grid h-14 w-14 place-items-center rounded-full bg-paper-strong text-ink-faint">

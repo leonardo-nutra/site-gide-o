@@ -8,6 +8,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
       width={1217}
       height={773}
       priority
+      sizes="(min-width: 640px) 96px, 80px"
       className={`w-auto select-none ${compact ? "h-9" : "h-11 sm:h-12"}`}
     />
   );

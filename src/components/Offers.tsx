@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -18,51 +18,6 @@ import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
 import { useSearch } from "@/lib/search-context";
 import { useWishlist } from "@/lib/wishlist";
-import { categories } from "@/lib/site";
-
-const DIACRITICS_PATTERN = new RegExp("[\\u0300-\\u036f]", "g");
-
-function normalize(value: string) {
-  return value.normalize("NFD").replace(DIACRITICS_PATTERN, "").toLowerCase();
-}
-
-/** Plural/gender-tolerant stem so "torneiras" finds "torneira" and "branca" finds "branco". */
-function stem(word: string) {
-  if (word.length <= 3) return word;
-  const singular = word.replace(/(es|s)$/, "");
-  return singular.length > 4 ? singular.replace(/[ao]$/, "") : singular;
-}
-
-/**
- * Searches the whole catalog: every word typed must appear somewhere in the
- * product name, description, department, measure or specs, in any order.
- * Products whose name alone matches every word come first.
- */
-function searchProducts(products: Product[], query: string) {
-  const words = normalize(query).split(/\s+/).filter(Boolean).map(stem);
-  if (words.length === 0) return products;
-
-  return products
-    .map((product) => {
-      const name = normalize(product.name);
-      const department =
-        categories.find((c) => c.id === product.category)?.title ?? "";
-      const haystack = normalize(
-        [
-          product.name,
-          product.detail,
-          department,
-          ...product.specs.flatMap((spec) => [spec.label, spec.value]),
-        ].join(" "),
-      );
-      const matchesAll = words.every((word) => haystack.includes(word));
-      const inName = words.every((word) => name.includes(word));
-      return { product, matchesAll, inName };
-    })
-    .filter((entry) => entry.matchesAll)
-    .sort((a, b) => Number(b.inName) - Number(a.inName))
-    .map((entry) => entry.product);
-}
 
 export function OfferCard({
   offer,
@@ -265,6 +220,11 @@ export function OfferCard({
 
 export function Offers({ offers }: { offers: Product[] }) {
   const [selected, setSelected] = useState<Product | null>(null);
+  const [results, setResults] = useState<{
+    query: string;
+    items: Product[];
+    total: number;
+  } | null>(null);
   const { query } = useSearch();
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -277,12 +237,44 @@ export function Offers({ offers }: { offers: Product[] }) {
 
   const trimmedQuery = query.trim();
 
-  // The carousel only shows the hand-picked offers; a search looks through the whole catalog.
-  const featured = offers.filter((o) => o.featured);
-  const carousel = featured.length > 0 ? featured : offers.slice(0, 8);
+  // A search looks through the whole catalog on the server, so the home page
+  // only has to ship the handful of offers it shows.
+  useEffect(() => {
+    if (!trimmedQuery) return;
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      try {
+        const response = await fetch(
+          `/api/search?q=${encodeURIComponent(trimmedQuery)}`,
+          {
+            signal: controller.signal,
+          },
+        );
+        const data = (await response.json()) as {
+          products: Product[];
+          total: number;
+        };
+        setResults({
+          query: trimmedQuery,
+          items: data.products,
+          total: data.total,
+        });
+      } catch {
+        // Aborted by a newer keystroke, or offline: keep showing what we have.
+      }
+    }, 250);
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [trimmedQuery]);
+
+  const searching = Boolean(trimmedQuery) && results?.query !== trimmedQuery;
   const filtered = trimmedQuery
-    ? searchProducts(offers, trimmedQuery)
-    : carousel;
+    ? results?.query === trimmedQuery
+      ? results.items
+      : []
+    : offers;
 
   return (
     <section id="ofertas" className="bg-paper-soft py-10 sm:py-20">
@@ -300,12 +292,16 @@ export function Offers({ offers }: { offers: Product[] }) {
           </div>
           <p className="text-sm text-ink-faint">
             {trimmedQuery
-              ? `${filtered.length} ${filtered.length === 1 ? "produto encontrado" : "produtos encontrados"}`
+              ? searching
+                ? "Buscando…"
+                : `${results?.total ?? 0} ${results?.total === 1 ? "produto encontrado" : "produtos encontrados"}`
               : "Preços por m² · válidos enquanto durar o estoque"}
           </p>
         </Reveal>
 
-        {offers.length === 0 ? (
+        {searching ? (
+          <p className="mt-12 text-center text-ink-faint">Buscando produtos…</p>
+        ) : !trimmedQuery && offers.length === 0 ? (
           <p className="mt-12 text-center text-ink-faint">
             Nenhuma oferta disponível no momento. Fale com a gente pelo WhatsApp
             para consultar preços.

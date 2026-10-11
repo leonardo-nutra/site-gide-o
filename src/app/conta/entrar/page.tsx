@@ -31,7 +31,7 @@ export default function EntrarPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-paper-soft px-5">
+    <div className="flex min-h-dvh items-center justify-center bg-paper-soft px-5">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm rounded-2xl border border-line bg-paper p-6 shadow-lift sm:p-8"
