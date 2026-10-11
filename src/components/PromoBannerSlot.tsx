@@ -10,8 +10,8 @@ import type { Banner } from "@/lib/banners";
 type Variant = "hero" | "strip";
 
 const sizeClasses: Record<Variant, string> = {
-  // Matches the 2000x668 banner artwork so nothing gets cropped.
-  hero: "aspect-[2000/668]",
+  // Matches the 2000x594 banner artwork so nothing gets cropped.
+  hero: "aspect-[2000/594]",
   strip: "h-24 sm:h-32",
 };
 
