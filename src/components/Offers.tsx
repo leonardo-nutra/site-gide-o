@@ -90,7 +90,9 @@ export function OfferCard({
               fill
               priority={priority}
               sizes="(min-width: 1024px) 25vw, 50vw"
-              className="object-cover opacity-100 transition-opacity duration-500 ease-out group-hover:opacity-0"
+              className={`object-cover opacity-100 transition-opacity duration-500 ease-out ${
+                hasAlt ? "group-hover:opacity-0" : ""
+              }`}
             />
             {hasAlt && (
               <Image
