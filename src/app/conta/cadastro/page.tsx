@@ -50,6 +50,16 @@ export default function CadastroPage() {
       return;
     }
 
+    // An address that already has an account is not an error for Supabase (it avoids
+    // revealing which e-mails exist), but it returns no identities and changes nothing.
+    if (data.user && data.user.identities?.length === 0) {
+      setError(
+        'Esse e-mail já tem cadastro. Tente entrar ou use "Esqueci minha senha" na tela de login.',
+      );
+      setLoading(false);
+      return;
+    }
+
     if (data.session) {
       router.push("/");
       router.refresh();

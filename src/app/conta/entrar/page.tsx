@@ -25,7 +25,11 @@ export default function EntrarPage() {
     });
 
     if (error) {
-      setError("E-mail ou senha incorretos.");
+      setError(
+        error.message.toLowerCase().includes("not confirmed")
+          ? "Seu e-mail ainda não foi confirmado. Abra o link que enviamos para a sua caixa de entrada."
+          : 'E-mail ou senha incorretos. Se você esqueceu a senha, use "Esqueci minha senha".',
+      );
       setLoading(false);
       return;
     }
@@ -81,6 +85,15 @@ export default function EntrarPage() {
           >
             {loading ? "Entrando..." : "Entrar"}
           </button>
+
+          <p className="text-center text-sm">
+            <Link
+              href="/conta/esqueci-senha"
+              className="font-semibold text-gold-strong underline"
+            >
+              Esqueci minha senha
+            </Link>
+          </p>
 
           <p className="text-center text-sm text-ink-soft">
             Ainda não tem conta?{" "}

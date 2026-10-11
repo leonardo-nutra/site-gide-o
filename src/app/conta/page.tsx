@@ -23,8 +23,8 @@ export default async function ContaPage() {
 
         <p className="mt-6 text-sm leading-relaxed text-ink-faint">
           Sua conta está pronta. Monte seu orçamento no site e envie pelo
-          WhatsApp normalmente — em breve você vai poder acompanhar seus
-          pedidos por aqui também.
+          WhatsApp normalmente — em breve você vai poder acompanhar seus pedidos
+          por aqui também.
         </p>
 
         <form action={signOutCustomer} className="mt-6">
