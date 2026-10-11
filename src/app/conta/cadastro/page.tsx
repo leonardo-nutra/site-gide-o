@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { PasswordInput } from "@/components/PasswordInput";
 
 export default function CadastroPage() {
   const router = useRouter();
@@ -35,11 +36,15 @@ export default function CadastroPage() {
       if (error.message.includes("already registered")) {
         setError("Esse e-mail já tem cadastro. Tente entrar.");
       } else if (error.message.includes("rate limit")) {
-        setError("Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente de novo.");
+        setError(
+          "Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente de novo.",
+        );
       } else if (error.message.includes("invalid")) {
         setError("Esse e-mail não parece válido. Confira e tente de novo.");
       } else {
-        setError("Não deu para cadastrar agora. Confira os dados e tente de novo.");
+        setError(
+          "Não deu para cadastrar agora. Confira os dados e tente de novo.",
+        );
       }
       setLoading(false);
       return;
@@ -59,10 +64,12 @@ export default function CadastroPage() {
     return (
       <div className="flex min-h-dvh items-center justify-center bg-paper-soft px-5">
         <div className="w-full max-w-sm rounded-2xl border border-line bg-paper p-6 text-center shadow-lift sm:p-8">
-          <h1 className="text-xl font-display font-black text-ink">Quase lá!</h1>
+          <h1 className="text-xl font-display font-black text-ink">
+            Quase lá!
+          </h1>
           <p className="mt-2 text-sm text-ink-soft">
-            Enviamos um link de confirmação para <strong>{email}</strong>. Confirme
-            o e-mail para poder entrar.
+            Enviamos um link de confirmação para <strong>{email}</strong>.
+            Confirme o e-mail para poder entrar.
           </p>
           <Link
             href="/conta/entrar"
@@ -81,7 +88,9 @@ export default function CadastroPage() {
         onSubmit={handleSubmit}
         className="w-full max-w-sm rounded-2xl border border-line bg-paper p-6 shadow-lift sm:p-8"
       >
-        <h1 className="text-xl font-display font-black text-ink">Criar conta</h1>
+        <h1 className="text-xl font-display font-black text-ink">
+          Criar conta
+        </h1>
         <p className="mt-1 text-sm text-ink-soft">
           Cadastre-se para acompanhar seus orçamentos na Gideão.
         </p>
@@ -117,14 +126,13 @@ export default function CadastroPage() {
             <label className="text-sm font-medium text-ink" htmlFor="password">
               Senha
             </label>
-            <input
+            <PasswordInput
               id="password"
-              type="password"
               required
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none focus:border-gold-strong"
+              autoComplete="new-password"
             />
           </div>
 
@@ -140,7 +148,10 @@ export default function CadastroPage() {
 
           <p className="text-center text-sm text-ink-soft">
             Já tem conta?{" "}
-            <Link href="/conta/entrar" className="font-semibold text-gold-strong underline">
+            <Link
+              href="/conta/entrar"
+              className="font-semibold text-gold-strong underline"
+            >
               Entrar
             </Link>
           </p>

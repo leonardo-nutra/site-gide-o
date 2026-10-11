@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { PasswordInput } from "@/components/PasswordInput";
 
 export default function EntrarPage() {
   const router = useRouter();
@@ -18,7 +19,10 @@ export default function EntrarPage() {
     setError(null);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     if (error) {
       setError("E-mail ou senha incorretos.");
@@ -37,7 +41,9 @@ export default function EntrarPage() {
         className="w-full max-w-sm rounded-2xl border border-line bg-paper p-6 shadow-lift sm:p-8"
       >
         <h1 className="text-xl font-display font-black text-ink">Entrar</h1>
-        <p className="mt-1 text-sm text-ink-soft">Acesse sua conta na Gideão.</p>
+        <p className="mt-1 text-sm text-ink-soft">
+          Acesse sua conta na Gideão.
+        </p>
 
         <div className="mt-6 flex flex-col gap-4">
           <div>
@@ -57,13 +63,12 @@ export default function EntrarPage() {
             <label className="text-sm font-medium text-ink" htmlFor="password">
               Senha
             </label>
-            <input
+            <PasswordInput
               id="password"
-              type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none focus:border-gold-strong"
+              autoComplete="current-password"
             />
           </div>
 
@@ -79,7 +84,10 @@ export default function EntrarPage() {
 
           <p className="text-center text-sm text-ink-soft">
             Ainda não tem conta?{" "}
-            <Link href="/conta/cadastro" className="font-semibold text-gold-strong underline">
+            <Link
+              href="/conta/cadastro"
+              className="font-semibold text-gold-strong underline"
+            >
               Cadastre-se
             </Link>
           </p>
