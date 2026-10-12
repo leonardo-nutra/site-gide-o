@@ -29,7 +29,13 @@ export function captureUtm() {
   if (typeof window === "undefined") return;
 
   const params = new URLSearchParams(window.location.search);
-  const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"] as const;
+  const keys = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content",
+  ] as const;
   const hasUtm = keys.some((k) => params.get(k));
   const fbclid = params.get("fbclid");
 
@@ -71,16 +77,51 @@ function formatUtmForMessage(utm: UtmData) {
   return `_(${parts.join(" · ")})_`;
 }
 
-/** Fires the Meta Pixel Lead event, tagged with the stored campaign data. */
+function readCookie(name: string) {
+  const match = document.cookie.match(
+    new RegExp("(?:^|; )" + name + "=([^;]*)"),
+  );
+  return match ? decodeURIComponent(match[1]) : undefined;
+}
+
+/**
+ * Fires the Meta Lead event, tagged with the stored campaign data. It goes out
+ * twice on purpose — from the browser pixel and from our server (Conversions
+ * API) — sharing one event id so Meta counts it only once.
+ */
 export function trackLead() {
-  if (typeof window === "undefined" || !window.fbq) return;
+  if (typeof window === "undefined") return;
   const utm = getStoredUtm();
-  window.fbq("track", "Lead", {
+  const customData = {
     content_name: "WhatsApp",
     utm_source: utm?.source,
     utm_medium: utm?.medium,
     utm_campaign: utm?.campaign,
-  });
+  };
+  const eventId = crypto.randomUUID();
+
+  window.fbq?.("track", "Lead", customData, { eventID: eventId });
+
+  try {
+    navigator.sendBeacon(
+      "/api/meta-event",
+      new Blob(
+        [
+          JSON.stringify({
+            eventName: "Lead",
+            eventId,
+            sourceUrl: window.location.href,
+            fbp: readCookie("_fbp"),
+            fbc: readCookie("_fbc"),
+            customData,
+          }),
+        ],
+        { type: "application/json" },
+      ),
+    );
+  } catch {
+    // Tracking must never get in the way of opening WhatsApp.
+  }
 }
 
 /**
