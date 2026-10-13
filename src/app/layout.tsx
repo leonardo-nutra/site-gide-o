@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { SearchProvider } from "@/lib/search-context";
 import { CartDrawer } from "@/components/CartDrawer";
+import { Analytics } from "@vercel/analytics/next";
 import { MetaPixel } from "@/components/MetaPixel";
 import { UtmCapture } from "@/components/UtmCapture";
 
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-paper text-ink font-sans">
         <MetaPixel />
+        <Analytics />
         <UtmCapture />
         <CartProvider>
           <SearchProvider>
