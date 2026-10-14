@@ -1,9 +1,21 @@
 import Link from "next/link";
-import { GalleryHorizontal, LogOut, PackageSearch, ShoppingCart } from "lucide-react";
+import {
+  BarChart3,
+  GalleryHorizontal,
+  LogOut,
+  PackageSearch,
+  ShoppingCart,
+} from "lucide-react";
 import { signOut } from "@/app/admin/actions";
 import type { ReactNode } from "react";
 
-export function AdminShell({ email, children }: { email: string; children: ReactNode }) {
+export function AdminShell({
+  email,
+  children,
+}: {
+  email: string;
+  children: ReactNode;
+}) {
   return (
     <div className="min-h-dvh bg-paper-soft">
       <header className="border-b border-line bg-paper px-5 py-4 sm:px-8">
@@ -13,19 +25,36 @@ export function AdminShell({ email, children }: { email: string; children: React
               Gideão · Admin
             </span>
             <nav className="hidden items-center gap-4 text-sm font-medium text-ink-soft sm:flex">
-              <Link href="/admin" className="flex items-center gap-1.5 hover:text-ink">
+              <Link
+                href="/admin"
+                className="flex items-center gap-1.5 hover:text-ink"
+              >
                 <ShoppingCart className="h-4 w-4" /> Pedidos
               </Link>
-              <Link href="/admin/produtos" className="flex items-center gap-1.5 hover:text-ink">
+              <Link
+                href="/admin/produtos"
+                className="flex items-center gap-1.5 hover:text-ink"
+              >
                 <PackageSearch className="h-4 w-4" /> Produtos
               </Link>
-              <Link href="/admin/banners" className="flex items-center gap-1.5 hover:text-ink">
+              <Link
+                href="/admin/banners"
+                className="flex items-center gap-1.5 hover:text-ink"
+              >
                 <GalleryHorizontal className="h-4 w-4" /> Banners
+              </Link>
+              <Link
+                href="/admin/analise"
+                className="flex items-center gap-1.5 hover:text-ink"
+              >
+                <BarChart3 className="h-4 w-4" /> Análise
               </Link>
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <span className="hidden text-xs text-ink-faint sm:inline">{email}</span>
+            <span className="hidden text-xs text-ink-faint sm:inline">
+              {email}
+            </span>
             <form action={signOut}>
               <button
                 type="submit"
@@ -36,14 +65,29 @@ export function AdminShell({ email, children }: { email: string; children: React
             </form>
           </div>
           <nav className="flex w-full items-center gap-4 overflow-x-auto text-sm font-medium text-ink-soft sm:hidden">
-            <Link href="/admin" className="flex shrink-0 items-center gap-1.5 hover:text-ink">
+            <Link
+              href="/admin"
+              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
+            >
               <ShoppingCart className="h-4 w-4" /> Pedidos
             </Link>
-            <Link href="/admin/produtos" className="flex shrink-0 items-center gap-1.5 hover:text-ink">
+            <Link
+              href="/admin/produtos"
+              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
+            >
               <PackageSearch className="h-4 w-4" /> Produtos
             </Link>
-            <Link href="/admin/banners" className="flex shrink-0 items-center gap-1.5 hover:text-ink">
+            <Link
+              href="/admin/banners"
+              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
+            >
               <GalleryHorizontal className="h-4 w-4" /> Banners
+            </Link>
+            <Link
+              href="/admin/analise"
+              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
+            >
+              <BarChart3 className="h-4 w-4" /> Análise
             </Link>
           </nav>
         </div>

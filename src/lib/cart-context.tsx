@@ -9,6 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { logEvent } from "@/lib/events";
 
 export type CartItem = {
   id: string;
@@ -41,7 +42,10 @@ export function parsePrice(price: string) {
 }
 
 export function formatPrice(value: number) {
-  return value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return value.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -69,10 +73,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items, hydrated]);
 
   const addItem = useCallback<CartContextValue["addItem"]>((item, qty = 1) => {
+    logEvent("add_to_cart", {
+      productId: item.id,
+      productName: item.name,
+      value: item.unitPrice !== undefined ? item.unitPrice * qty : undefined,
+    });
     setItems((prev) => {
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {
-        return prev.map((i) => (i.id === item.id ? { ...i, qty: i.qty + qty } : i));
+        return prev.map((i) =>
+          i.id === item.id ? { ...i, qty: i.qty + qty } : i,
+        );
       }
       return [...prev, { ...item, qty }];
     });
@@ -84,23 +95,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const updateQty = useCallback((id: string, qty: number) => {
     setItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, qty: Math.max(1, qty) } : i))
+      prev.map((i) => (i.id === id ? { ...i, qty: Math.max(1, qty) } : i)),
     );
   }, []);
 
   const clear = useCallback(() => setItems([]), []);
 
-  const count = useMemo(() => items.reduce((sum, i) => sum + i.qty, 0), [items]);
+  const count = useMemo(
+    () => items.reduce((sum, i) => sum + i.qty, 0),
+    [items],
+  );
   const subtotal = useMemo(
     () => items.reduce((sum, i) => sum + (i.unitPrice ?? 0) * i.qty, 0),
-    [items]
+    [items],
   );
-  const hasUnpricedItems = useMemo(() => items.some((i) => i.unitPrice === undefined), [items]);
+  const hasUnpricedItems = useMemo(
+    () => items.some((i) => i.unitPrice === undefined),
+    [items],
+  );
 
   const value: CartContextValue = {
     items,
     isOpen,
-    openCart: () => setIsOpen(true),
+    openCart: () => {
+      logEvent("cart_open");
+      setIsOpen(true);
+    },
     closeCart: () => setIsOpen(false),
     addItem,
     removeItem,

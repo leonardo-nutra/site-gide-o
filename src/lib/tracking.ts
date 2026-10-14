@@ -1,4 +1,5 @@
 import { waLink } from "./site";
+import { logEvent } from "./events";
 
 export type UtmData = {
   source?: string;
@@ -99,6 +100,7 @@ export function trackLead() {
     utm_campaign: utm?.campaign,
   };
   const eventId = crypto.randomUUID();
+  logEvent("whatsapp_click");
 
   window.fbq?.("track", "Lead", customData, { eventID: eventId });
 

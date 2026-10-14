@@ -18,6 +18,7 @@ import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
 import { useSearch } from "@/lib/search-context";
 import { useWishlist } from "@/lib/wishlist";
+import { logEvent } from "@/lib/events";
 
 export function OfferCard({
   offer,
@@ -274,6 +275,16 @@ export function Offers({ offers }: { offers: Product[] }) {
       controller.abort();
     };
   }, [trimmedQuery]);
+
+  // Record what people search for, once they stop typing (not every letter).
+  useEffect(() => {
+    if (!results || results.query !== trimmedQuery) return;
+    const timer = window.setTimeout(
+      () => logEvent("search", { query: results.query, value: results.total }),
+      1200,
+    );
+    return () => window.clearTimeout(timer);
+  }, [results, trimmedQuery]);
 
   const searching = Boolean(trimmedQuery) && results?.query !== trimmedQuery;
   const filtered = trimmedQuery

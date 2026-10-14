@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
@@ -20,6 +20,7 @@ import type { Product } from "@/lib/products";
 import { parsePrice, useCart } from "@/lib/cart-context";
 import { categories, waLink } from "@/lib/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
+import { logEvent } from "@/lib/events";
 
 export function ProductModal({
   product,
@@ -34,6 +35,17 @@ export function ProductModal({
   const [added, setAdded] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [detailsOpen, setDetailsOpen] = useState(true);
+
+  // One "viewed product" per time the window is opened for a product.
+  const viewedId = product?.id;
+  const viewedName = product?.name;
+  useEffect(() => {
+    if (viewedId)
+      logEvent("product_view", {
+        productId: viewedId,
+        productName: viewedName,
+      });
+  }, [viewedId, viewedName]);
 
   const unitPrice = product ? parsePrice(product.price) : 0;
   const total = unitPrice * qty;
