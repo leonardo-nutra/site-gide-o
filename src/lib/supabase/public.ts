@@ -1,4 +1,6 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { getSupabaseConfig } from "./config";
+import type { Database } from "./database.types";
 
 /**
  * Plain, cookie-free Supabase client for anonymous/public reads (product
@@ -7,8 +9,8 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
  * would force every request to be dynamic just to read public data.
  */
 export function createPublicClient() {
-  return createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const { url, anonKey } = getSupabaseConfig();
+  return createSupabaseClient<Database>(url, anonKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }

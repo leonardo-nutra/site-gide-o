@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/supabase/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminForm } from "@/components/admin/AdminForm";
 import { createBanner, deleteBanner, updateBanner } from "../actions";
 
 export const dynamic = "force-dynamic";
@@ -19,22 +20,23 @@ export default async function AdminBannersPage() {
     <AdminShell email={user.email ?? ""}>
       <h1 className="text-xl font-display font-black text-ink">Banners</h1>
       <p className="mt-1 text-sm text-ink-soft">
-        Cadastre quantos banners quiser — eles giram automaticamente, um
-        atrás do outro. Se não tiver nenhum ativo num espaço, ele fica
-        reservado (vazio) até você adicionar.
+        Cadastre quantos banners quiser — eles giram automaticamente, um atrás
+        do outro. Se não tiver nenhum ativo num espaço, ele fica reservado
+        (vazio) até você adicionar.
       </p>
       <p className="mt-1 text-xs text-ink-faint">
-        <strong className="text-ink-soft">Topo:</strong> banner grande, primeira coisa do site. {" "}
-        <strong className="text-ink-soft">Faixa 1:</strong> banner fino, logo abaixo dos
-        departamentos. {" "}
-        <strong className="text-ink-soft">Faixa 2:</strong> banner fino, logo abaixo das ofertas. {" "}
-        <strong className="text-ink-soft">Dupla:</strong> dois banners lado a lado (um pouco mais
-        abaixo) — não gira, mostra sempre os 2 primeiros ativos dessa posição.
+        <strong className="text-ink-soft">Topo:</strong> banner grande, primeira
+        coisa do site. <strong className="text-ink-soft">Faixa 1:</strong>{" "}
+        banner fino, logo abaixo dos departamentos.{" "}
+        <strong className="text-ink-soft">Faixa 2:</strong> banner fino, logo
+        abaixo das ofertas. <strong className="text-ink-soft">Dupla:</strong>{" "}
+        dois banners lado a lado (um pouco mais abaixo) — não gira, mostra
+        sempre os 2 primeiros ativos dessa posição.
       </p>
 
       <div className="mt-6 flex flex-col gap-4">
         {(banners ?? []).map((b) => (
-          <form
+          <AdminForm
             key={b.id}
             action={updateBanner}
             className="grid grid-cols-2 gap-3 rounded-2xl border border-line bg-paper p-5 shadow-soft sm:grid-cols-4"
@@ -54,7 +56,11 @@ export default async function AdminBannersPage() {
               <span className="text-xs font-medium text-ink-faint">
                 Título (só pra identificar aqui / texto alternativo)
               </span>
-              <input name="title" defaultValue={b.title} className={inputClass} />
+              <input
+                name="title"
+                defaultValue={b.title}
+                className={inputClass}
+              />
             </label>
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
@@ -70,15 +76,30 @@ export default async function AdminBannersPage() {
             </label>
 
             <label className="col-span-2 flex flex-col gap-1">
-              <span className="text-xs font-medium text-ink-faint">URL da imagem do banner</span>
-              <input name="image" defaultValue={b.image} required className={inputClass} />
+              <span className="text-xs font-medium text-ink-faint">
+                URL da imagem do banner
+              </span>
+              <input
+                name="image"
+                defaultValue={b.image}
+                required
+                className={inputClass}
+              />
             </label>
 
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-ink-faint">Posição</span>
-              <select name="placement" defaultValue={b.placement} className={inputClass}>
+              <span className="text-xs font-medium text-ink-faint">
+                Posição
+              </span>
+              <select
+                name="placement"
+                defaultValue={b.placement}
+                className={inputClass}
+              >
                 <option value="hero">Topo (grande)</option>
-                <option value="secondary">Faixa 1 (depois dos departamentos)</option>
+                <option value="secondary">
+                  Faixa 1 (depois dos departamentos)
+                </option>
                 <option value="offers">Faixa 2 (depois das ofertas)</option>
                 <option value="duo">Dupla (dois banners lado a lado)</option>
               </select>
@@ -114,23 +135,36 @@ export default async function AdminBannersPage() {
                 Excluir
               </button>
             </div>
-          </form>
+          </AdminForm>
         ))}
 
         {(banners ?? []).length === 0 && (
-          <p className="text-sm text-ink-faint">Nenhum banner cadastrado ainda.</p>
+          <p className="text-sm text-ink-faint">
+            Nenhum banner cadastrado ainda.
+          </p>
         )}
       </div>
 
       <div className="mt-10 rounded-2xl border border-dashed border-line p-5">
         <h2 className="font-semibold text-ink">Adicionar banner</h2>
         <p className="mt-1 text-xs text-ink-faint">
-          Dica: suba a imagem em algum serviço gratuito (ex.: imgur.com) e
-          cole o link direto da imagem aqui.
+          Dica: suba a imagem em algum serviço gratuito (ex.: imgur.com) e cole
+          o link direto da imagem aqui.
         </p>
-        <form action={createBanner} className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <input name="title" placeholder="Título (identificação)" className={inputClass} />
-          <input name="link" placeholder="Link ao clicar (opcional)" className={inputClass} />
+        <AdminForm
+          action={createBanner}
+          className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4"
+        >
+          <input
+            name="title"
+            placeholder="Título (identificação)"
+            className={inputClass}
+          />
+          <input
+            name="link"
+            placeholder="Link ao clicar (opcional)"
+            className={inputClass}
+          />
           <input
             name="image"
             placeholder="URL da imagem"
@@ -139,18 +173,25 @@ export default async function AdminBannersPage() {
           />
           <select name="placement" defaultValue="hero" className={inputClass}>
             <option value="hero">Topo (grande)</option>
-            <option value="secondary">Faixa 1 (depois dos departamentos)</option>
+            <option value="secondary">
+              Faixa 1 (depois dos departamentos)
+            </option>
             <option value="offers">Faixa 2 (depois das ofertas)</option>
             <option value="duo">Dupla (dois banners lado a lado)</option>
           </select>
-          <input name="sort_order" type="number" placeholder="Ordem" className={inputClass} />
+          <input
+            name="sort_order"
+            type="number"
+            placeholder="Ordem"
+            className={inputClass}
+          />
           <button
             type="submit"
             className="col-span-2 rounded-full bg-gold-strong px-4 py-2 text-xs font-semibold text-white active:scale-95 sm:col-span-4"
           >
             Adicionar
           </button>
-        </form>
+        </AdminForm>
       </div>
     </AdminShell>
   );

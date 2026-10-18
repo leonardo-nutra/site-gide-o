@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/supabase/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminForm } from "@/components/admin/AdminForm";
 import { categories } from "@/lib/site";
 import { createProduct, deleteProduct, updateProduct } from "../actions";
 
@@ -33,27 +34,51 @@ export default async function AdminProductsPage() {
         Edite preço, fotos e disponibilidade. Produtos inativos somem do site.
       </p>
       <div className="mt-4 rounded-xl border border-gold-soft bg-gold-soft/40 p-4 text-xs leading-relaxed text-ink-soft">
-        <p className="font-semibold text-ink">Ao cadastrar um produto, preencha:</p>
+        <p className="font-semibold text-ink">
+          Ao cadastrar um produto, preencha:
+        </p>
         <ul className="mt-1.5 list-disc space-y-0.5 pl-4">
-          <li><strong className="text-ink">Aba/Departamento</strong> — em qual categoria do menu o produto aparece.</li>
-          <li><strong className="text-ink">Preço</strong> — valor por unidade escolhida em &quot;Unidade&quot; (m², un, kg...).</li>
-          <li><strong className="text-ink">Material</strong> — ex: Cerâmico, Porcelanato, Alumínio, Madeira.</li>
-          <li><strong className="text-ink">Medida</strong> — ex: 60x60 cm, 75x75 cm, 1,20m.</li>
-          <li><strong className="text-ink">Especificações</strong> — qualquer outra informação (cor, acabamento, aplicação...), uma por linha.</li>
-          <li><strong className="text-ink">Foto e vídeo</strong> — envie os arquivos direto do computador ou celular, sem precisar de link.</li>
+          <li>
+            <strong className="text-ink">Aba/Departamento</strong> — em qual
+            categoria do menu o produto aparece.
+          </li>
+          <li>
+            <strong className="text-ink">Preço</strong> — valor por unidade
+            escolhida em &quot;Unidade&quot; (m², un, kg...).
+          </li>
+          <li>
+            <strong className="text-ink">Material</strong> — ex: Cerâmico,
+            Porcelanato, Alumínio, Madeira.
+          </li>
+          <li>
+            <strong className="text-ink">Medida</strong> — ex: 60x60 cm, 75x75
+            cm, 1,20m.
+          </li>
+          <li>
+            <strong className="text-ink">Especificações</strong> — qualquer
+            outra informação (cor, acabamento, aplicação...), uma por linha.
+          </li>
+          <li>
+            <strong className="text-ink">Foto e vídeo</strong> — envie os
+            arquivos direto do computador ou celular, sem precisar de link.
+          </li>
         </ul>
       </div>
 
       <div className="mt-6 flex flex-col gap-4">
         {(products ?? []).map((p) => (
-          <form
+          <AdminForm
             key={p.id}
             action={updateProduct}
             className="grid grid-cols-2 gap-3 rounded-2xl border border-line bg-paper p-5 shadow-soft sm:grid-cols-4"
           >
             <input type="hidden" name="id" value={p.id} />
             <input type="hidden" name="current_image" value={p.image} />
-            <input type="hidden" name="current_application_image" value={p.application_image} />
+            <input
+              type="hidden"
+              name="current_application_image"
+              value={p.application_image}
+            />
             <input type="hidden" name="current_video" value={p.video} />
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
@@ -62,13 +87,25 @@ export default async function AdminProductsPage() {
             </label>
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
-              <span className="text-xs font-medium text-ink-faint">Detalhe</span>
-              <input name="detail" defaultValue={p.detail} className={inputClass} />
+              <span className="text-xs font-medium text-ink-faint">
+                Detalhe
+              </span>
+              <input
+                name="detail"
+                defaultValue={p.detail}
+                className={inputClass}
+              />
             </label>
 
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-ink-faint">Aba / Departamento</span>
-              <select name="category" defaultValue={p.category} className={inputClass}>
+              <span className="text-xs font-medium text-ink-faint">
+                Aba / Departamento
+              </span>
+              <select
+                name="category"
+                defaultValue={p.category}
+                className={inputClass}
+              >
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.title}
@@ -78,7 +115,9 @@ export default async function AdminProductsPage() {
             </label>
 
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-ink-faint">Preço (R$)</span>
+              <span className="text-xs font-medium text-ink-faint">
+                Preço (R$)
+              </span>
               <input
                 name="price"
                 type="number"
@@ -89,7 +128,9 @@ export default async function AdminProductsPage() {
             </label>
 
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-ink-faint">Unidade</span>
+              <span className="text-xs font-medium text-ink-faint">
+                Unidade
+              </span>
               <input name="unit" defaultValue={p.unit} className={inputClass} />
             </label>
 
@@ -104,7 +145,9 @@ export default async function AdminProductsPage() {
             </label>
 
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-ink-faint">Material</span>
+              <span className="text-xs font-medium text-ink-faint">
+                Material
+              </span>
               <input
                 name="material"
                 defaultValue={p.material}
@@ -128,9 +171,25 @@ export default async function AdminProductsPage() {
               <span className="text-sm text-ink">Ativo no site</span>
             </label>
 
+            <label className="flex items-center gap-2 self-end pb-1.5">
+              <input
+                type="checkbox"
+                name="featured"
+                defaultChecked={p.featured}
+              />
+              <span className="text-sm text-ink">Oferta na tela inicial</span>
+            </label>
+
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
-              <span className="text-xs font-medium text-ink-faint">Foto do produto</span>
-              <input name="image" type="file" accept="image/*" className={fileInputClass} />
+              <span className="text-xs font-medium text-ink-faint">
+                Foto do produto
+              </span>
+              <input
+                name="image"
+                type="file"
+                accept="image/*"
+                className={fileInputClass}
+              />
               {p.image && (
                 <a
                   href={p.image}
@@ -144,7 +203,9 @@ export default async function AdminProductsPage() {
             </label>
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
-              <span className="text-xs font-medium text-ink-faint">Foto ilustrativa (ambiente)</span>
+              <span className="text-xs font-medium text-ink-faint">
+                Foto ilustrativa (ambiente)
+              </span>
               <input
                 name="application_image"
                 type="file"
@@ -164,8 +225,15 @@ export default async function AdminProductsPage() {
             </label>
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
-              <span className="text-xs font-medium text-ink-faint">Vídeo do produto (opcional)</span>
-              <input name="video" type="file" accept="video/*" className={fileInputClass} />
+              <span className="text-xs font-medium text-ink-faint">
+                Vídeo do produto (opcional)
+              </span>
+              <input
+                name="video"
+                type="file"
+                accept="video/*"
+                className={fileInputClass}
+              />
               {p.video && (
                 <a
                   href={p.video}
@@ -180,13 +248,16 @@ export default async function AdminProductsPage() {
 
             <label className="col-span-2 flex flex-col gap-1 sm:col-span-4">
               <span className="text-xs font-medium text-ink-faint">
-                Especificações (uma por linha, formato &quot;Rótulo: Valor&quot;)
+                Especificações (uma por linha, formato &quot;Rótulo:
+                Valor&quot;)
               </span>
               <textarea
                 name="specs"
                 rows={4}
                 defaultValue={specsToText(p.specs)}
-                placeholder={"Dimensões: 75x75 cm\nAcabamento: Polido\nCor: Bege claro"}
+                placeholder={
+                  "Dimensões: 75x75 cm\nAcabamento: Polido\nCor: Bege claro"
+                }
                 className={`${inputClass} resize-y font-mono text-xs`}
               />
             </label>
@@ -206,15 +277,28 @@ export default async function AdminProductsPage() {
                 Excluir
               </button>
             </div>
-          </form>
+          </AdminForm>
         ))}
       </div>
 
       <div className="mt-10 rounded-2xl border border-dashed border-line p-5">
         <h2 className="font-semibold text-ink">Adicionar produto</h2>
-        <form action={createProduct} className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <input name="slug" placeholder="slug (ex: piso-10)" required className={inputClass} />
-          <input name="name" placeholder="Nome" required className={inputClass} />
+        <AdminForm
+          action={createProduct}
+          className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4"
+        >
+          <input
+            name="slug"
+            placeholder="slug (ex: piso-10)"
+            required
+            className={inputClass}
+          />
+          <input
+            name="name"
+            placeholder="Nome"
+            required
+            className={inputClass}
+          />
           <input name="detail" placeholder="Detalhe" className={inputClass} />
           <select name="category" defaultValue="pisos" className={inputClass}>
             {categories.map((cat) => (
@@ -223,27 +307,79 @@ export default async function AdminProductsPage() {
               </option>
             ))}
           </select>
-          <input name="price" type="number" step="0.01" placeholder="Preço" required className={inputClass} />
-          <input name="unit" placeholder="Unidade (m², un...)" className={inputClass} />
-          <input name="material" placeholder="Material (ex: Cerâmico)" className={inputClass} />
-          <input name="measure" placeholder="Medida (ex: 60x60 cm)" className={inputClass} />
-          <input name="sort_order" type="number" placeholder="Ordem" className={inputClass} />
-          <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
-            <span className="text-xs font-medium text-ink-faint">Foto do produto</span>
-            <input name="image" type="file" accept="image/*" required className={fileInputClass} />
+          <input
+            name="price"
+            type="number"
+            step="0.01"
+            placeholder="Preço"
+            required
+            className={inputClass}
+          />
+          <input
+            name="unit"
+            placeholder="Unidade (m², un...)"
+            className={inputClass}
+          />
+          <input
+            name="material"
+            placeholder="Material (ex: Cerâmico)"
+            className={inputClass}
+          />
+          <input
+            name="measure"
+            placeholder="Medida (ex: 60x60 cm)"
+            className={inputClass}
+          />
+          <input
+            name="sort_order"
+            type="number"
+            placeholder="Ordem"
+            className={inputClass}
+          />
+          <label className="flex items-center gap-2">
+            <input type="checkbox" name="featured" />
+            <span className="text-sm text-ink">Oferta na tela inicial</span>
           </label>
           <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
-            <span className="text-xs font-medium text-ink-faint">Foto ilustrativa (ambiente)</span>
-            <input name="application_image" type="file" accept="image/*" className={fileInputClass} />
+            <span className="text-xs font-medium text-ink-faint">
+              Foto do produto
+            </span>
+            <input
+              name="image"
+              type="file"
+              accept="image/*"
+              required
+              className={fileInputClass}
+            />
+          </label>
+          <label className="col-span-2 flex flex-col gap-1 sm:col-span-2">
+            <span className="text-xs font-medium text-ink-faint">
+              Foto ilustrativa (ambiente)
+            </span>
+            <input
+              name="application_image"
+              type="file"
+              accept="image/*"
+              className={fileInputClass}
+            />
           </label>
           <label className="col-span-2 flex flex-col gap-1 sm:col-span-4">
-            <span className="text-xs font-medium text-ink-faint">Vídeo do produto (opcional)</span>
-            <input name="video" type="file" accept="video/*" className={fileInputClass} />
+            <span className="text-xs font-medium text-ink-faint">
+              Vídeo do produto (opcional)
+            </span>
+            <input
+              name="video"
+              type="file"
+              accept="video/*"
+              className={fileInputClass}
+            />
           </label>
           <textarea
             name="specs"
             rows={3}
-            placeholder={"Dimensões: 75x75 cm\nAcabamento: Polido\nCor: Bege claro"}
+            placeholder={
+              "Dimensões: 75x75 cm\nAcabamento: Polido\nCor: Bege claro"
+            }
             className={`col-span-2 sm:col-span-4 ${inputClass} resize-y font-mono text-xs`}
           />
           <button
@@ -252,7 +388,7 @@ export default async function AdminProductsPage() {
           >
             Adicionar
           </button>
-        </form>
+        </AdminForm>
       </div>
     </AdminShell>
   );

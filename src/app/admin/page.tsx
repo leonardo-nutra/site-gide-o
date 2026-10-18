@@ -4,7 +4,12 @@ import { OrderStatusSelect } from "@/components/admin/OrderStatusSelect";
 
 export const dynamic = "force-dynamic";
 
-type OrderItem = { name: string; qty: number; unitPrice?: number; unit?: string };
+type OrderItem = {
+  name: string;
+  qty: number;
+  unitPrice?: number;
+  unit?: string;
+};
 
 export default async function AdminOrdersPage() {
   const { supabase, user } = await requireAdmin();
@@ -17,14 +22,19 @@ export default async function AdminOrdersPage() {
 
   return (
     <AdminShell email={user.email ?? ""}>
-      <h1 className="text-xl font-display font-black text-ink">Pedidos / Orçamentos</h1>
+      <h1 className="text-xl font-display font-black text-ink">
+        Pedidos / Orçamentos
+      </h1>
       <p className="mt-1 text-sm text-ink-soft">
-        Toda vez que alguém monta um orçamento e clica em enviar no WhatsApp, ele aparece aqui.
+        Toda vez que alguém monta um orçamento e clica em enviar no WhatsApp,
+        ele aparece aqui.
       </p>
 
       <div className="mt-6 flex flex-col gap-4">
         {!orders || orders.length === 0 ? (
-          <p className="text-sm text-ink-faint">Nenhum orçamento registrado ainda.</p>
+          <p className="text-sm text-ink-faint">
+            Nenhum orçamento registrado ainda.
+          </p>
         ) : (
           orders.map((order) => {
             const items = (order.items as OrderItem[]) ?? [];
@@ -52,9 +62,12 @@ export default async function AdminOrdersPage() {
                     <li key={i}>
                       {item.qty}x {item.name}
                       {item.unitPrice !== undefined
-                        ? ` — R$ ${(item.unitPrice * item.qty).toLocaleString("pt-BR", {
-                            minimumFractionDigits: 2,
-                          })}`
+                        ? ` — R$ ${(item.unitPrice * item.qty).toLocaleString(
+                            "pt-BR",
+                            {
+                              minimumFractionDigits: 2,
+                            },
+                          )}`
                         : " (sob consulta)"}
                     </li>
                   ))}
@@ -63,7 +76,9 @@ export default async function AdminOrdersPage() {
                 <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 border-t border-line pt-3 text-xs text-ink-faint">
                   <span className="font-display font-black text-sm text-ink">
                     Subtotal: R${" "}
-                    {Number(order.subtotal).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                    {Number(order.subtotal).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                    })}
                   </span>
                   <span>Pagamento: {order.payment_method}</span>
                   <span>Entrega: {order.delivery_method}</span>

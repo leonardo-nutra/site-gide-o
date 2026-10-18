@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gideão Atacadão da Construção — site e painel
 
-## Getting Started
+Loja online com catálogo por departamento, orçamento pelo WhatsApp, login de clientes e painel
+administrativo. Mesquita-RJ · <https://site-gide-o.vercel.app>
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Supabase
+(Postgres, Auth, Storage) · Vercel
+
+## Rodando localmente
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # preencha as chaves do Supabase
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Comandos
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | Checagem de tipos (inclui o schema do banco) |
+| `npm test` | Testes (busca e validações do admin) |
+| `npm run build` | Build de produção |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O GitHub Actions roda lint, tipos, testes e build a cada push (`.github/workflows/ci.yml`).
+Todo push na `master` é publicado automaticamente na Vercel.
 
-## Learn More
+## Estrutura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/app/              páginas (site, /conta, /admin) e rotas /api
+src/components/       interface (cards, carrinho, filtros, admin)
+src/lib/              regras: produtos, busca, carrinho, eventos, validação, Supabase
+supabase/migrations/  mudanças do banco (a partir de out/2026)
+supabase/email-templates/  e-mails de cadastro e senha em português
+docs/BACKEND.md       guia técnico do backend e da segurança
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Painel admin
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`/admin` (somente usuários com `profiles.role = 'admin'`): pedidos recebidos, produtos (preço,
+foto, ofertas), banners e **Análise** (visitas, produtos vistos, buscas, cliques no WhatsApp).
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Veja [docs/BACKEND.md](docs/BACKEND.md) para o desenho do backend, as regras de segurança e como
+alterar o banco.
