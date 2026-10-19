@@ -20,7 +20,11 @@ export function generateStaticParams() {
   return categories.map((cat) => ({ id: cat.id }));
 }
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
   const { id } = await params;
   const department = categories.find((c) => c.id === id);
   if (!department) return {};
@@ -37,7 +41,9 @@ export default async function DepartmentPage({ params }: { params: Params }) {
   const department = categories.find((c) => c.id === id);
   if (!department) notFound();
 
-  const products = (await getProducts()).filter((p) => p.category === department.id);
+  const products = (await getProducts()).filter(
+    (p) => p.category === department.id,
+  );
 
   return (
     <>
@@ -59,7 +65,9 @@ export default async function DepartmentPage({ params }: { params: Params }) {
             <h1 className="mt-3 text-2xl font-display font-black tracking-tight text-ink sm:text-4xl">
               {department.title}
             </h1>
-            <p className="mt-2 max-w-2xl text-sm text-ink-soft">{department.description}</p>
+            <p className="mt-2 max-w-2xl text-sm text-ink-soft">
+              {department.description}
+            </p>
 
             <DepartmentProducts
               products={products}

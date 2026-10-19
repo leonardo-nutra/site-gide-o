@@ -231,6 +231,7 @@ export function Offers({ offers }: { offers: Product[] }) {
     query: string;
     items: Product[];
     total: number;
+    failed?: boolean;
   } | null>(null);
   const { query } = useSearch();
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -266,8 +267,10 @@ export function Offers({ offers }: { offers: Product[] }) {
           items: data.products,
           total: data.total,
         });
-      } catch {
-        // Aborted by a newer keystroke, or offline: keep showing what we have.
+      } catch (error) {
+        // A newer keystroke cancels the request on purpose; anything else is a real failure.
+        if ((error as Error).name === "AbortError") return;
+        setResults({ query: trimmedQuery, items: [], total: 0, failed: true });
       }
     }, 250);
     return () => {
@@ -311,7 +314,9 @@ export function Offers({ offers }: { offers: Product[] }) {
             {trimmedQuery
               ? searching
                 ? "Buscando…"
-                : `${results?.total ?? 0} ${results?.total === 1 ? "produto encontrado" : "produtos encontrados"}`
+                : results?.failed
+                  ? "Busca indisponível"
+                  : `${results?.total ?? 0} ${results?.total === 1 ? "produto encontrado" : "produtos encontrados"}`
               : "Preços por m² · válidos enquanto durar o estoque"}
           </p>
         </Reveal>
@@ -322,6 +327,10 @@ export function Offers({ offers }: { offers: Product[] }) {
           <p className="mt-12 text-center text-ink-faint">
             Nenhuma oferta disponível no momento. Fale com a gente pelo WhatsApp
             para consultar preços.
+          </p>
+        ) : results?.failed && trimmedQuery ? (
+          <p className="mt-12 text-center text-ink-faint">
+            Não foi possível buscar agora. Confira sua conexão e tente de novo.
           </p>
         ) : filtered.length === 0 ? (
           <p className="mt-12 text-center text-ink-faint">

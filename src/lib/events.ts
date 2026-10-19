@@ -7,6 +7,8 @@
  * To keep your own visits out of the numbers, open the site once with
  * `?notrack=1` in the address (use `?notrack=0` to count yourself again).
  */
+import { randomId } from "./random-id";
+
 export type SiteEvent =
   | "visit"
   | "product_view"
@@ -38,7 +40,7 @@ function sessionId() {
   const store = safeStorage("session");
   let id = store?.getItem(SESSION_KEY);
   if (!id) {
-    id = crypto.randomUUID();
+    id = randomId();
     store?.setItem(SESSION_KEY, id);
   }
   return id;

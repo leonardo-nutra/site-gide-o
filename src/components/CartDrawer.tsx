@@ -22,6 +22,7 @@ import { formatPrice, useCart } from "@/lib/cart-context";
 import { site, waLink } from "@/lib/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { saveOrder } from "@/lib/orders";
+import { useModal } from "@/lib/use-modal";
 
 type Payment = "Pix" | "Dinheiro" | "Cartão" | "A combinar";
 type Delivery = "Retirar na loja" | "Entrega";
@@ -63,14 +64,22 @@ function buildMessage(params: {
   delivery: Delivery;
   address: AddressForm;
 }) {
-  const { items, subtotal, hasUnpricedItems, name, payment, delivery, address } = params;
+  const {
+    items,
+    subtotal,
+    hasUnpricedItems,
+    name,
+    payment,
+    delivery,
+    address,
+  } = params;
 
   const lines = items.map((item, i) => {
     const n = i + 1;
     if (item.unitPrice !== undefined) {
       const lineTotal = item.unitPrice * item.qty;
       return `${n}. ${item.name} — ${item.qty}${item.unit ? ` ${item.unit}` : "x"} x R$ ${formatPrice(
-        item.unitPrice
+        item.unitPrice,
       )} = R$ ${formatPrice(lineTotal)}`;
     }
     return `${n}. ${item.name} (sob consulta) — qtd: ${item.qty}`;
@@ -78,12 +87,14 @@ function buildMessage(params: {
 
   let msg = `Olá! Quero fazer um orçamento na Gideão 🛒\n\n*Itens:*\n${lines.join("\n")}\n\n`;
   msg += `*Subtotal estimado:* R$ ${formatPrice(subtotal)}`;
-  if (hasUnpricedItems) msg += `\n(itens sob consulta serão calculados à parte)`;
+  if (hasUnpricedItems)
+    msg += `\n(itens sob consulta serão calculados à parte)`;
   msg += `\n\n*Forma de pagamento:* ${payment}`;
   msg += `\n*Entrega:* ${delivery}`;
   if (delivery === "Entrega") msg += ` (frete não incluso, a combinar)`;
   const addressLine = formatAddress(address);
-  if (delivery === "Entrega" && addressLine) msg += `\n*Endereço:* ${addressLine}`;
+  if (delivery === "Entrega" && addressLine)
+    msg += `\n*Endereço:* ${addressLine}`;
   if (name.trim()) msg += `\n*Nome:* ${name.trim()}`;
   msg += `\n\nAguardo confirmação, obrigado!`;
   return msg;
@@ -100,6 +111,8 @@ export function CartDrawer() {
     cep: "",
     reference: "",
   });
+
+  useModal(cart.isOpen, cart.closeCart);
 
   const isEmpty = cart.items.length === 0;
   const addressMissing =
@@ -140,8 +153,13 @@ export function CartDrawer() {
           >
             <div className="flex shrink-0 items-center justify-between border-b border-line px-5 py-4">
               <div className="flex items-center gap-2.5">
-                <ShoppingCart className="h-5 w-5 text-gold-strong" strokeWidth={2.25} />
-                <h2 className="text-base font-semibold text-ink sm:text-lg">Seu orçamento</h2>
+                <ShoppingCart
+                  className="h-5 w-5 text-gold-strong"
+                  strokeWidth={2.25}
+                />
+                <h2 className="text-base font-semibold text-ink sm:text-lg">
+                  Seu orçamento
+                </h2>
               </div>
               <button
                 type="button"
@@ -174,12 +192,18 @@ export function CartDrawer() {
                         layout
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, x: 40, transition: { duration: 0.2 } }}
+                        exit={{
+                          opacity: 0,
+                          x: 40,
+                          transition: { duration: 0.2 },
+                        }}
                         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                         className="flex items-start justify-between gap-3 rounded-2xl border border-line bg-paper-soft p-4"
                       >
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-semibold text-ink">{item.name}</p>
+                          <p className="truncate text-sm font-semibold text-ink">
+                            {item.name}
+                          </p>
                           <p className="mt-0.5 text-xs text-ink-faint">
                             {item.unitPrice !== undefined
                               ? `R$ ${formatPrice(item.unitPrice)}${item.unit ? `/${item.unit}` : ""}`
@@ -190,7 +214,9 @@ export function CartDrawer() {
                             <button
                               type="button"
                               aria-label="Diminuir quantidade"
-                              onClick={() => cart.updateQty(item.id, item.qty - 1)}
+                              onClick={() =>
+                                cart.updateQty(item.id, item.qty - 1)
+                              }
                               className="grid h-7 w-7 place-items-center rounded-full border border-line bg-paper text-ink transition-colors hover:bg-paper-strong active:scale-90"
                             >
                               <Minus className="h-3.5 w-3.5" />
@@ -201,13 +227,17 @@ export function CartDrawer() {
                             <button
                               type="button"
                               aria-label="Aumentar quantidade"
-                              onClick={() => cart.updateQty(item.id, item.qty + 1)}
+                              onClick={() =>
+                                cart.updateQty(item.id, item.qty + 1)
+                              }
                               className="grid h-7 w-7 place-items-center rounded-full border border-line bg-paper text-ink transition-colors hover:bg-paper-strong active:scale-90"
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </button>
                             {item.unit && (
-                              <span className="text-xs text-ink-faint">{item.unit}</span>
+                              <span className="text-xs text-ink-faint">
+                                {item.unit}
+                              </span>
                             )}
                           </div>
                         </div>
@@ -236,9 +266,14 @@ export function CartDrawer() {
               {!isEmpty && (
                 <div className="mt-6 flex flex-col gap-5 border-t border-line pt-5">
                   <div>
-                    <label className="text-sm font-semibold text-ink" htmlFor="cart-name">
+                    <label
+                      className="text-sm font-semibold text-ink"
+                      htmlFor="cart-name"
+                    >
                       Seu nome{" "}
-                      <span className="font-normal text-ink-faint">(opcional)</span>
+                      <span className="font-normal text-ink-faint">
+                        (opcional)
+                      </span>
                     </label>
                     <input
                       id="cart-name"
@@ -251,7 +286,9 @@ export function CartDrawer() {
                   </div>
 
                   <div>
-                    <p className="text-sm font-semibold text-ink">Forma de pagamento</p>
+                    <p className="text-sm font-semibold text-ink">
+                      Forma de pagamento
+                    </p>
                     <div className="mt-2 grid grid-cols-2 gap-2">
                       {paymentOptions.map(({ label, icon: Icon }) => (
                         <button
@@ -304,12 +341,18 @@ export function CartDrawer() {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          transition={{
+                            duration: 0.25,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
                           className="overflow-hidden"
                         >
                           <div className="mt-3 flex flex-col gap-2.5">
                             <div className="flex items-start gap-2 rounded-xl bg-gold-soft px-3.5 py-2.5 text-xs leading-relaxed text-ink">
-                              <Info className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong" strokeWidth={2.25} />
+                              <Info
+                                className="mt-0.5 h-4 w-4 shrink-0 text-gold-strong"
+                                strokeWidth={2.25}
+                              />
                               <span>
                                 A entrega tem uma taxa adicional de frete,
                                 calculada pela Gideão conforme a distância e
@@ -329,7 +372,10 @@ export function CartDrawer() {
                                 type="text"
                                 value={address.street}
                                 onChange={(e) =>
-                                  setAddress((a) => ({ ...a, street: e.target.value }))
+                                  setAddress((a) => ({
+                                    ...a,
+                                    street: e.target.value,
+                                  }))
                                 }
                                 placeholder="Rua, avenida, bairro"
                                 className="mt-1 w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none placeholder:text-ink-faint focus:border-gold-strong"
@@ -350,7 +396,10 @@ export function CartDrawer() {
                                   inputMode="numeric"
                                   value={address.number}
                                   onChange={(e) =>
-                                    setAddress((a) => ({ ...a, number: e.target.value }))
+                                    setAddress((a) => ({
+                                      ...a,
+                                      number: e.target.value,
+                                    }))
                                   }
                                   placeholder="Nº"
                                   className="mt-1 w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none placeholder:text-ink-faint focus:border-gold-strong"
@@ -393,7 +442,10 @@ export function CartDrawer() {
                                 type="text"
                                 value={address.reference}
                                 onChange={(e) =>
-                                  setAddress((a) => ({ ...a, reference: e.target.value }))
+                                  setAddress((a) => ({
+                                    ...a,
+                                    reference: e.target.value,
+                                  }))
                                 }
                                 placeholder="Perto de..."
                                 className="mt-1 w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none placeholder:text-ink-faint focus:border-gold-strong"
@@ -411,7 +463,9 @@ export function CartDrawer() {
             {!isEmpty && (
               <div className="shrink-0 border-t border-line bg-paper-soft px-5 py-4 shadow-[0_-6px_12px_-6px_rgba(0,0,0,0.12)]">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-sm font-medium text-ink-soft">Subtotal estimado</span>
+                  <span className="text-sm font-medium text-ink-soft">
+                    Subtotal estimado
+                  </span>
                   <span className="text-lg font-display font-black text-ink sm:text-xl">
                     R$ {formatPrice(cart.subtotal)}
                   </span>
@@ -462,7 +516,8 @@ export function CartDrawer() {
                   </p>
                 )}
                 <p className="mt-3 text-center text-xs text-ink-faint">
-                  {site.phoneDisplay} · a Gideão confirma tudo com você pelo WhatsApp
+                  {site.phoneDisplay} · a Gideão confirma tudo com você pelo
+                  WhatsApp
                 </p>
               </div>
             )}

@@ -17,8 +17,10 @@
   --whatsapp: #0e8545;
   --whatsapp-strong: #0b6f38;
 
-  --shadow-soft: 0 1px 2px rgba(24, 20, 13, 0.06), 0 8px 24px -12px rgba(24, 20, 13, 0.22);
-  --shadow-lift: 0 4px 8px rgba(24, 20, 13, 0.08), 0 20px 40px -16px rgba(24, 20, 13, 0.32);
+  --shadow-soft:
+    0 1px 2px rgba(24, 20, 13, 0.06), 0 8px 24px -12px rgba(24, 20, 13, 0.22);
+  --shadow-lift:
+    0 4px 8px rgba(24, 20, 13, 0.08), 0 20px 40px -16px rgba(24, 20, 13, 0.32);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -82,7 +84,9 @@ html {
 }
 
 body {
-  transition: background-color 0.25s var(--ease-out), color 0.25s var(--ease-out);
+  transition:
+    background-color 0.25s var(--ease-out),
+    color 0.25s var(--ease-out);
 }
 
 section[id] {
@@ -123,6 +127,19 @@ html {
   textarea,
   select {
     font-size: 16px;
+  }
+}
+
+/* Phones from before 2022 don't know the dynamic viewport unit (dvh): use the classic one. */
+@supports not (height: 100dvh) {
+  .min-h-dvh {
+    min-height: 100vh;
+  }
+  .min-h-\[60dvh\] {
+    min-height: 60vh;
+  }
+  .max-h-\[92dvh\] {
+    max-height: 92vh;
   }
 }
 

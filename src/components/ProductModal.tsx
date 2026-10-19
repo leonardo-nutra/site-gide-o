@@ -21,6 +21,7 @@ import { parsePrice, useCart } from "@/lib/cart-context";
 import { categories, waLink } from "@/lib/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { logEvent } from "@/lib/events";
+import { useModal } from "@/lib/use-modal";
 
 export function ProductModal({
   product,
@@ -35,6 +36,8 @@ export function ProductModal({
   const [added, setAdded] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [detailsOpen, setDetailsOpen] = useState(true);
+
+  useModal(Boolean(product), onClose);
 
   // One "viewed product" per time the window is opened for a product.
   const viewedId = product?.id;
