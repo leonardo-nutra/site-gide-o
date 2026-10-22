@@ -8,6 +8,7 @@ import {
   type ProductFilter,
 } from "@/server/catalog/admin-products.repository";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { DepartmentCombobox } from "@/components/admin/DepartmentCombobox";
 import { ProductCreateForm } from "@/components/admin/ProductCreateForm";
 import { ProductEditForm } from "@/components/admin/ProductEditForm";
 import { categories } from "@/config/site";
@@ -110,26 +111,27 @@ export default async function AdminProductsPage({
         Escolha um para ver e editar os itens. Produtos inativos somem do site.
       </p>
 
-      <nav aria-label="Departamentos" className="mt-5 flex flex-wrap gap-2">
-        <Link href={link({})} className={chip(!depto)}>
-          Visão geral
-        </Link>
-        <Link
-          href={link({ depto: "todos" })}
-          className={chip(depto === "todos")}
-        >
-          Todos ({stats.todos.total})
-        </Link>
-        {categories.map((category) => (
-          <Link
-            key={category.id}
-            href={link({ depto: category.id })}
-            className={chip(depto === category.id)}
-          >
-            {category.title} ({stats[category.id]?.total ?? 0})
-          </Link>
-        ))}
-      </nav>
+      <div className="mt-5 flex flex-col gap-1">
+        <span className="text-xs font-medium text-ink-faint">
+          Departamento
+        </span>
+        <DepartmentCombobox
+          current={depto ?? ""}
+          options={[
+            { value: "", label: "Visão geral", href: link({}) },
+            {
+              value: "todos",
+              label: `Todos (${stats.todos.total})`,
+              href: link({ depto: "todos" }),
+            },
+            ...categories.map((category) => ({
+              value: category.id,
+              label: `${category.title} (${stats[category.id]?.total ?? 0})`,
+              href: link({ depto: category.id }),
+            })),
+          ]}
+        />
+      </div>
 
       {!depto && (
         <section className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

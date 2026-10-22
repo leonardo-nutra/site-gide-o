@@ -4,6 +4,8 @@ import { formatPrice } from "@/domain/money";
 import type { Tables } from "@/lib/supabase/database.types";
 import { deleteProduct, updateProduct } from "@/app/admin/actions";
 import { AdminForm } from "./AdminForm";
+import { Combobox } from "./Combobox";
+import { departmentOptions } from "./department-options";
 import { fileInputClass, inputClass, labelClass } from "./styles";
 
 type Spec = { label: string; value: string };
@@ -107,20 +109,15 @@ export function ProductEditForm({
           <input name="detail" defaultValue={p.detail} className={inputClass} />
         </label>
 
-        <label className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
           <span className={labelClass}>Aba / Departamento</span>
-          <select
+          <Combobox
             name="category"
+            label="Departamento"
+            options={departmentOptions}
             defaultValue={p.category}
-            className={inputClass}
-          >
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.title}
-              </option>
-            ))}
-          </select>
-        </label>
+          />
+        </div>
 
         <label className="flex flex-col gap-1">
           <span className={labelClass}>Preço (R$)</span>

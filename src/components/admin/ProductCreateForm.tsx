@@ -1,6 +1,7 @@
-import { categories } from "@/config/site";
 import { createProduct } from "@/app/admin/actions";
 import { AdminForm } from "./AdminForm";
+import { Combobox } from "./Combobox";
+import { departmentOptions } from "./department-options";
 import { fileInputClass, inputClass, labelClass } from "./styles";
 
 /** "Adicionar produto": collapsed by default; opens already set to the department being viewed. */
@@ -33,17 +34,12 @@ export function ProductCreateForm({
         />
         <input name="name" placeholder="Nome" required className={inputClass} />
         <input name="detail" placeholder="Detalhe" className={inputClass} />
-        <select
+        <Combobox
           name="category"
+          label="Departamento"
+          options={departmentOptions}
           defaultValue={defaultCategory}
-          className={inputClass}
-        >
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.title}
-            </option>
-          ))}
-        </select>
+        />
         <input
           name="price"
           type="number"
