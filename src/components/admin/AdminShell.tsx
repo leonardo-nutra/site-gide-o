@@ -5,9 +5,32 @@ import {
   LogOut,
   PackageSearch,
   ShoppingCart,
+  type LucideIcon,
 } from "lucide-react";
 import { signOut } from "@/app/admin/actions";
 import type { ReactNode } from "react";
+
+/** The admin menu, grouped by what each area is for. */
+type NavItem = { href: string; label: string; Icon: LucideIcon };
+const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Vendas",
+    items: [{ href: "/admin", label: "Pedidos", Icon: ShoppingCart }],
+  },
+  {
+    label: "Catálogo",
+    items: [
+      { href: "/admin/produtos", label: "Produtos", Icon: PackageSearch },
+    ],
+  },
+  {
+    label: "Site",
+    items: [
+      { href: "/admin/banners", label: "Banners", Icon: GalleryHorizontal },
+      { href: "/admin/analise", label: "Análise", Icon: BarChart3 },
+    ],
+  },
+];
 
 export function AdminShell({
   email,
@@ -24,31 +47,26 @@ export function AdminShell({
             <span className="whitespace-nowrap font-display font-black text-ink">
               Gideão · Admin
             </span>
-            <nav className="hidden items-center gap-4 text-sm font-medium text-ink-soft sm:flex">
-              <Link
-                href="/admin"
-                className="flex items-center gap-1.5 hover:text-ink"
-              >
-                <ShoppingCart className="h-4 w-4" /> Pedidos
-              </Link>
-              <Link
-                href="/admin/produtos"
-                className="flex items-center gap-1.5 hover:text-ink"
-              >
-                <PackageSearch className="h-4 w-4" /> Produtos
-              </Link>
-              <Link
-                href="/admin/banners"
-                className="flex items-center gap-1.5 hover:text-ink"
-              >
-                <GalleryHorizontal className="h-4 w-4" /> Banners
-              </Link>
-              <Link
-                href="/admin/analise"
-                className="flex items-center gap-1.5 hover:text-ink"
-              >
-                <BarChart3 className="h-4 w-4" /> Análise
-              </Link>
+            <nav className="hidden items-center gap-5 text-sm font-medium text-ink-soft sm:flex">
+              {NAV_GROUPS.map((group) => (
+                <div
+                  key={group.label}
+                  className="flex items-center gap-3 border-l border-line pl-4 first:border-0 first:pl-0"
+                >
+                  <span className="text-[0.65rem] font-semibold uppercase tracking-wide text-ink-faint">
+                    {group.label}
+                  </span>
+                  {group.items.map(({ href, label, Icon }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="flex items-center gap-1.5 hover:text-ink"
+                    >
+                      <Icon className="h-4 w-4" /> {label}
+                    </Link>
+                  ))}
+                </div>
+              ))}
             </nav>
           </div>
           <div className="flex items-center gap-3">
@@ -65,30 +83,17 @@ export function AdminShell({
             </form>
           </div>
           <nav className="flex w-full items-center gap-4 overflow-x-auto text-sm font-medium text-ink-soft sm:hidden">
-            <Link
-              href="/admin"
-              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
-            >
-              <ShoppingCart className="h-4 w-4" /> Pedidos
-            </Link>
-            <Link
-              href="/admin/produtos"
-              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
-            >
-              <PackageSearch className="h-4 w-4" /> Produtos
-            </Link>
-            <Link
-              href="/admin/banners"
-              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
-            >
-              <GalleryHorizontal className="h-4 w-4" /> Banners
-            </Link>
-            <Link
-              href="/admin/analise"
-              className="flex shrink-0 items-center gap-1.5 hover:text-ink"
-            >
-              <BarChart3 className="h-4 w-4" /> Análise
-            </Link>
+            {NAV_GROUPS.flatMap((group) => group.items).map(
+              ({ href, label, Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="flex shrink-0 items-center gap-1.5 hover:text-ink"
+                >
+                  <Icon className="h-4 w-4" /> {label}
+                </Link>
+              ),
+            )}
           </nav>
         </div>
       </header>

@@ -61,6 +61,7 @@ completo no servidor e resposta genérica (nunca vaza detalhe).
   público só consegue **criar** (e só no formato válido); ler/alterar é só admin.
 - **Admin = `profiles.role = 'admin'`**, checado em três camadas: middleware, `requireAdmin()` e RLS
   (`private.is_admin()`, em schema não exposto pela API).
+- **Painel admin por categorias:** produtos por departamento (visão geral, filtros e busca), pedidos por andamento e banners por posição.
 - **Storage `product-media`:** leitura pública, escrita só admin.
 - **Validação em duas camadas:** `zod` no servidor e `CHECK` constraints no banco (preço ≥ 0,
   status do pedido, tamanhos, formato do slug...).

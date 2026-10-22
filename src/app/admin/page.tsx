@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { requireAdmin } from "@/server/auth/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { OrderStatusSelect } from "@/components/admin/OrderStatusSelect";
+import { ORDER_STATUSES, type OrderStatus } from "@/domain/order";
 
 export const dynamic = "force-dynamic";
 
@@ -11,14 +13,38 @@ type OrderItem = {
   unit?: string;
 };
 
-export default async function AdminOrdersPage() {
+export default async function AdminOrdersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
   const { supabase, user } = await requireAdmin();
+  const { status } = await searchParams;
+  const current = (ORDER_STATUSES as readonly string[]).includes(status ?? "")
+    ? (status as OrderStatus)
+    : undefined;
 
-  const { data: orders } = await supabase
-    .from("orders")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(200);
+  const [{ data: statusRows }, { data: orders }] = await Promise.all([
+    supabase.from("orders").select("status").limit(5000),
+    (current
+      ? supabase.from("orders").select("*").eq("status", current)
+      : supabase.from("orders").select("*")
+    )
+      .order("created_at", { ascending: false })
+      .limit(200),
+  ]);
+
+  const counts = new Map<string, number>();
+  for (const row of statusRows ?? [])
+    counts.set(row.status, (counts.get(row.status) ?? 0) + 1);
+  const total = statusRows?.length ?? 0;
+
+  const tab = (active: boolean) =>
+    `rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+      active
+        ? "border-ink bg-ink text-paper"
+        : "border-line bg-paper text-ink-soft hover:bg-paper-strong"
+    }`;
 
   return (
     <AdminShell email={user.email ?? ""}>
@@ -27,13 +53,32 @@ export default async function AdminOrdersPage() {
       </h1>
       <p className="mt-1 text-sm text-ink-soft">
         Toda vez que alguém monta um orçamento e clica em enviar no WhatsApp,
-        ele aparece aqui.
+        ele aparece aqui, separado pelo andamento do atendimento.
       </p>
+
+      <nav
+        aria-label="Andamento dos pedidos"
+        className="mt-5 flex flex-wrap gap-2"
+      >
+        <Link href="/admin" className={tab(!current)}>
+          Todos ({total})
+        </Link>
+        {ORDER_STATUSES.map((option) => (
+          <Link
+            key={option}
+            href={`/admin?status=${encodeURIComponent(option)}`}
+            className={tab(current === option)}
+          >
+            {option.charAt(0).toUpperCase() + option.slice(1)} (
+            {counts.get(option) ?? 0})
+          </Link>
+        ))}
+      </nav>
 
       <div className="mt-6 flex flex-col gap-4">
         {!orders || orders.length === 0 ? (
           <p className="text-sm text-ink-faint">
-            Nenhum orçamento registrado ainda.
+            Nenhum orçamento nesta etapa.
           </p>
         ) : (
           orders.map((order) => {
