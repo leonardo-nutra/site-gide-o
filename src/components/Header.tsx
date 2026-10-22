@@ -10,7 +10,7 @@ import { CartButton } from "./CartButton";
 import { AccountButton } from "./AccountButton";
 import { LocationIndicator } from "./LocationIndicator";
 import { WhatsAppLink } from "./WhatsAppLink";
-import { site, waLink } from "@/lib/site";
+import { site, waLink } from "@/config/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { useSearch } from "@/lib/search-context";
 import { useCustomer } from "@/lib/supabase/use-customer";
@@ -137,11 +137,17 @@ export function Header() {
             Departamentos
           </Link>
           <span className="text-paper-soft/30">|</span>
-          <Link href="/#ofertas" className="whitespace-nowrap transition-colors hover:text-gold">
+          <Link
+            href="/#ofertas"
+            className="whitespace-nowrap transition-colors hover:text-gold"
+          >
             Ofertas
           </Link>
           <span className="text-paper-soft/30">|</span>
-          <Link href="/#contato" className="whitespace-nowrap transition-colors hover:text-gold">
+          <Link
+            href="/#contato"
+            className="whitespace-nowrap transition-colors hover:text-gold"
+          >
             Contato
           </Link>
           <WhatsAppLink
@@ -172,7 +178,11 @@ export function Header() {
                   onClick={() => setOpen(false)}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 + i * 0.05, duration: 0.3, ease: "easeOut" }}
+                  transition={{
+                    delay: 0.05 + i * 0.05,
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
                   className="rounded-xl px-3 py-3 text-base font-medium text-ink-soft transition-colors hover:bg-paper-strong hover:text-ink"
                 >
                   {link.label}
@@ -184,7 +194,7 @@ export function Header() {
                 rel="noopener noreferrer"
                 onClick={(e) => {
                   const tracked = trackWhatsAppClick(
-                    "Olá! Vim pelo site e quero falar com a Gideão."
+                    "Olá! Vim pelo site e quero falar com a Gideão.",
                   );
                   if (tracked) e.currentTarget.href = tracked;
                   setOpen(false);
@@ -196,7 +206,10 @@ export function Header() {
               </a>
               <div className="mt-4 rounded-xl border border-line bg-paper-soft px-3.5 py-3">
                 <div className="flex items-center gap-2.5">
-                  <User className="h-6 w-6 shrink-0 text-gold-strong" strokeWidth={2} />
+                  <User
+                    className="h-6 w-6 shrink-0 text-gold-strong"
+                    strokeWidth={2}
+                  />
                   <div>
                     <p className="text-sm font-bold text-ink">
                       {user ? "Você está logado" : "Bem-vindo!"}
@@ -242,7 +255,9 @@ export function Header() {
                   </div>
                 )}
               </div>
-              <div className="mt-3 px-3 text-sm text-ink-faint">{site.phoneDisplay}</div>
+              <div className="mt-3 px-3 text-sm text-ink-faint">
+                {site.phoneDisplay}
+              </div>
             </nav>
           </motion.div>
         )}

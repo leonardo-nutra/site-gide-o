@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { categories } from "@/lib/site";
+import { categories } from "@/config/site";
 
 export default function NotFound() {
   return (

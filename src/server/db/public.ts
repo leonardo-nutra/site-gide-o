@@ -1,6 +1,7 @@
+import "server-only";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import { getSupabaseConfig } from "./config";
-import type { Database } from "./database.types";
+import { getSupabaseConfig } from "@/lib/supabase/config";
+import type { Database } from "@/lib/supabase/database.types";
 
 /**
  * Plain, cookie-free Supabase client for anonymous/public reads (product

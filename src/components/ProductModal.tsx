@@ -16,9 +16,9 @@ import {
   ShoppingCart,
   X,
 } from "lucide-react";
-import type { Product } from "@/lib/products";
+import type { Product } from "@/domain/product";
 import { parsePrice, useCart } from "@/lib/cart-context";
-import { categories, waLink } from "@/lib/site";
+import { categories, waLink } from "@/config/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { logEvent } from "@/lib/events";
 import { useModal } from "@/lib/use-modal";

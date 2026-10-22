@@ -1,62 +1,97 @@
 # Backend da Gideão — guia técnico
 
 Next.js 16 (App Router) + Supabase (Postgres, Auth, Storage) + Vercel. Não existe um servidor
-separado: o "backend" são o banco com regras de segurança (RLS), as *server actions* do painel
-admin e algumas rotas em `src/app/api`.
+separado: o backend é organizado em **camadas** dentro do mesmo projeto, com regras que o lint
+faz cumprir (`eslint.config.mjs`).
 
-## Mapa
+## Camadas (de dentro para fora)
 
-| Parte | Onde | Para quê |
-|---|---|---|
-| Banco | Supabase (`supabase/migrations/`) | Catálogo, pedidos, banners, perfis, eventos de visita |
-| Acesso ao banco | `src/lib/supabase/` | Clientes tipados: navegador, servidor (com cookies) e público (sem cookies, para páginas em cache) |
-| Tipos do banco | `src/lib/supabase/database.types.ts` | Gerado do schema; o TypeScript acusa coluna errada |
-| Painel admin | `src/app/admin/*` | Pedidos, produtos, banners e análise (só `profiles.role = 'admin'`) |
-| Ações do admin | `src/app/admin/actions.ts` | Gravam no banco; validam com `src/lib/admin-validation.ts` |
-| Busca | `src/app/api/search/route.ts` | Procura no catálogo inteiro; a página inicial não baixa o catálogo |
-| Eventos de visita | `src/lib/events.ts` → `site_events` | Anônimo: ver produto, adicionar, buscar, WhatsApp |
-| Meta (API de Conversões) | `src/app/api/meta-event/route.ts` | Envia o Lead pelo servidor (precisa de `META_CAPI_TOKEN`) |
-| Saúde | `GET /api/health` | `ok` ou `degraded` (para monitor de disponibilidade) |
-| Login de clientes | `src/app/conta/*`, `src/app/auth/callback` | Cadastro, entrar, esqueci a senha |
+```
+src/
+├─ domain/        REGRAS E TIPOS PUROS. Não sabem de banco, React ou Next.
+│  ├─ product.ts      produto do catálogo
+│  ├─ banner.ts       banners da página inicial
+│  ├─ order.ts        status do pedido + validação do orçamento (zod)
+│  ├─ events.ts       eventos de visita (análise)
+│  ├─ money.ts        preço: "1.234,50" ⇄ número
+│  └─ search.ts       busca no catálogo (nome, detalhe, departamento, medidas)
+│
+├─ server/        TUDO QUE FALA COM BANCO E SERVIÇOS. Só roda no servidor ("server-only").
+│  ├─ config/         env.ts — variáveis de ambiente validadas (lista os NOMES errados, nunca os valores)
+│  ├─ db/             clientes Supabase do servidor: session (com cookies) e public (anônimo, p/ cache)
+│  ├─ auth/           admin.ts (requireAdmin) e middleware.ts (sessão + proteção do /admin)
+│  ├─ catalog/        products.repository.ts (leitura), catalog.service.ts (cache + busca), fallback-products.ts
+│  ├─ banners/        banners.repository.ts
+│  ├─ orders/         orders.service.ts — grava o orçamento e REPRECIFICA os itens pelo catálogo
+│  ├─ analytics/      analytics.repository.ts — funil de visitas, produtos e buscas (só admin)
+│  ├─ marketing/      meta-capi.ts — API de Conversões da Meta (evento Lead pelo servidor)
+│  ├─ admin/          validation.ts — validação (zod) dos formulários do painel
+│  ├─ http/           errors.ts (AppError e filhas), handler.ts (apiHandler, parseJson), rate-limit.ts
+│  └─ observability/  logger.ts — logs em JSON, com credenciais ocultadas
+│
+├─ app/           TRANSPORTE (fino): páginas, rotas /api e server actions. Só chamam o `server/`.
+│  ├─ api/search · api/orders · api/meta-event · api/health
+│  ├─ admin/          painel (pedidos, produtos, banners, análise) e suas actions
+│  └─ conta/ · auth/  login, cadastro, recuperação de senha
+│
+├─ components/    INTERFACE (navegador).
+├─ lib/           utilitários do navegador: carrinho, eventos, rastreio, cliente Supabase do navegador.
+├─ config/        site.ts — dados da loja (telefone, endereço, departamentos).
+└─ test/          apoio dos testes.
+```
 
-## Segurança (como está protegido)
+**Regra de dependência:** `domain` ← `server` ← `app`. O navegador (`components`, `lib`) nunca
+importa `server`, e o `domain` não importa nada de fora dele. O `eslint` bloqueia o contrário.
+
+## Endpoints
+
+| Rota              | Método   | O que faz                                  | Proteções                                                                    |
+| ----------------- | -------- | ------------------------------------------ | ---------------------------------------------------------------------------- |
+| `/api/search?q=`  | GET      | Busca no catálogo inteiro                  | limite de 120/min por IP, cache de 5 min                                     |
+| `/api/orders`     | POST     | Registra o orçamento enviado pelo carrinho | só mesma origem, 10/min por IP, validação zod, preços refeitos pelo catálogo |
+| `/api/meta-event` | GET/POST | Estado / envio do Lead à Meta              | só mesma origem, 30/min por IP, só eventos permitidos                        |
+| `/api/health`     | GET      | Saúde: configuração e banco                | não expõe dados                                                              |
+
+Todas usam `apiHandler`: erro esperado → resposta com `status`, `code` e mensagem; bug → log
+completo no servidor e resposta genérica (nunca vaza detalhe).
+
+## Banco de dados e segurança
 
 - **RLS em todas as tabelas.** O público só lê produtos e banners ativos. Pedidos e eventos o
   público só consegue **criar** (e só no formato válido); ler/alterar é só admin.
-- **Admin = `profiles.role = 'admin'`**, checado em três camadas: middleware, `requireAdmin()` nas
-  ações/páginas e RLS no banco (`private.is_admin()`, fora do schema exposto pela API).
-- **Fotos e vídeos** (`storage: product-media`): leitura pública, escrita só admin.
-- **Validação dupla:** `zod` nas ações do admin e `CHECK` constraints no banco (preço ≥ 0, status
-  de pedido, tamanhos, slug...). O banco recusa dado inválido mesmo que o código erre.
-- **Segredos:** só em variáveis de ambiente da Vercel (veja `.env.example`). A chave pública
-  `anon` pode ficar no navegador; `META_CAPI_TOKEN` jamais.
-- **Pendente no painel do Supabase (não dá por código):** *Authentication → Providers → Email →
-  Leaked password protection* (exige plano Pro) e SMTP próprio para e-mails.
+- **Admin = `profiles.role = 'admin'`**, checado em três camadas: middleware, `requireAdmin()` e RLS
+  (`private.is_admin()`, em schema não exposto pela API).
+- **Storage `product-media`:** leitura pública, escrita só admin.
+- **Validação em duas camadas:** `zod` no servidor e `CHECK` constraints no banco (preço ≥ 0,
+  status do pedido, tamanhos, formato do slug...).
+- **Segredos:** só em variáveis de ambiente da Vercel (`.env.example`). `META_CAPI_TOKEN` nunca no
+  código. Os logs ocultam qualquer campo chamado token/secret/password/etc.
+- **Pendente no painel do Supabase (não dá por código):** _Leaked password protection_ (plano Pro)
+  e SMTP próprio para e-mails.
 
 ## Mudando o banco
 
-1. Escreva uma migração SQL em `supabase/migrations/AAAAMMDDHHMMSS_nome.sql` e aplique no Supabase
-   (SQL Editor ou `supabase db push`).
-2. Rode o **Advisors** (Supabase → Advisors) e corrija avisos de segurança.
+1. Crie `supabase/migrations/AAAAMMDDHHMMSS_nome.sql` e aplique no Supabase (SQL Editor ou
+   `supabase db push`).
+2. Rode **Advisors** (Supabase) e corrija avisos de segurança.
 3. Regenere os tipos: `supabase gen types typescript --project-id <id> > src/lib/supabase/database.types.ts`.
 4. `npm run typecheck && npm test`.
 
-O histórico anterior a outubro/2026 está na tabela de migrações do próprio Supabase; os arquivos
-desta pasta contêm as alterações feitas a partir daí.
+## Acrescentando um recurso novo
 
-## Rotina de desenvolvimento
+1. Tipos e regras puras em `src/domain/`.
+2. Acesso ao banco em `src/server/<recurso>/<recurso>.repository.ts`; regras em `.service.ts`.
+3. Rota em `src/app/api/<recurso>/route.ts` usando `apiHandler`, `parseJson` e `createRateLimiter`.
+4. Testes ao lado do código (`*.test.ts`).
+
+## Rotina
 
 ```
-npm run dev        # site local (usa o Supabase do .env.local)
-npm run lint
-npm run typecheck
-npm test           # busca e validações
-npm run build
+npm run dev | lint | typecheck | test | build
 ```
 
 O GitHub Actions (`.github/workflows/ci.yml`) roda lint, tipos, testes e build a cada push.
 
 ## Limpeza de dados
 
-Eventos de visita antigos podem ser apagados no SQL Editor:
-`select private.purge_old_site_events(180);` (mantém os últimos 180 dias).
+Eventos antigos de visita: `select private.purge_old_site_events(180);` no SQL Editor (mantém 180 dias).

@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 import { WhatsAppLink } from "./WhatsAppLink";
 import { WhatsAppIcon } from "./icons/WhatsAppIcon";
-import { site } from "@/lib/site";
+import { site } from "@/config/site";
 import { useCart } from "@/lib/cart-context";
 
 export function WhatsAppButton() {
@@ -63,7 +63,12 @@ export function WhatsAppButton() {
           aria-hidden
           className="absolute inset-0 rounded-full bg-whatsapp"
           animate={{ scale: [1, 1.6], opacity: [0.55, 0] }}
-          transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 2.4, ease: "easeOut" }}
+          transition={{
+            duration: 2.4,
+            repeat: Infinity,
+            repeatDelay: 2.4,
+            ease: "easeOut",
+          }}
         />
         <WhatsAppIcon className="relative h-6 w-6 sm:h-7 sm:w-7" />
       </WhatsAppLink>

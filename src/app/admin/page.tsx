@@ -1,4 +1,4 @@
-import { requireAdmin } from "@/lib/supabase/admin";
+import { requireAdmin } from "@/server/auth/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { OrderStatusSelect } from "@/components/admin/OrderStatusSelect";
 

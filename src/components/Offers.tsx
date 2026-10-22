@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
 import { ProductModal } from "./ProductModal";
-import type { Product } from "@/lib/products";
+import type { Product } from "@/domain/product";
 import { parsePrice, useCart } from "@/lib/cart-context";
 import { useSearch } from "@/lib/search-context";
 import { useWishlist } from "@/lib/wishlist";

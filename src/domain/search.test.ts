@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { searchProducts } from "../product-search";
-import type { Product } from "../products";
+import { searchProducts } from "./search";
+import type { Product } from "./product";
 
 const make = (
   id: string,

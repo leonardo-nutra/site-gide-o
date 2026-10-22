@@ -4,13 +4,13 @@ import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronRight, MapPin, Search } from "lucide-react";
 import { useSearch } from "@/lib/search-context";
-import { site } from "@/lib/site";
+import { site } from "@/config/site";
 
 export function MobileSearchBar() {
   const { query, setQuery } = useSearch();
   const router = useRouter();
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    site.address.mapsQuery
+    site.address.mapsQuery,
   )}`;
 
   function handleSubmit(e: FormEvent) {
@@ -48,10 +48,13 @@ export function MobileSearchBar() {
         rel="noopener noreferrer"
         className="flex items-center gap-1.5 border-t border-line px-4 py-2 text-xs text-ink-soft"
       >
-        <MapPin className="h-3.5 w-3.5 shrink-0 text-gold-strong" strokeWidth={2.25} />
+        <MapPin
+          className="h-3.5 w-3.5 shrink-0 text-gold-strong"
+          strokeWidth={2.25}
+        />
         <span className="truncate">
-          <span className="font-semibold text-ink">Gideão</span> {site.address.line},{" "}
-          {site.address.city}
+          <span className="font-semibold text-ink">Gideão</span>{" "}
+          {site.address.line}, {site.address.city}
         </span>
         <ChevronRight className="ml-auto h-3.5 w-3.5 shrink-0 text-ink-faint" />
       </a>

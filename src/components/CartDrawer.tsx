@@ -19,7 +19,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { formatPrice, useCart } from "@/lib/cart-context";
-import { site, waLink } from "@/lib/site";
+import { site, waLink } from "@/config/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { saveOrder } from "@/lib/orders";
 import { useModal } from "@/lib/use-modal";

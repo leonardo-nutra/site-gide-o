@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { categories } from "@/lib/site";
+import { categories } from "@/config/site";
 
 const base = "https://site-gide-o.vercel.app";
 

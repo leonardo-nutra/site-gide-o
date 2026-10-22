@@ -1,15 +1,23 @@
-import { createPublicClient } from "@/lib/supabase/public";
+import { getServerEnv } from "@/server/config/env";
+import { createPublicClient } from "@/server/db/public";
 
 export const dynamic = "force-dynamic";
 
 /**
- * Health check for uptime monitors: confirms the site is up and can reach the
- * database. Reveals no data or configuration, only "ok" or "degraded".
+ * Health check for uptime monitors: confirms the site is configured and can
+ * reach the database. Reveals no data, only "ok" or "degraded" per component.
  */
 export async function GET() {
   const startedAt = Date.now();
-  let database = false;
 
+  let config = true;
+  try {
+    getServerEnv();
+  } catch {
+    config = false;
+  }
+
+  let database = false;
   try {
     const { error } = await createPublicClient()
       .from("products")
@@ -20,12 +28,13 @@ export async function GET() {
     database = false;
   }
 
+  const healthy = config && database;
   return Response.json(
     {
-      status: database ? "ok" : "degraded",
-      database,
+      status: healthy ? "ok" : "degraded",
+      checks: { config, database },
       responseMs: Date.now() - startedAt,
     },
-    { status: database ? 200 : 503, headers: { "Cache-Control": "no-store" } },
+    { status: healthy ? 200 : 503, headers: { "Cache-Control": "no-store" } },
   );
 }

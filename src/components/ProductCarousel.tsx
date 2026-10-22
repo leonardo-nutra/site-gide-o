@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { StaggerGroup } from "./motion/Reveal";
 import { OfferCard } from "./Offers";
 import { ProductModal } from "./ProductModal";
-import type { Product } from "@/lib/products";
+import type { Product } from "@/domain/product";
 
 /** A titled, horizontally scrolling row of real catalog products. */
 export function ProductCarousel({

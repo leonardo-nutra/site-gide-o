@@ -16,7 +16,9 @@ export function CartBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+          style={{
+            paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))",
+          }}
           className="fixed inset-x-0 bottom-0 z-40 px-3 sm:px-5"
         >
           <button
@@ -30,7 +32,8 @@ export function CartBar() {
               </span>
               <span className="text-left text-sm">
                 <span className="block font-semibold">
-                  {cart.count} {cart.count === 1 ? "item" : "itens"} no orçamento
+                  {cart.count} {cart.count === 1 ? "item" : "itens"} no
+                  orçamento
                 </span>
                 {cart.subtotal > 0 && (
                   <span className="block text-xs text-paper-soft/70">

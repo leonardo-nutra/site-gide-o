@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { Percent, ShieldCheck, Truck, type LucideIcon } from "lucide-react";
 import { Reveal, StaggerGroup, itemVariants } from "./motion/Reveal";
-import { differentiators } from "@/lib/site";
+import { differentiators } from "@/config/site";
 
 const icons: Record<string, LucideIcon> = { Percent, Truck, ShieldCheck };
 
@@ -19,9 +19,9 @@ export function About() {
             Confiança e preço baixo, todos os dias
           </h2>
           <p className="mt-4 text-base leading-relaxed text-ink-soft sm:text-lg">
-            Somos um atacadão da construção em Mesquita, na Baixada
-            Fluminense. Trabalhamos para que você encontre tudo o que precisa
-            para sua obra ou reforma, com atendimento próximo e preço justo.
+            Somos um atacadão da construção em Mesquita, na Baixada Fluminense.
+            Trabalhamos para que você encontre tudo o que precisa para sua obra
+            ou reforma, com atendimento próximo e preço justo.
           </p>
         </Reveal>
       </div>
@@ -39,8 +39,12 @@ export function About() {
                 <Icon className="h-5 w-5" strokeWidth={2.25} />
               </span>
               <div>
-                <h3 className="text-sm font-semibold text-ink sm:text-base">{d.title}</h3>
-                <p className="mt-0.5 text-xs text-ink-soft sm:text-sm">{d.description}</p>
+                <h3 className="text-sm font-semibold text-ink sm:text-base">
+                  {d.title}
+                </h3>
+                <p className="mt-0.5 text-xs text-ink-soft sm:text-sm">
+                  {d.description}
+                </p>
               </div>
             </motion.div>
           );

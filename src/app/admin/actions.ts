@@ -2,10 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { requireAdmin } from "@/lib/supabase/admin";
+import { createClient } from "@/server/db/session";
+import { requireAdmin } from "@/server/auth/admin";
+import { ActionError } from "@/server/http/errors";
+import { logger } from "@/server/observability/logger";
 import {
-  ActionError,
   MEDIA_LIMITS,
   bannerSchema,
   newProductSchema,
@@ -14,7 +15,7 @@ import {
   parseSpecs,
   productSchema,
   readForm,
-} from "@/lib/admin-validation";
+} from "@/server/admin/validation";
 
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 
@@ -39,7 +40,10 @@ function assertOk(
   action: string,
 ) {
   if (!error) return;
-  console.error(`[admin] ${action} falhou:`, error.code, error.message);
+  logger.error("admin.action_failed", new Error(error.message), {
+    action,
+    code: error.code,
+  });
   if (error.code === "23505")
     throw new ActionError("Já existe um item com esse código (slug).");
   if (error.code === "23514")

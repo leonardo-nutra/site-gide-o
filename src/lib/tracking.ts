@@ -1,4 +1,4 @@
-import { waLink } from "./site";
+import { waLink } from "@/config/site";
 import { logEvent } from "./events";
 import { randomId } from "./random-id";
 

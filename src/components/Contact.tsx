@@ -3,14 +3,14 @@
 import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Reveal } from "./motion/Reveal";
 import { WhatsAppLink } from "./WhatsAppLink";
-import { site } from "@/lib/site";
+import { site } from "@/config/site";
 
 export function Contact() {
   const mapsSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
-    site.address.mapsQuery
+    site.address.mapsQuery,
   )}&output=embed`;
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    site.address.mapsQuery
+    site.address.mapsQuery,
   )}`;
 
   return (
@@ -55,7 +55,9 @@ export function Contact() {
               </span>
               <div>
                 <h3 className="font-semibold text-ink">Telefone / WhatsApp</h3>
-                <p className="mt-0.5 text-sm text-ink-soft">{site.phoneDisplay}</p>
+                <p className="mt-0.5 text-sm text-ink-soft">
+                  {site.phoneDisplay}
+                </p>
                 <WhatsAppLink
                   message="Olá! Vim pelo site e quero falar com a Gideão."
                   className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-whatsapp-strong hover:underline"
@@ -71,7 +73,9 @@ export function Contact() {
                 <Clock className="h-5 w-5" strokeWidth={2.25} />
               </span>
               <div>
-                <h3 className="font-semibold text-ink">Horário de atendimento</h3>
+                <h3 className="font-semibold text-ink">
+                  Horário de atendimento
+                </h3>
                 <dl className="mt-0.5 space-y-0.5 text-sm text-ink-soft">
                   {site.hours.map((h) => (
                     <div key={h.label} className="flex gap-2">
@@ -87,7 +91,10 @@ export function Contact() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="overflow-hidden rounded-2xl border border-line shadow-soft">
+          <Reveal
+            delay={0.1}
+            className="overflow-hidden rounded-2xl border border-line shadow-soft"
+          >
             <iframe
               title="Localização da Gideão Atacadão da Construção no mapa"
               src={mapsSrc}

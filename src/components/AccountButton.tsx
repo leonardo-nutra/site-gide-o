@@ -22,7 +22,8 @@ export function AccountButton({
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     }
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
@@ -49,7 +50,10 @@ export function AccountButton({
           showLabel ? "px-2.5 py-1.5" : "grid h-11 w-11 place-items-center"
         } ${className}`}
       >
-        <User className="h-5 w-5 shrink-0 text-gold-strong" strokeWidth={2.25} />
+        <User
+          className="h-5 w-5 shrink-0 text-gold-strong"
+          strokeWidth={2.25}
+        />
         {showLabel && (
           <span className="text-left leading-tight">
             <span className="block text-xs text-ink-faint">
@@ -73,7 +77,9 @@ export function AccountButton({
           >
             {user ? (
               <>
-                <p className="text-sm font-semibold text-ink">{name || "Sua conta"}</p>
+                <p className="text-sm font-semibold text-ink">
+                  {name || "Sua conta"}
+                </p>
                 <p className="mt-0.5 text-xs text-ink-faint">{user.email}</p>
                 <Link
                   href="/conta"

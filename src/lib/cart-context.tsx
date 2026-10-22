@@ -37,16 +37,7 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY = "gideao-cart-v1";
 
-export function parsePrice(price: string) {
-  return Number(price.replace(/\./g, "").replace(",", "."));
-}
-
-export function formatPrice(value: number) {
-  return value.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
+export { parsePrice, formatPrice } from "@/domain/money";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);

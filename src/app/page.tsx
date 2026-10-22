@@ -11,8 +11,9 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CartBar } from "@/components/CartBar";
 import { BackToTop } from "@/components/BackToTop";
-import { getProducts, type Product } from "@/lib/products";
-import { getBanners } from "@/lib/banners";
+import { getProducts } from "@/server/catalog/products.repository";
+import { type Product } from "@/domain/product";
+import { getBanners } from "@/server/banners/banners.repository";
 
 // Re-generate at most once an hour so featured content stays fresh
 // without needing a new deploy every midnight.

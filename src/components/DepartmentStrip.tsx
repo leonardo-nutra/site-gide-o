@@ -19,7 +19,7 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
-import { categories } from "@/lib/site";
+import { categories } from "@/config/site";
 
 const icons: Record<string, LucideIcon> = {
   Grid3x3,
@@ -48,7 +48,13 @@ export function DepartmentStrip({ activeId }: { activeId?: string }) {
     <div className="border-b border-line bg-paper px-4 py-4 sm:px-8 sm:py-5">
       <p className="mx-auto mb-3 flex max-w-6xl items-center gap-1.5 border-b border-neutral-300 pb-2 text-sm font-bold text-neutral-700 sm:mb-4">
         Compre por departamento
-        <Image src="/images/icons/carrinho.png" alt="" width={16} height={16} className="h-4 w-4 object-contain" />
+        <Image
+          src="/images/icons/carrinho.png"
+          alt=""
+          width={16}
+          height={16}
+          className="h-4 w-4 object-contain"
+        />
       </p>
 
       <div className="relative mx-auto max-w-6xl">
@@ -57,27 +63,27 @@ export function DepartmentStrip({ activeId }: { activeId?: string }) {
           className="overflow-x-auto px-8 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           <div className="mx-auto flex w-max gap-4 sm:gap-6">
-          {categories.map((cat) => {
-            const Icon = icons[cat.icon];
-            return (
-              <Link
-                key={cat.id}
-                href={`/departamento/${cat.id}`}
-                className="group flex w-16 shrink-0 flex-col items-center gap-1.5 text-center transition-transform active:scale-95 sm:w-24 sm:gap-2"
-              >
-                <span
-                  className={`grid h-14 w-14 shrink-0 place-items-center rounded-full text-white transition-transform sm:h-16 sm:w-16 group-hover:scale-105 ${
-                    activeId === cat.id ? "bg-gold-strong" : "bg-neutral-600"
-                  }`}
+            {categories.map((cat) => {
+              const Icon = icons[cat.icon];
+              return (
+                <Link
+                  key={cat.id}
+                  href={`/departamento/${cat.id}`}
+                  className="group flex w-16 shrink-0 flex-col items-center gap-1.5 text-center transition-transform active:scale-95 sm:w-24 sm:gap-2"
                 >
-                  <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2} />
-                </span>
-                <span className="line-clamp-2 text-[0.65rem] font-medium leading-tight text-neutral-700 sm:text-xs">
-                  {cat.title}
-                </span>
-              </Link>
-            );
-          })}
+                  <span
+                    className={`grid h-14 w-14 shrink-0 place-items-center rounded-full text-white transition-transform sm:h-16 sm:w-16 group-hover:scale-105 ${
+                      activeId === cat.id ? "bg-gold-strong" : "bg-neutral-600"
+                    }`}
+                  >
+                    <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2} />
+                  </span>
+                  <span className="line-clamp-2 text-[0.65rem] font-medium leading-tight text-neutral-700 sm:text-xs">
+                    {cat.title}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
 

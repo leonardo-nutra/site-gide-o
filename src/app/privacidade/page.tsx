@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CartBar } from "@/components/CartBar";
-import { site } from "@/lib/site";
+import { site } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Política de Privacidade | Gideão Atacadão da Construção",

@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { Banknote, CreditCard, MessageCircle, Phone, QrCode } from "lucide-react";
+import {
+  Banknote,
+  CreditCard,
+  MessageCircle,
+  Phone,
+  QrCode,
+} from "lucide-react";
 import { Logo } from "./Logo";
 import { WhatsAppLink } from "./WhatsAppLink";
-import { site, categories } from "@/lib/site";
+import { site, categories } from "@/config/site";
 
 const links = [
   { href: "/#ofertas", label: "Ofertas" },
@@ -117,7 +123,10 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-paper-soft/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Gideão Atacadão da Construção. Todos os direitos reservados.</p>
+          <p>
+            © {new Date().getFullYear()} Gideão Atacadão da Construção. Todos os
+            direitos reservados.
+          </p>
           <p>Todo dia é dia de ofertas.</p>
         </div>
       </div>

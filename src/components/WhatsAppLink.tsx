@@ -1,7 +1,7 @@
 "use client";
 
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
-import { waLink } from "@/lib/site";
+import { waLink } from "@/config/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
 
 type WhatsAppLinkProps = Omit<
@@ -12,7 +12,12 @@ type WhatsAppLinkProps = Omit<
   children: ReactNode;
 };
 
-export function WhatsAppLink({ message, children, onClick, ...rest }: WhatsAppLinkProps) {
+export function WhatsAppLink({
+  message,
+  children,
+  onClick,
+  ...rest
+}: WhatsAppLinkProps) {
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     const trackedHref = trackWhatsAppClick(message);
     if (trackedHref) e.currentTarget.href = trackedHref;

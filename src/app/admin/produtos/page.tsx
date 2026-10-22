@@ -1,7 +1,7 @@
-import { requireAdmin } from "@/lib/supabase/admin";
+import { requireAdmin } from "@/server/auth/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { AdminForm } from "@/components/admin/AdminForm";
-import { categories } from "@/lib/site";
+import { categories } from "@/config/site";
 import { createProduct, deleteProduct, updateProduct } from "../actions";
 
 export const dynamic = "force-dynamic";

@@ -6,7 +6,7 @@ import { StaggerGroup } from "./motion/Reveal";
 import { OfferCard } from "./Offers";
 import { ProductModal } from "./ProductModal";
 import { WhatsAppLink } from "./WhatsAppLink";
-import type { Product } from "@/lib/products";
+import type { Product } from "@/domain/product";
 import { parsePrice } from "@/lib/cart-context";
 
 type Sort = "relevance" | "price-asc" | "price-desc" | "name";
@@ -47,7 +47,10 @@ function buildFacets(products: Product[]): Facet[] {
       label,
       values: [...values.entries()]
         .map(([value, count]) => ({ value, count }))
-        .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value, "pt-BR")),
+        .sort(
+          (a, b) =>
+            b.count - a.count || a.value.localeCompare(b.value, "pt-BR"),
+        ),
     }))
     .filter((facet) => facet.values.length >= 2)
     .sort((a, b) => facetRank(a.label) - facetRank(b.label));
@@ -62,7 +65,9 @@ function matchesSelection(product: Product, selected: Selected) {
   return Object.entries(selected).every(
     ([label, values]) =>
       values.length === 0 ||
-      product.specs.some((s) => s.label.trim() === label && values.includes(s.value.trim()))
+      product.specs.some(
+        (s) => s.label.trim() === label && values.includes(s.value.trim()),
+      ),
   );
 }
 
@@ -91,7 +96,9 @@ export function DepartmentProducts({
 
     const filtered = products.filter((p) => {
       const price = parsePrice(p.price);
-      return price >= minValue && price <= maxValue && matchesSelection(p, selected);
+      return (
+        price >= minValue && price <= maxValue && matchesSelection(p, selected)
+      );
     });
 
     if (sort === "price-asc") {
@@ -104,19 +111,28 @@ export function DepartmentProducts({
     return filtered;
   }, [products, sort, min, max, selected]);
 
-  const selectedCount = Object.values(selected).reduce((sum, values) => sum + values.length, 0);
-  const hasFilters = sort !== "relevance" || min !== "" || max !== "" || selectedCount > 0;
+  const selectedCount = Object.values(selected).reduce(
+    (sum, values) => sum + values.length,
+    0,
+  );
+  const hasFilters =
+    sort !== "relevance" || min !== "" || max !== "" || selectedCount > 0;
 
   function toggleValue(label: string, value: string) {
     setSelected((current) => {
       const values = current[label] ?? [];
-      const next = values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
+      const next = values.includes(value)
+        ? values.filter((v) => v !== value)
+        : [...values, value];
       return { ...current, [label]: next };
     });
   }
 
   function toggleGroup(label: string, index: number) {
-    setOpenGroups((current) => ({ ...current, [label]: !(current[label] ?? index < 3) }));
+    setOpenGroups((current) => ({
+      ...current,
+      [label]: !(current[label] ?? index < 3),
+    }));
   }
 
   function clearFilters() {
@@ -130,8 +146,8 @@ export function DepartmentProducts({
     return (
       <div className="mt-8 rounded-2xl border border-line bg-paper-soft px-6 py-12 text-center">
         <p className="text-ink-soft">
-          Ainda não temos produtos cadastrados em {departmentTitle}. Fale com a gente pelo
-          WhatsApp para consultar disponibilidade e preços.
+          Ainda não temos produtos cadastrados em {departmentTitle}. Fale com a
+          gente pelo WhatsApp para consultar disponibilidade e preços.
         </p>
         <WhatsAppLink
           message={whatsappMessage}
@@ -153,7 +169,10 @@ export function DepartmentProducts({
           className="flex w-full items-center justify-between rounded-lg border border-line px-4 py-3 text-base font-display font-black text-ink lg:hidden"
         >
           <span className="flex items-center gap-2">
-            <SlidersHorizontal className="h-5 w-5 text-gold-strong" strokeWidth={2.25} />
+            <SlidersHorizontal
+              className="h-5 w-5 text-gold-strong"
+              strokeWidth={2.25}
+            />
             Filtrar por{selectedCount > 0 ? ` (${selectedCount})` : ""}
           </span>
           <ChevronDown
@@ -163,7 +182,10 @@ export function DepartmentProducts({
 
         <div className={`${filtersOpen ? "block" : "hidden"} lg:block`}>
           <div className="hidden items-center gap-2 text-lg font-display font-black text-ink lg:flex">
-            <SlidersHorizontal className="h-5 w-5 text-gold-strong" strokeWidth={2.25} />
+            <SlidersHorizontal
+              className="h-5 w-5 text-gold-strong"
+              strokeWidth={2.25}
+            />
             Filtrar por
           </div>
 
@@ -183,7 +205,9 @@ export function DepartmentProducts({
             </label>
 
             <fieldset className="rounded-lg border border-line p-3">
-              <legend className="px-1 text-sm font-semibold text-ink">Faixa de preço (R$)</legend>
+              <legend className="px-1 text-sm font-semibold text-ink">
+                Faixa de preço (R$)
+              </legend>
               <div className="flex items-center gap-2">
                 <input
                   type="number"
@@ -214,7 +238,10 @@ export function DepartmentProducts({
               const chosen = selected[facet.label] ?? [];
 
               return (
-                <div key={facet.label} className="rounded-lg border border-line">
+                <div
+                  key={facet.label}
+                  className="rounded-lg border border-line"
+                >
                   <button
                     type="button"
                     onClick={() => toggleGroup(facet.label, index)}
@@ -224,7 +251,9 @@ export function DepartmentProducts({
                     <span>
                       {facet.label}
                       {chosen.length > 0 && (
-                        <span className="ml-1.5 text-gold-strong">({chosen.length})</span>
+                        <span className="ml-1.5 text-gold-strong">
+                          ({chosen.length})
+                        </span>
                       )}
                     </span>
                     <ChevronUp
@@ -249,7 +278,8 @@ export function DepartmentProducts({
                             className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-gold-strong"
                           />
                           <span>
-                            {value} <span className="text-ink-faint">({count})</span>
+                            {value}{" "}
+                            <span className="text-ink-faint">({count})</span>
                           </span>
                         </label>
                       ))}
@@ -302,7 +332,10 @@ export function DepartmentProducts({
         )}
       </div>
 
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+      <ProductModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
     </div>
   );
 }

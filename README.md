@@ -32,7 +32,9 @@ Todo push na `master` é publicado automaticamente na Vercel.
 ```
 src/app/              páginas (site, /conta, /admin) e rotas /api
 src/components/       interface (cards, carrinho, filtros, admin)
-src/lib/              regras: produtos, busca, carrinho, eventos, validação, Supabase
+src/domain/           regras e tipos puros (produto, pedido, busca, preço)
+src/server/           banco, serviços e integrações (só servidor)
+src/lib/              utilitários do navegador (carrinho, eventos, rastreio)
 supabase/migrations/  mudanças do banco (a partir de out/2026)
 supabase/email-templates/  e-mails de cadastro e senha em português
 docs/BACKEND.md       guia técnico do backend e da segurança

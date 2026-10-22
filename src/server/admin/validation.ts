@@ -1,21 +1,9 @@
 import { z } from "zod";
-import { categories } from "@/lib/site";
-
-/** An error whose message is safe and useful to show to the admin. */
-export class ActionError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "ActionError";
-  }
-}
+import { categories } from "@/config/site";
+import { ORDER_STATUSES } from "@/domain/order";
+import { ActionError } from "../http/errors";
 
 const categoryIds = categories.map((c) => c.id) as [string, ...string[]];
-export const ORDER_STATUSES = [
-  "novo",
-  "em atendimento",
-  "fechado",
-  "perdido",
-] as const;
 export const BANNER_PLACEMENTS = [
   "hero",
   "secondary",

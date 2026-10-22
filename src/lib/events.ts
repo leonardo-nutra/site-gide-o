@@ -9,13 +9,9 @@
  */
 import { randomId } from "./random-id";
 
-export type SiteEvent =
-  | "visit"
-  | "product_view"
-  | "add_to_cart"
-  | "cart_open"
-  | "whatsapp_click"
-  | "search";
+import type { SiteEvent } from "@/domain/events";
+
+export type { SiteEvent };
 
 type EventData = {
   productId?: string;

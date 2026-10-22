@@ -24,49 +24,57 @@ export const categories = [
   {
     id: "pisos",
     title: "Pisos & Porcelanatos",
-    description: "Polidos, retificados e em diversas medidas para sua obra ou reforma.",
+    description:
+      "Polidos, retificados e em diversas medidas para sua obra ou reforma.",
     icon: "Grid3x3",
     message: "Olá! Quero saber os preços de pisos e porcelanatos da Gideão.",
   },
   {
     id: "revestimentos",
     title: "Revestimentos",
-    description: "Revestimentos e acabamentos para paredes internas e externas.",
+    description:
+      "Revestimentos e acabamentos para paredes internas e externas.",
     icon: "Layers",
     message: "Olá! Quero saber os preços de revestimentos da Gideão.",
   },
   {
     id: "tintas",
     title: "Tintas",
-    description: "Látex, acrílicas, esmaltes e acessórios das principais marcas do mercado.",
+    description:
+      "Látex, acrílicas, esmaltes e acessórios das principais marcas do mercado.",
     icon: "PaintBucket",
     message: "Olá! Quero saber os preços de tintas da Gideão.",
   },
   {
     id: "construcao",
     title: "Materiais de Construção",
-    description: "Tijolos, argamassas, rejuntes, mantas e tudo para a base da sua obra.",
+    description:
+      "Tijolos, argamassas, rejuntes, mantas e tudo para a base da sua obra.",
     icon: "BrickWall",
     message: "Olá! Quero saber os preços de materiais de construção da Gideão.",
   },
   {
     id: "ferramentas",
     title: "Ferramentas",
-    description: "Chaves, brocas, discos, escadas e ferramentas para todo tipo de serviço.",
+    description:
+      "Chaves, brocas, discos, escadas e ferramentas para todo tipo de serviço.",
     icon: "Hammer",
     message: "Olá! Quero saber sobre ferramentas da Gideão.",
   },
   {
     id: "eletrica",
     title: "Elétrica & Iluminação",
-    description: "Disjuntores, tomadas, interruptores, fios, lâmpadas e luminárias.",
+    description:
+      "Disjuntores, tomadas, interruptores, fios, lâmpadas e luminárias.",
     icon: "Zap",
-    message: "Olá! Quero saber os preços de material elétrico e iluminação da Gideão.",
+    message:
+      "Olá! Quero saber os preços de material elétrico e iluminação da Gideão.",
   },
   {
     id: "hidraulica",
     title: "Hidráulica",
-    description: "Tubos, conexões, registros, mangueiras e tudo para água e esgoto.",
+    description:
+      "Tubos, conexões, registros, mangueiras e tudo para água e esgoto.",
     icon: "Pipette",
     message: "Olá! Quero saber os preços de material hidráulico da Gideão.",
   },
@@ -80,7 +88,8 @@ export const categories = [
   {
     id: "portas",
     title: "Portas & Janelas",
-    description: "Portas, janelas, fechaduras, dobradiças, puxadores e soleiras.",
+    description:
+      "Portas, janelas, fechaduras, dobradiças, puxadores e soleiras.",
     icon: "DoorOpen",
     message: "Olá! Quero saber os preços de portas e janelas da Gideão.",
   },
@@ -89,7 +98,8 @@ export const categories = [
     title: "Banheiros & Cozinhas",
     description: "Pias, vasos, armários, chuveiros, resistências e acessórios.",
     icon: "Bath",
-    message: "Olá! Quero saber os preços de itens para banheiro e cozinha da Gideão.",
+    message:
+      "Olá! Quero saber os preços de itens para banheiro e cozinha da Gideão.",
   },
   {
     id: "torneiras",

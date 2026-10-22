@@ -9,8 +9,8 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CartBar } from "@/components/CartBar";
 import { BackToTop } from "@/components/BackToTop";
-import { getProducts } from "@/lib/products";
-import { categories } from "@/lib/site";
+import { getProducts } from "@/server/catalog/products.repository";
+import { categories } from "@/config/site";
 
 export const revalidate = 3600;
 

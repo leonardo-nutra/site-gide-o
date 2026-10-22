@@ -2,8 +2,9 @@
 
 import { useTransition } from "react";
 import { updateOrderStatus } from "@/app/admin/actions";
+import { ORDER_STATUSES } from "@/domain/order";
 
-const statusOptions = ["novo", "em atendimento", "fechado", "perdido"];
+const statusOptions = ORDER_STATUSES;
 
 const statusColor: Record<string, string> = {
   novo: "bg-gold-soft text-ink",

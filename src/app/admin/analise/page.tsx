@@ -1,24 +1,8 @@
-import { requireAdmin } from "@/lib/supabase/admin";
+import { requireAdmin } from "@/server/auth/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { getAnalytics } from "@/server/analytics/analytics.repository";
 
 export const dynamic = "force-dynamic";
-
-type DayRow = {
-  day: string;
-  visitors: number;
-  product_viewers: number;
-  adders: number;
-  cart_openers: number;
-  whatsapp_clickers: number;
-  mobile_visitors: number;
-};
-type ProductRow = {
-  product_id: string;
-  product_name: string;
-  views: number;
-  adds: number;
-};
-type SearchRow = { term: string; searches: number; avg_results: number };
 
 const DAYS = 14;
 
@@ -33,17 +17,11 @@ function formatDay(value: string) {
 }
 
 export default async function AdminAnalysisPage() {
-  const { supabase, user } = await requireAdmin();
-
-  const [daily, products, searches] = await Promise.all([
-    supabase.rpc("site_funnel_daily", { days: DAYS }),
-    supabase.rpc("site_top_products", { days: DAYS }),
-    supabase.rpc("site_top_searches", { days: DAYS }),
-  ]);
-
-  const days = (daily.data ?? []) as DayRow[];
-  const topProducts = (products.data ?? []) as ProductRow[];
-  const topSearches = (searches.data ?? []) as SearchRow[];
+  const { user } = await requireAdmin();
+  const analytics = await getAnalytics(DAYS);
+  const days = analytics.funnel;
+  const topProducts = analytics.topProducts;
+  const topSearches = analytics.topSearches;
 
   const total = days.reduce(
     (sum, d) => ({
@@ -73,7 +51,7 @@ export default async function AdminAnalysisPage() {
         final do endereço para as suas próprias visitas não entrarem na conta.
       </p>
 
-      {daily.error && (
+      {analytics.failed && (
         <p className="mt-4 text-sm text-red">
           Não foi possível carregar os dados agora.
         </p>

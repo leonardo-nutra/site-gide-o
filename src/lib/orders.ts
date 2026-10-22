@@ -1,8 +1,7 @@
-import { createClient } from "@/lib/supabase/client";
 import { getStoredUtm } from "@/lib/tracking";
 import type { CartItem } from "@/lib/cart-context";
 
-export type OrderInput = {
+export type OrderDraft = {
   items: CartItem[];
   subtotal: number;
   hasUnpricedItems: boolean;
@@ -16,36 +15,37 @@ export type OrderInput = {
 };
 
 /**
- * Logs a submitted quote to Supabase so it isn't lost if the customer
- * never actually sends the WhatsApp message. Best-effort: never blocks or
- * breaks the WhatsApp redirect if it fails (offline, RLS misconfig, etc).
+ * Sends a submitted quote to the server so it isn't lost if the customer never
+ * actually sends the WhatsApp message. The server validates it and re-prices the
+ * items from the catalog. Best-effort: never blocks or breaks the WhatsApp redirect.
  */
-export function saveOrder(input: OrderInput) {
+export function saveOrder(draft: OrderDraft) {
   try {
-    const supabase = createClient();
     const utm = getStoredUtm();
 
-    supabase
-      .from("orders")
-      .insert({
-        customer_name: input.customerName,
-        payment_method: input.paymentMethod,
-        delivery_method: input.deliveryMethod,
-        address_street: input.addressStreet ?? "",
-        address_number: input.addressNumber ?? "",
-        address_cep: input.addressCep ?? "",
-        address_reference: input.addressReference ?? "",
-        items: input.items,
-        subtotal: input.subtotal,
-        has_unpriced: input.hasUnpricedItems,
-        utm_source: utm?.source ?? null,
-        utm_medium: utm?.medium ?? null,
-        utm_campaign: utm?.campaign ?? null,
-      })
-      .then(({ error }) => {
-        if (error) console.error("Falha ao salvar pedido no Supabase:", error.message);
-      });
-  } catch (err) {
-    console.error("Falha ao salvar pedido no Supabase:", err);
+    fetch("/api/orders", {
+      method: "POST",
+      keepalive: true, // lets the request finish even as WhatsApp opens in another tab
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: draft.items,
+        subtotal: draft.subtotal,
+        hasUnpricedItems: draft.hasUnpricedItems,
+        customerName: draft.customerName,
+        paymentMethod: draft.paymentMethod,
+        deliveryMethod: draft.deliveryMethod,
+        addressStreet: draft.addressStreet ?? "",
+        addressNumber: draft.addressNumber ?? "",
+        addressCep: draft.addressCep ?? "",
+        addressReference: draft.addressReference ?? "",
+        utmSource: utm?.source ?? null,
+        utmMedium: utm?.medium ?? null,
+        utmCampaign: utm?.campaign ?? null,
+      }),
+    }).catch(() => {
+      // Offline or blocked: the customer still gets to WhatsApp.
+    });
+  } catch {
+    // Never let order logging get in the way of the quote.
   }
 }

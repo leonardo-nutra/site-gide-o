@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { ActionError } from "../http/errors";
 import {
-  ActionError,
   bannerSchema,
   newProductSchema,
   orderStatusSchema,
@@ -8,7 +8,7 @@ import {
   parseSpecs,
   productSchema,
   readForm,
-} from "../admin-validation";
+} from "./validation";
 
 const validProduct = {
   name: "Piso 54x54 cm Ref. 54040",

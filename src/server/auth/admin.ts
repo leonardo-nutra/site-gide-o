@@ -1,5 +1,6 @@
+import "server-only";
 import { redirect } from "next/navigation";
-import { createClient } from "./server";
+import { createClient } from "../db/session";
 
 /**
  * Every admin page/action must call this instead of just checking for a

@@ -20,7 +20,13 @@ const makeVariants = (y: number): Variants => ({
   },
 });
 
-export function Reveal({ children, className, delay = 0, y = 24, as = "div" }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  y = 24,
+  as = "div",
+}: RevealProps) {
   const Component = motion[as];
   return (
     <Component
@@ -50,27 +56,26 @@ const containerVariants: Variants = {
   },
 };
 
-export const StaggerGroup = forwardRef<HTMLDivElement, StaggerProps>(function StaggerGroup(
-  { children, className, stagger, as = "div" },
-  ref
-) {
-  const Component = motion[as];
-  const variants: Variants = stagger
-    ? { hidden: {}, visible: { transition: { staggerChildren: stagger } } }
-    : containerVariants;
-  return (
-    <Component
-      ref={ref as Ref<never>}
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
-      variants={variants}
-    >
-      {children}
-    </Component>
-  );
-});
+export const StaggerGroup = forwardRef<HTMLDivElement, StaggerProps>(
+  function StaggerGroup({ children, className, stagger, as = "div" }, ref) {
+    const Component = motion[as];
+    const variants: Variants = stagger
+      ? { hidden: {}, visible: { transition: { staggerChildren: stagger } } }
+      : containerVariants;
+    return (
+      <Component
+        ref={ref as Ref<never>}
+        className={className}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+        variants={variants}
+      >
+        {children}
+      </Component>
+    );
+  },
+);
 
 export const itemVariants: Variants = {
   hidden: { opacity: 0.4, y: 20 },

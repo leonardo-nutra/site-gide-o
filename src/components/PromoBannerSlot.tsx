@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Banner } from "@/lib/banners";
+import type { Banner } from "@/domain/banner";
 
 type Variant = "hero" | "strip";
 

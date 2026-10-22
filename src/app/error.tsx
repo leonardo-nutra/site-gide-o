@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { site, waLink } from "@/lib/site";
+import { site, waLink } from "@/config/site";
 
 /** Shown when a page crashes: a calm message and a way out instead of a blank screen. */
 export default function ErrorPage({

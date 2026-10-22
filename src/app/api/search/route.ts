@@ -1,33 +1,20 @@
-import { getProducts, type Product } from "@/lib/products";
-import { searchProducts } from "@/lib/product-search";
+import { searchCatalog } from "@/server/catalog/catalog.service";
+import { apiHandler, clientIp } from "@/server/http/handler";
+import { createRateLimiter } from "@/server/http/rate-limit";
 
-const MAX_RESULTS = 80;
-const CATALOG_TTL_MS = 5 * 60 * 1000;
+const limiter = createRateLimiter({ limit: 120, windowMs: 60_000 });
 
-// The catalog changes rarely; keep it in memory briefly so each keystroke
-// doesn't hit the database.
-let cache: { at: number; products: Product[] } | null = null;
+/** GET /api/search?q=...  — searches the whole catalog (name, detail, department, specs). */
+export const GET = apiHandler("api.search", async (request) => {
+  limiter.check(clientIp(request));
 
-async function loadCatalog() {
-  if (cache && Date.now() - cache.at < CATALOG_TTL_MS) return cache.products;
-  const products = await getProducts();
-  cache = { at: Date.now(), products };
-  return products;
-}
-
-export async function GET(request: Request) {
   const query =
     new URL(request.url).searchParams.get("q")?.trim().slice(0, 80) ?? "";
   if (!query) return Response.json({ products: [], total: 0 });
 
-  const matches = searchProducts(await loadCatalog(), query);
-
-  return Response.json(
-    { products: matches.slice(0, MAX_RESULTS), total: matches.length },
-    {
-      headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-      },
+  return Response.json(await searchCatalog(query), {
+    headers: {
+      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
     },
-  );
-}
+  });
+});

@@ -1,5 +1,5 @@
-import type { Product } from "@/lib/products";
-import { categories } from "@/lib/site";
+import type { Product } from "@/domain/product";
+import { categories } from "@/config/site";
 
 const DIACRITICS_PATTERN = new RegExp("[\\u0300-\\u036f]", "g");
 

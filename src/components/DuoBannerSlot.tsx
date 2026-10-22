@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Banner } from "@/lib/banners";
+import type { Banner } from "@/domain/banner";
 
 function BannerCell({ banner }: { banner: Banner }) {
   const image = (
